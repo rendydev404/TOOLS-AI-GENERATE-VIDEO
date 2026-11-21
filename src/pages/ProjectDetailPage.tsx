@@ -472,39 +472,40 @@ export function ProjectDetailPage() {
         {/* ==================== TAB 2: SEMUA PROMPT & EDIT ==================== */}
         {activeTab === 'adegan' && (
           <div className="flex flex-col gap-4">
-            {/* GLOBAL CHARACTER CONSISTENCY LOCK PANEL */}
-            <div className="neo-card rounded-2xl p-4 space-y-3">
+            <div className="neo-card rounded-2xl px-4 py-3.5 space-y-3">
               <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="text-[13px] font-semibold text-[var(--text-primary)]">
+                  Cukup <strong>1x Salin & Tempel</strong> per adegan — kunci karakter sudah otomatis menyatu di dalam setiap prompt.
+                </span>
                 <div className="flex flex-wrap items-center gap-2">
-                  <Tag tone="purple">KUNCI KARAKTER DI SEMUA PROMPT</Tag>
-                  <span className="text-[13.5px] font-bold text-[var(--text-primary)]">
-                    {pack.bible.characterLock
-                      ? `${pack.bible.characterName || 'Karakter Utama'} (Aktif di ${pack.scenes.length} adegan)`
-                      : 'Belum ada karakter terkunci (Mode Objek Saja)'}
-                  </span>
+                  <Button
+                    variant={editingCharacterLock ? 'purple' : 'secondary'}
+                    size="sm"
+                    icon={<Edit3 size={13} strokeWidth={2.4} />}
+                    onClick={() => {
+                      setCharDraft(pack.bible.characterLock || '');
+                      setEditingCharacterLock((v) => !v);
+                    }}
+                  >
+                    {editingCharacterLock ? 'Tutup' : 'Ganti Karakter'}
+                  </Button>
+                  <CopyButton
+                    text={exportPackAsText(pack)}
+                    onCopy={copyText}
+                    variant="secondary"
+                    size="sm"
+                    label="Salin Semua"
+                  />
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    icon={<Plus size={14} strokeWidth={2.5} />}
+                    onClick={handleAddScene}
+                  >
+                    Adegan Baru
+                  </Button>
                 </div>
-                <Button
-                  variant={editingCharacterLock ? 'purple' : 'secondary'}
-                  size="sm"
-                  icon={<Edit3 size={13} strokeWidth={2.4} />}
-                  onClick={() => {
-                    setCharDraft(pack.bible.characterLock || '');
-                    setEditingCharacterLock((v) => !v);
-                  }}
-                >
-                  {editingCharacterLock
-                    ? 'Tutup'
-                    : pack.bible.characterLock
-                      ? 'Ubah Karakter'
-                      : 'Selipkan Karakter'}
-                </Button>
               </div>
-
-              {pack.bible.characterLock && !editingCharacterLock && (
-                <p className="rounded-xl border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-subtle)] px-3 py-2 font-mono text-[11.5px] font-medium text-[var(--text-secondary)] leading-relaxed">
-                  {pack.bible.characterLock}
-                </p>
-              )}
 
               {editingCharacterLock && (
                 <div className="space-y-3 rounded-xl border-2 border-[var(--border-strong)] bg-[var(--bg-subtle)] p-3.5">
@@ -530,7 +531,7 @@ export function ProjectDetailPage() {
 
                   <div className="flex flex-col gap-1.5">
                     <label className="text-[12.5px] font-bold text-[var(--text-primary)]">
-                      Atau tulis ciri karakter (Bahasa Indonesia / Inggris — otomatis diselipkan ke semua adegan):
+                      Atau tulis ciri karakter sendiri (otomatis digabungkan ke dalam semua prompt adegan):
                     </label>
                     <textarea
                       rows={3}
@@ -575,7 +576,6 @@ export function ProjectDetailPage() {
                         const nextAssets = hasCharAsset
                           ? pack.assets
                           : [
-                              ...pack.assets,
                               {
                                 id: 'character' as const,
                                 name: `Gambar Patokan Karakter (${nextBible.characterName})`,
@@ -585,6 +585,7 @@ export function ProjectDetailPage() {
                                   `Clean character model reference portrait of ${built.lock}, rendered in ${vStyle.assetStyleEn}, waist-up front-facing natural pose, solid clean neutral background matching ${vibe.palette}, no text, no watermark.`
                                 ),
                               },
+                              ...pack.assets,
                             ];
 
                         const nextAnswers = { ...project.answers, cast: 'person' as const };
@@ -600,39 +601,16 @@ export function ProjectDetailPage() {
                         });
                         setEditingCharacterLock(false);
                         pushToast(
-                          `Karakter dikunci & diselipkan ke semua ${nextPack.scenes.length} prompt adegan!`,
+                          `Karakter diperbarui & otomatis menyatu di dalam semua ${nextPack.scenes.length} prompt adegan!`,
                           'success'
                         );
                       }}
                     >
-                      Terapkan ke Semua Prompt
+                      Simpan ke Semua Adegan
                     </Button>
                   </div>
                 </div>
               )}
-            </div>
-
-            <div className="neo-card flex flex-wrap items-center justify-between gap-2 rounded-2xl px-4 py-3.5">
-              <span className="text-[13px] font-semibold text-[var(--text-primary)]">
-                Salin cepat atau klik <strong>Ubah</strong> untuk edit kamera & durasi.
-              </span>
-              <div className="flex items-center gap-2">
-                <CopyButton
-                  text={exportPackAsText(pack)}
-                  onCopy={copyText}
-                  variant="secondary"
-                  size="sm"
-                  label="Salin Semua"
-                />
-                <Button
-                  variant="primary"
-                  size="sm"
-                  icon={<Plus size={14} strokeWidth={2.5} />}
-                  onClick={handleAddScene}
-                >
-                  Adegan Baru
-                </Button>
-              </div>
             </div>
 
             {pack.scenes.map((sc, idx) => {

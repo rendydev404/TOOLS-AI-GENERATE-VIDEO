@@ -725,7 +725,7 @@ export function buildSceneVideoPrompt(
   // 2. Forensic Character DNA Anchor placed at TOP HIGH-ATTENTION ZONE of EVERY SINGLE SCENE PROMPT!
   if (bible.characterLock) {
     parts.push(
-      `LOCKED CHARACTER IDENTITY (MUST BE THE EXACT SAME PERSON IN EVERY SCENE — IDENTICAL FACE, HAIR, AGE, EYEWEAR, SKIN TONE, AND OUTFIT): ${bible.characterLock}; match the attached Character Reference Ingredient image 1:1.`
+      `LOCKED CHARACTER IDENTITY (SAME EXACT PERSON IN EVERY SCENE — KEEP IDENTICAL FACE, HAIR, AGE, EYEWEAR, SKIN TONE, AND OUTFIT): ${bible.characterLock}.`
     );
   }
 
