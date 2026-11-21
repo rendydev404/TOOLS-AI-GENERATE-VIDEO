@@ -390,9 +390,9 @@ export const CHARACTERS: Record<string, CharacterPreset> = {
   raka: {
     id: 'raka',
     name: 'Raka',
-    desc: 'Laki-laki 20-an, rambut pendek rapi, celemek biru',
+    desc: 'Laki-laki 20-an, rambut pendek rapi, jaket kasual biru',
     art: 'char-2',
-    lock: 'a cheerful Indonesian man in his late 20s with short neat black hair, wearing a navy apron over a plain white t-shirt',
+    lock: 'a cheerful Indonesian man in his late 20s with short neat black hair, wearing a neat navy casual overshirt over a plain white t-shirt',
   },
   laras: {
     id: 'laras',
@@ -432,53 +432,66 @@ export const CAMERA_PRESETS: CameraPreset[] = [
 ];
 
 export const ADVANTAGE_SUGGESTIONS = [
-  'Manis pas',
-  'Gula aren asli',
-  'Segar',
-  'Murah',
-  'Praktis',
-  'Premium',
-  'Renyah',
-  'Pedas nampol',
-  'Lembut',
-  'Wangi',
+  'Praktis & cepat',
+  'Mudah dipakai',
+  'Hemat biaya',
+  'Hasil instan',
+  'Fitur lengkap',
+  'Kualitas premium',
+  'Terbukti efektif',
+  'Hemat waktu',
+  'Desain modern',
   'Tahan lama',
-  'Halal',
-  'Creamy',
-  'Alami',
+  'Aman & terpercaya',
+  'Cocok untuk pemula',
 ];
 
 export const CTA_SUGGESTIONS = [
-  'Pesan sekarang, link di bio',
-  'Cek keranjang kuning sekarang',
-  'Mampir ke toko kami hari ini',
-  'Klik link di bio mumpung promo',
+  'Cek info lengkapnya di link bio',
+  'Coba sekarang, klik link di bio',
+  'Simpan & bagikan kalau bermanfaat',
+  'Ambil promonya sekarang di link bio',
 ];
 
 const ADV_EN: Record<string, string> = {
+  'praktis & cepat': 'fast, practical, and effortless workflow',
+  'mudah dipakai': 'intuitive and easy to use',
+  'hemat biaya': 'cost-effective great value',
+  'hasil instan': 'instant visible results',
+  'fitur lengkap': 'complete all-in-one features',
+  'kualitas premium': 'premium build and craftsmanship',
+  'terbukti efektif': 'proven effective performance',
+  'hemat waktu': 'time-saving efficiency',
+  'desain modern': 'sleek modern design',
+  'aman & terpercaya': 'safe, reliable, and trustworthy',
+  'cocok untuk pemula': 'beginner-friendly accessibility',
+  gratis: 'free and accessible',
+  otomatis: 'smart automated workflow',
+  akurat: 'high accuracy and precision',
+  serbaguna: 'versatile multi-purpose utility',
   'manis pas': 'perfectly balanced sweetness',
   'gula aren asli': 'made with real palm sugar',
   segar: 'refreshing and fresh',
   murah: 'great value',
   praktis: 'convenient and easy to use',
   premium: 'premium quality craftsmanship',
-  sehat: 'made with wholesome healthy ingredients',
-  renyah: 'crispy and crunchy texture',
+  sehat: 'wholesome and healthy',
+  renyah: 'crispy texture',
   pedas: 'bold spicy kick',
-  'pedas nampol': 'bold mouthwatering spicy kick',
-  lembut: 'soft and smooth texture',
-  wangi: 'inviting fragrant aroma',
+  'pedas nampol': 'bold spicy kick',
+  lembut: 'soft and smooth finish',
+  wangi: 'pleasant aroma',
   'tahan lama': 'long-lasting durability',
-  halal: 'clean halal preparation',
-  creamy: 'rich and creamy consistency',
-  gurih: 'savory and rich flavor',
-  lumer: 'melty and rich interior',
-  hangat: 'warm and comforting',
-  kental: 'rich thick consistency',
-  'porsi besar': 'generous satisfying portion',
-  enak: 'delicious taste',
-  original: 'authentic original recipe',
-  alami: 'natural ingredients',
+  halal: 'clean certified preparation',
+  creamy: 'smooth rich consistency',
+  gurih: 'savory flavor',
+  lumer: 'smooth rich texture',
+  hangat: 'warm and inviting',
+  kental: 'rich consistency',
+  'porsi besar': 'generous capacity',
+  enak: 'pleasant experience',
+  original: 'authentic original quality',
+  alami: 'natural materials',
   awet: 'long-lasting quality',
 };
 
@@ -546,7 +559,7 @@ export function normalizeAnswers(input: Answers): Answers {
     a.voice = 'none';
   }
   if (!a.cta || !a.cta.trim()) {
-    a.cta = 'Pesan sekarang, link di bio';
+    a.cta = 'Cek info lengkapnya di link bio';
   } else {
     a.cta = a.cta.trim();
   }
@@ -704,7 +717,7 @@ function buildCaption(a: Answers, advId: string): { caption: string; hashtags: s
   const slug = a.product.toLowerCase().replace(/[^a-z0-9]/g, '');
   const hashtags: string[] = [];
   if (slug) hashtags.push(`#${slug}`);
-  hashtags.push('#rekomendasi', '#produklokal', '#videoproduk', '#umkmindonesia');
+  hashtags.push('#rekomendasi', '#kontenkreator', '#infomenarik', '#tipsbermanfaat');
   return { caption, hashtags };
 }
 

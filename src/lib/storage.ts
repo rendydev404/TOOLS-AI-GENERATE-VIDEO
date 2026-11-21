@@ -23,9 +23,9 @@ export const DEFAULT_BRAND: BrandPreset = {
   brandName: '',
   defaultVideoStyle: 'real-live',
   defaultHookStyle: 'visual-kejutan',
-  defaultVibe: 'hangat',
+  defaultVibe: 'minimalis',
   defaultMusic: 'santai',
-  defaultCta: 'Pesan sekarang, link di bio',
+  defaultCta: 'Cek info lengkapnya di link bio',
   defaultAspect: '9:16',
   defaultQuality: 'seimbang',
   defaultSeamlessChain: false,
@@ -40,13 +40,13 @@ export const DEFAULT_SETTINGS: AppSettings = {
 
 export const DEFAULT_LIBRARY: LibraryItem[] = [
   {
-    id: 'lib-prod-kopi',
+    id: 'lib-prod-toolkit',
     kind: 'product',
-    name: 'Kopi Susu Gula Aren',
-    subtitle: 'Cup bening 16 oz label minimalis hitam putih, es batu kristal, gradasi gula aren kental di dasar',
+    name: 'Workspace AI Toolkit Pro',
+    subtitle: 'Dashboard aplikasi modern minimalis di layar laptop tipis, antarmuka bersih hijau neon & hitam',
     lockText:
-      'a 16oz clear iced coffee cup with a minimalist white rectangular label reading SENJA, filled with creamy iced milk coffee over rich dark palm sugar syrup at the bottom and a black straw',
-    advantages: ['Manis pas', 'Gula aren asli', 'Segar'],
+      'a sleek modern silver ultrabook laptop displaying a clean minimalist productivity dashboard interface with crisp lime-green and dark charcoal cards',
+    advantages: ['Praktis & cepat', 'Mudah dipakai', 'Hemat waktu'],
     hasPhoto: false,
     art: 'produk',
     createdAt: '2026-11-21T03:00:00.000Z',
@@ -54,10 +54,10 @@ export const DEFAULT_LIBRARY: LibraryItem[] = [
   {
     id: 'lib-char-sinta',
     kind: 'character',
-    name: 'Sinta (Host Ramah)',
-    subtitle: 'Perempuan Indonesia 25 thn, rambut hitam sebahu, sweter rajut krem',
+    name: 'Sinta (Host Kreator)',
+    subtitle: 'Perempuan Indonesia 25 thn, rambut hitam sebahu, kemeja kasual krem rapi',
     lockText:
-      'a friendly Indonesian woman in her mid-20s with warm brown skin, shoulder-length straight black hair, light natural makeup, wearing a cream knit sweater',
+      'a friendly Indonesian woman in her mid-20s with warm skin, shoulder-length straight black hair, light natural makeup, wearing a neat cream casual overshirt',
     art: 'char-1',
     createdAt: '2026-11-21T03:00:00.000Z',
   },
@@ -66,15 +66,15 @@ export const DEFAULT_LIBRARY: LibraryItem[] = [
 export function createSampleProject(): Project {
   const tpl = getTemplateById('iklan-produk')!;
   const answers: Answers = {
-    product: 'Kopi Susu Gula Aren Senja',
+    product: 'Workspace AI Toolkit Pro',
     hasPhoto: false,
-    advantages: ['Manis pas', 'Gula aren asli', 'Segar'],
-    cta: 'Pesan sekarang, link di bio',
-    story: 'Cocok diminum sore hari saat kerja atau santai.',
-    videoStyle: 'real-live',
+    advantages: ['Praktis & cepat', 'Mudah dipakai', 'Hemat waktu'],
+    cta: 'Coba sekarang, klik link di bio',
+    story: 'Membantu pekerjaan harian selesai jauh lebih ringkas dan rapi.',
+    videoStyle: 'kartun-3d',
     hookStyle: 'visual-kejutan',
-    vibe: 'hangat',
-    music: 'santai',
+    vibe: 'minimalis',
+    music: 'upbeat',
     cast: 'product',
     voice: 'none',
     durationS: 20,
@@ -85,8 +85,8 @@ export function createSampleProject(): Project {
   const pack = generateOfflinePack(tpl, answers);
   const now = new Date().toISOString();
   return {
-    id: 'proj-sample-senja',
-    name: 'Kopi Susu Gula Aren Senja',
+    id: 'proj-sample-toolkit',
+    name: 'Workspace AI Toolkit Pro',
     templateId: tpl.id,
     templateName: tpl.name,
     art: 'produk',
@@ -155,10 +155,19 @@ export async function loadStoredState(): Promise<StoredState> {
     return fallback;
   }
 
+  const migratedLibrary = Array.isArray(raw.library)
+    ? raw.library.map((item) => (item.id === 'lib-prod-kopi' ? DEFAULT_LIBRARY[0] : item))
+    : DEFAULT_LIBRARY;
+
+  const migratedBrand: BrandPreset = { ...DEFAULT_BRAND, ...(raw.brand ?? {}) };
+  if (migratedBrand.defaultCta === 'Pesan sekarang, link di bio') {
+    migratedBrand.defaultCta = DEFAULT_BRAND.defaultCta;
+  }
+
   return {
     projects: Array.isArray(raw.projects) ? raw.projects : [],
-    library: Array.isArray(raw.library) ? raw.library : DEFAULT_LIBRARY,
-    brand: { ...DEFAULT_BRAND, ...(raw.brand ?? {}) },
+    library: migratedLibrary,
+    brand: migratedBrand,
     settings: { ...DEFAULT_SETTINGS, ...(raw.settings ?? {}) },
   };
 }

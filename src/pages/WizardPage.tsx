@@ -69,7 +69,7 @@ const GUIDED_STEPS = [
   { num: 1, label: 'Tujuan' },
   { num: 2, label: 'Style Video' },
   { num: 3, label: 'Hook Pembuka' },
-  { num: 4, label: 'Produk' },
+  { num: 4, label: 'Topik / Produk' },
   { num: 5, label: 'Ukuran & Buat' },
 ];
 
@@ -150,8 +150,8 @@ export function WizardPage() {
       product: brand.brandName ? `${brand.brandName} ` : '',
       hasPhoto: false,
       productLockCustom: '',
-      advantages: ['Manis pas', 'Gula aren asli', 'Segar'],
-      cta: brand.defaultCta || 'Pesan sekarang, link di bio',
+      advantages: ['Praktis & cepat', 'Mudah dipakai'],
+      cta: brand.defaultCta || 'Cek info lengkapnya di link bio',
       story: '',
       videoStyle: brand.defaultVideoStyle || 'real-live',
       hookStyle: brand.defaultHookStyle || 'visual-kejutan',
@@ -640,7 +640,7 @@ export function WizardPage() {
                   </label>
                   <CustomSelect
                     value=""
-                    placeholder="Pilih produk tersimpan..."
+                    placeholder="Pilih item tersimpan..."
                     options={savedProducts.map((item) => ({
                       value: item.id,
                       label: item.name,
@@ -666,7 +666,7 @@ export function WizardPage() {
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center justify-between">
                   <label className="text-[14px] font-bold text-[var(--text-primary)]">
-                    Nama produk / topik utama (wajib)
+                    Nama topik / layanan / produk utama (wajib)
                   </label>
                   <button
                     type="button"
@@ -682,14 +682,14 @@ export function WizardPage() {
                   autoFocus
                   value={answers.product}
                   onChange={(e) => updateAnswer('product', e.target.value)}
-                  placeholder="Contoh: Kopi Susu Gula Aren Senja"
+                  placeholder="Contoh: Paket AI Gratisan, Aplikasi Catatan Keuangan, atau Earbuds Wireless"
                   className="h-12 w-full rounded-xl border-2 border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 text-[15px] font-semibold text-[var(--text-primary)] shadow-[var(--shadow-xs)] placeholder:font-normal placeholder:text-[var(--text-tertiary)] focus:outline-none focus:shadow-[var(--focus-ring)]"
                 />
               </div>
 
               <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-bold text-[var(--text-primary)]">
-                  Klik 2–3 keunggulan utama
+                  Klik 2–3 keunggulan atau poin utama
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {allAdvantageChips.map((adv) => (
@@ -712,7 +712,7 @@ export function WizardPage() {
                         addCustomAdvantage();
                       }
                     }}
-                    placeholder="Tambah kelebihan lain..."
+                    placeholder="Ketik poin keunggulan sendiri..."
                     className="h-10.5 flex-1 rounded-xl border-2 border-[var(--border-strong)] bg-[var(--bg-surface)] px-3.5 text-[13.5px] font-medium focus:outline-none focus:shadow-[var(--focus-ring)]"
                   />
                   <Button
@@ -728,7 +728,7 @@ export function WizardPage() {
 
               <div className="flex flex-col gap-1.5">
                 <label className="text-[14px] font-bold text-[var(--text-primary)]">
-                  Kalimat ajakan di penutup video
+                  Kalimat ajakan di penutup video (CTA)
                 </label>
                 <input
                   type="text"
@@ -737,7 +737,7 @@ export function WizardPage() {
                   className="h-11 w-full rounded-xl border-2 border-[var(--border-strong)] bg-[var(--bg-surface)] px-3.5 text-[14px] font-semibold focus:outline-none focus:shadow-[var(--focus-ring)]"
                 />
                 <div className="flex flex-wrap gap-1.5 pt-1">
-                  {CTA_SUGGESTIONS.slice(0, 3).map((s) => (
+                  {CTA_SUGGESTIONS.map((s) => (
                     <button
                       key={s}
                       type="button"
@@ -752,7 +752,7 @@ export function WizardPage() {
 
               <div className="flex flex-col gap-1.5">
                 <label className="text-[14px] font-bold text-[var(--text-primary)]">
-                  Gambar patokan konsistensi di Google Flow
+                  Gambar patokan visual di Google Flow
                 </label>
                 <SegmentedControl<'buatkan' | 'punya'>
                   fullWidth
@@ -767,8 +767,8 @@ export function WizardPage() {
                     },
                     {
                       value: 'punya',
-                      label: 'Pakai Foto Sendiri',
-                      sub: 'Unggah foto asli ke Flow',
+                      label: 'Pakai Gambar Sendiri',
+                      sub: 'Unggah aset / foto ke Flow',
                     },
                   ]}
                 />

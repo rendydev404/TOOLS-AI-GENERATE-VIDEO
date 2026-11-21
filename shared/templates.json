@@ -1,8 +1,8 @@
 [
   {
     "id": "iklan-produk",
-    "name": "Iklan Produk",
-    "description": "Hook, produk, manfaat, ajakan. Cocok untuk jualan online sehari-hari.",
+    "name": "Showcase Produk / Layanan",
+    "description": "Hook, tampilan utama, keunggulan, dan ajakan. Cocok untuk aplikasi, jasa, maupun produk fisik.",
     "category": "Jualan",
     "badge": "Populer",
     "available": true,

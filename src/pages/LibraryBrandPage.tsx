@@ -109,9 +109,9 @@ export function LibraryBrandPage() {
           value={tab}
           onChange={setTab}
           items={[
-            { value: 'produk', label: 'Produk Tersimpan', count: products.length },
+            { value: 'produk', label: 'Item / Produk', count: products.length },
             { value: 'karakter', label: 'Presenter / Karakter', count: characters.length },
-            { value: 'brand', label: 'Setelan Default Toko' },
+            { value: 'brand', label: 'Setelan Default Brand' },
           ]}
         />
 
@@ -191,13 +191,13 @@ export function LibraryBrandPage() {
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="flex flex-col gap-1.5">
                 <label className="text-[13px] font-semibold text-[var(--text-primary)]">
-                  Nama Toko / Brand · opsional
+                  Nama Brand / Kreator · opsional
                 </label>
                 <input
                   type="text"
                   value={brand.brandName}
                   onChange={(e) => updateBrand({ brandName: e.target.value })}
-                  placeholder="Contoh: Kopi Senja"
+                  placeholder="Contoh: Studio Kreatif / Nama Brand"
                   className="h-10 rounded-lg border border-[var(--border-strong)] bg-[var(--bg-surface)] px-3 text-[14px] focus:border-[var(--brand-primary)] focus:outline-none"
                 />
               </div>
@@ -291,7 +291,7 @@ export function LibraryBrandPage() {
             <div className="flex justify-end">
               <Button
                 icon={<Save size={15} />}
-                onClick={() => pushToast('Setelan toko tersimpan', 'success')}
+                onClick={() => pushToast('Setelan brand tersimpan', 'success')}
               >
                 Simpan Setelan
               </Button>
@@ -329,7 +329,7 @@ export function LibraryBrandPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder={
-                tab === 'produk' ? 'Misal: Sambal Bawang Bu Rini' : 'Misal: Dimas (Barista)'
+                tab === 'produk' ? 'Misal: Workspace AI Toolkit / Earbuds Pro' : 'Misal: Dimas (Host Tech)'
               }
               className="h-9.5 rounded-lg border border-[var(--border-strong)] bg-[var(--bg-surface)] px-3 text-[13px] focus:border-[var(--brand-primary)] focus:outline-none"
             />
@@ -343,7 +343,7 @@ export function LibraryBrandPage() {
               type="text"
               value={subtitle}
               onChange={(e) => setSubtitle(e.target.value)}
-              placeholder="Misal: Botol kaca 200gr tutup hitam..."
+              placeholder="Misal: Desain minimalis hitam matte dengan aksen neon..."
               className="h-9.5 rounded-lg border border-[var(--border-strong)] bg-[var(--bg-surface)] px-3 text-[13px] focus:border-[var(--brand-primary)] focus:outline-none"
             />
           </div>
@@ -351,13 +351,13 @@ export function LibraryBrandPage() {
           {tab === 'produk' && (
             <div className="flex flex-col gap-1.5">
               <label className="text-[13px] font-semibold text-[var(--text-primary)]">
-                Keunggulan produk (pisahkan dengan koma)
+                Keunggulan utama (pisahkan dengan koma)
               </label>
               <input
                 type="text"
                 value={advText}
                 onChange={(e) => setAdvText(e.target.value)}
-                placeholder="Pedas nampol, Bawang segar, Halal"
+                placeholder="Praktis & cepat, Mudah dipakai, Fitur lengkap"
                 className="h-9.5 rounded-lg border border-[var(--border-strong)] bg-[var(--bg-surface)] px-3 text-[13px] focus:border-[var(--brand-primary)] focus:outline-none"
               />
             </div>
@@ -365,7 +365,7 @@ export function LibraryBrandPage() {
 
           <div className="flex flex-col gap-1.5">
             <label className="text-[13px] font-semibold text-[var(--text-primary)]">
-              Deskripsi Ciri Fisik untuk Prompt (Bahasa Inggris paling akurat)
+              Deskripsi Ciri Visual untuk Prompt (Bahasa Inggris paling akurat)
             </label>
             <textarea
               rows={3}
@@ -373,8 +373,8 @@ export function LibraryBrandPage() {
               onChange={(e) => setLockText(e.target.value)}
               placeholder={
                 tab === 'produk'
-                  ? 'a clear 200g glass chili jar with a matte black lid and red rectangular label'
-                  : 'a cheerful Indonesian man in his late 20s wearing a clean olive apron over a white t-shirt'
+                  ? 'a sleek matte-black wireless earbud charging case with subtle lime LED indicator'
+                  : 'a cheerful Indonesian man in his late 20s wearing a clean navy casual overshirt over a white t-shirt'
               }
               className="rounded-lg border border-[var(--border-strong)] bg-[var(--bg-surface)] p-2.5 font-mono text-[12px] focus:border-[var(--brand-primary)] focus:outline-none"
             />
