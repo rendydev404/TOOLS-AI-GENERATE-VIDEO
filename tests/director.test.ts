@@ -7,6 +7,7 @@ import {
   generateOfflinePack,
   HOOK_STRATEGIES,
   recalculatePack,
+  swapPackCharacter,
   VIDEO_STYLES,
 } from '../shared/director';
 import { getAllTemplates, getTemplateById } from '../shared/templates';
@@ -179,5 +180,43 @@ describe('Rangkai Director Engine', () => {
     expect(txt).toContain('Style Minecraft (Voxel)');
     expect(md).toContain('# Paket Prompt StudioFlow');
     expect(csv).toContain('"Kopi Susu Gula Aren Senja"');
+  });
+
+  it('adds or swaps characters cleanly while keeping setting, style, and dialogue consistent', () => {
+    const tpl = getTemplateById('showcase-sinematik')!;
+    const noCharAnswers: Answers = {
+      ...BASE_ANSWERS,
+      contentMode: 'creator',
+      product: 'Kenapa Otak Lupa Saat Pindah Ruangan',
+      videoStyle: 'kartun-3d',
+      cast: 'product',
+      voice: 'none',
+    };
+    const noCharPack = generateOfflinePack(tpl, noCharAnswers);
+    expect(noCharPack.bible.characterLock).toBeFalsy();
+    const originalSetting = noCharPack.bible.setting;
+
+    // 1. Add Sinta to a previously characterless project
+    const added = swapPackCharacter(noCharPack, noCharAnswers, {
+      mode: 'preset',
+      presetId: 'sinta',
+    });
+    expect(added.pack.bible.characterName).toBe('Sinta');
+    expect(added.pack.bible.setting).toBe(originalSetting);
+    expect(added.pack.assets.some((a) => a.id === 'character' && a.name.includes('Sinta'))).toBe(
+      true
+    );
+    expect(added.pack.scenes[0].prompt).toContain('Sinta');
+
+    // 2. Swap Sinta -> Raka while keeping setting, style, and scene count 100% consistent
+    const swapped = swapPackCharacter(added.pack, added.answers, {
+      mode: 'preset',
+      presetId: 'raka',
+    });
+    expect(swapped.pack.bible.characterName).toBe('Raka');
+    expect(swapped.pack.bible.setting).toBe(originalSetting);
+    expect(swapped.pack.assets.find((a) => a.id === 'character')?.prompt).toContain('Raka');
+    expect(swapped.pack.scenes[0].prompt).toContain('Raka');
+    expect(swapped.pack.scenes[0].prompt).not.toContain('Sinta');
   });
 });

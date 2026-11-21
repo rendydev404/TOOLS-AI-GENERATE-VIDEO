@@ -14,17 +14,17 @@ import {
   Plus,
   RefreshCw,
   Trash2,
+  UserCheck,
 } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 import {
-  buildCustomCharacterLock,
   CAMERA_PRESETS,
   CHARACTERS,
-  cleanSingleLinePrompt,
+  type CharacterSwapSelection,
   exportPackAsMarkdown,
   exportPackAsText,
   recalculatePack,
-  VIBES,
+  swapPackCharacter,
   VIDEO_STYLES,
 } from '@shared/director';
 import type { Scene } from '@shared/types';
@@ -39,7 +39,7 @@ import {
   Switch,
   Tag,
 } from '@/components/ui/Primitives';
-import { ConfirmModal, CustomSelect } from '@/components/ui/CustomControls';
+import { ConfirmModal, CustomModal } from '@/components/ui/CustomControls';
 
 type WorkspaceTab = 'panduan' | 'adegan';
 
@@ -49,6 +49,7 @@ export function ProjectDetailPage() {
   const navigate = useNavigate();
   const {
     projects,
+    library,
     health,
     copyText,
     upsertProject,
@@ -57,6 +58,10 @@ export function ProjectDetailPage() {
   } = useApp();
 
   const project = useMemo(() => projects.find((p) => p.id === id), [projects, id]);
+  const savedCharacters = useMemo(
+    () => library.filter((item) => item.kind === 'character'),
+    [library]
+  );
 
   const initialTab: WorkspaceTab = searchParams.get('tab') === 'adegan' ? 'adegan' : 'panduan';
   const [activeTab, setActiveTab] = useState<WorkspaceTab>(initialTab);
@@ -66,8 +71,12 @@ export function ProjectDetailPage() {
   const [editingSceneId, setEditingSceneId] = useState<string | null>(null);
   const [varyingSceneId, setVaryingSceneId] = useState<string | null>(null);
   const [deleteSceneTarget, setDeleteSceneTarget] = useState<Scene | null>(null);
-  const [editingCharacterLock, setEditingCharacterLock] = useState(false);
-  const [charDraft, setCharDraft] = useState('');
+
+  const [charModalOpen, setCharModalOpen] = useState(false);
+  const [charModalTab, setCharModalTab] = useState<'preset' | 'custom' | 'none'>('preset');
+  const [selectedPresetKey, setSelectedPresetKey] = useState<string>('raka');
+  const [customCharName, setCustomCharName] = useState('Riko');
+  const [customCharTraits, setCustomCharTraits] = useState('');
 
   useEffect(() => {
     if (!project?.pack) return;
@@ -207,6 +216,72 @@ export function ProjectDetailPage() {
     }
   };
 
+  const openCharacterModal = () => {
+    const hasChar = Boolean(pack.bible.characterLock);
+    const currentId = project.answers.characterId;
+    if (!hasChar) {
+      setCharModalTab('preset');
+      setSelectedPresetKey('sinta');
+    } else if (currentId === 'custom') {
+      setCharModalTab('custom');
+      setCustomCharName(pack.bible.characterName || 'Karakter Utama');
+      setCustomCharTraits(project.answers.characterCustom || pack.bible.characterLock || '');
+    } else {
+      setCharModalTab('preset');
+      setSelectedPresetKey(currentId && CHARACTERS[currentId] ? currentId : 'raka');
+    }
+    setCharModalOpen(true);
+  };
+
+  const handleApplyCharacterSwap = () => {
+    let selection: CharacterSwapSelection;
+    if (charModalTab === 'none') {
+      selection = { mode: 'none' };
+    } else if (charModalTab === 'custom') {
+      if (!customCharTraits.trim()) {
+        pushToast('Tulis ciri fisik & pakaian karakter terlebih dahulu', 'danger');
+        return;
+      }
+      selection = {
+        mode: 'custom',
+        name: customCharName.trim() || 'Karakter Utama',
+        customTraits: customCharTraits.trim(),
+      };
+    } else if (selectedPresetKey.startsWith('lib:')) {
+      const libId = selectedPresetKey.slice(4);
+      const found = savedCharacters.find((c) => c.id === libId);
+      if (!found) return;
+      selection = {
+        mode: 'library',
+        id: found.id,
+        name: found.name,
+        lockText: found.lockText,
+      };
+    } else {
+      selection = {
+        mode: 'preset',
+        presetId: selectedPresetKey,
+      };
+    }
+
+    const res = swapPackCharacter(pack, project.answers, selection);
+    upsertProject({
+      ...project,
+      answers: res.answers,
+      pack: res.pack,
+      updatedAt: new Date().toISOString(),
+    });
+    setCharModalOpen(false);
+    if (selection.mode === 'none') {
+      pushToast('Karakter dilepas — alur cerita & adegan tetap konsisten', 'info');
+    } else {
+      pushToast(
+        `Karakter "${res.pack.bible.characterName}" diterapkan! Gambar patokan & semua ${res.pack.scenes.length} adegan tetap konsisten.`,
+        'success'
+      );
+    }
+  };
+
   const slug =
     project.name
       .toLowerCase()
@@ -225,8 +300,10 @@ export function ProjectDetailPage() {
                 {pack.bible.hookStrategyName && (
                   <Tag tone="purple">Hook: {pack.bible.hookStrategyName}</Tag>
                 )}
-                {pack.bible.characterLock && (
+                {pack.bible.characterLock ? (
                   <Tag tone="success">Karakter: {pack.bible.characterName || 'Terkunci'}</Tag>
+                ) : (
+                  <Tag>Tanpa Karakter</Tag>
                 )}
                 <Tag>
                   {pack.settings.aspect} · ±{pack.settings.creditsTotal} cr
@@ -237,15 +314,25 @@ export function ProjectDetailPage() {
               </h1>
             </div>
 
-            <a
-              href="https://flow.google.com/?hl=en"
-              target="_blank"
-              rel="noreferrer"
-              className="neo-btn inline-flex h-10.5 items-center gap-2 rounded-xl bg-[var(--brand-primary)] px-4 text-[13.5px] font-bold text-[#111111]"
-            >
-              <span>Buka Google Flow</span>
-              <ExternalLink size={15} strokeWidth={2.5} />
-            </a>
+            <div className="flex flex-wrap items-center gap-2">
+              <Button
+                variant="secondary"
+                size="md"
+                icon={<UserCheck size={15} strokeWidth={2.5} />}
+                onClick={openCharacterModal}
+              >
+                {pack.bible.characterLock ? 'Ganti Karakter' : '+ Pasang Karakter'}
+              </Button>
+              <a
+                href="https://flow.google.com/?hl=en"
+                target="_blank"
+                rel="noreferrer"
+                className="neo-btn inline-flex h-10 items-center gap-2 rounded-xl bg-[var(--brand-primary)] px-4 text-[13.5px] font-bold text-[#111111]"
+              >
+                <span>Buka Google Flow</span>
+                <ExternalLink size={15} strokeWidth={2.5} />
+              </a>
+            </div>
           </div>
 
           <div className="mt-4">
@@ -478,15 +565,12 @@ export function ProjectDetailPage() {
                 </span>
                 <div className="flex flex-wrap items-center gap-2">
                   <Button
-                    variant={editingCharacterLock ? 'purple' : 'secondary'}
+                    variant="secondary"
                     size="sm"
-                    icon={<Edit3 size={13} strokeWidth={2.4} />}
-                    onClick={() => {
-                      setCharDraft(pack.bible.characterLock || '');
-                      setEditingCharacterLock((v) => !v);
-                    }}
+                    icon={<UserCheck size={13} strokeWidth={2.4} />}
+                    onClick={openCharacterModal}
                   >
-                    {editingCharacterLock ? 'Tutup' : 'Ganti Karakter'}
+                    {pack.bible.characterLock ? 'Ganti Karakter' : '+ Pasang Karakter'}
                   </Button>
                   <CopyButton
                     text={exportPackAsText(pack)}
@@ -505,111 +589,6 @@ export function ProjectDetailPage() {
                   </Button>
                 </div>
               </div>
-
-              {editingCharacterLock && (
-                <div className="space-y-3 rounded-xl border-2 border-[var(--border-strong)] bg-[var(--bg-subtle)] p-3.5">
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-[12.5px] font-bold text-[var(--text-primary)]">
-                      Pilih cepat preset karakter:
-                    </label>
-                    <CustomSelect<string>
-                      value=""
-                      placeholder="Ganti dengan preset karakter..."
-                      options={Object.values(CHARACTERS).map((ch) => ({
-                        value: ch.id,
-                        label: `${ch.name} — ${ch.desc}`,
-                      }))}
-                      onChange={(cid) => {
-                        const preset = CHARACTERS[cid];
-                        if (!preset) return;
-                        const vStyle = VIDEO_STYLES[project.answers.videoStyle || 'real-live'];
-                        setCharDraft(`${preset.lock}, ${vStyle.characterAdapterEn}`);
-                      }}
-                    />
-                  </div>
-
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-[12.5px] font-bold text-[var(--text-primary)]">
-                      Atau tulis ciri karakter sendiri (otomatis digabungkan ke dalam semua prompt adegan):
-                    </label>
-                    <textarea
-                      rows={3}
-                      value={charDraft}
-                      onChange={(e) => setCharDraft(e.target.value)}
-                      placeholder="Contoh: Cowok 24 thn rambut ikal pendek, kacamata bulat tipis, pakai hoodie hitam..."
-                      className="w-full rounded-xl border-2 border-[var(--border-strong)] bg-[var(--bg-surface)] p-3 font-mono text-[12px] font-medium focus:outline-none"
-                    />
-                  </div>
-
-                  <div className="flex flex-wrap items-center justify-end gap-2">
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      onClick={() => {
-                        const raw = charDraft.trim();
-                        if (!raw) {
-                          pushToast('Isi deskripsi karakter terlebih dahulu', 'danger');
-                          return;
-                        }
-                        const vStyle = VIDEO_STYLES[project.answers.videoStyle || 'real-live'];
-                        const vibe = VIBES[project.answers.vibe] ?? VIBES.minimalis;
-                        const isAlreadyDetailedEn =
-                          raw.length > 90 && /\b(wearing|hair|face|eyes)\b/i.test(raw);
-                        const built = isAlreadyDetailedEn
-                          ? {
-                              lock: raw,
-                              voiceLock:
-                                pack.bible.characterVoiceLock ||
-                                'consistent natural Indonesian voice timbre',
-                            }
-                          : buildCustomCharacterLock(raw, vStyle);
-
-                        const nextBible = {
-                          ...pack.bible,
-                          characterName: pack.bible.characterName || 'Karakter Utama',
-                          characterLock: built.lock,
-                          characterVoiceLock: built.voiceLock,
-                        };
-
-                        const hasCharAsset = pack.assets.some((a) => a.id === 'character');
-                        const nextAssets = hasCharAsset
-                          ? pack.assets
-                          : [
-                              {
-                                id: 'character' as const,
-                                name: `Gambar Patokan Karakter (${nextBible.characterName})`,
-                                upload: false,
-                                purpose: `Buat 1 potret patokan karakter bergaya "${vStyle.name}" (gratis 0 credit) agar wajah & pakaian 100% sama.`,
-                                prompt: cleanSingleLinePrompt(
-                                  `Clean character model reference portrait of ${built.lock}, rendered in ${vStyle.assetStyleEn}, waist-up front-facing natural pose, solid clean neutral background matching ${vibe.palette}, no text, no watermark.`
-                                ),
-                              },
-                              ...pack.assets,
-                            ];
-
-                        const nextAnswers = { ...project.answers, cast: 'person' as const };
-                        const nextPack = recalculatePack(
-                          { ...pack, bible: nextBible, assets: nextAssets },
-                          nextAnswers
-                        );
-                        upsertProject({
-                          ...project,
-                          answers: nextAnswers,
-                          pack: nextPack,
-                          updatedAt: new Date().toISOString(),
-                        });
-                        setEditingCharacterLock(false);
-                        pushToast(
-                          `Karakter diperbarui & otomatis menyatu di dalam semua ${nextPack.scenes.length} prompt adegan!`,
-                          'success'
-                        );
-                      }}
-                    >
-                      Simpan ke Semua Adegan
-                    </Button>
-                  </div>
-                </div>
-              )}
             </div>
 
             {pack.scenes.map((sc, idx) => {
@@ -755,6 +734,183 @@ export function ProjectDetailPage() {
           </div>
         )}
       </div>
+
+      <CustomModal
+        open={charModalOpen}
+        onClose={() => setCharModalOpen(false)}
+        title={
+          pack.bible.characterLock
+            ? 'Ganti Karakter Utama (Alur Tetap Konsisten)'
+            : 'Pasang Karakter Konsisten ke Semua Adegan'
+        }
+        description="Topik, cerita, latar ruangan, style visual, kamera, dan dialog tetap 100% sama — hanya pemeran utama yang diperbarui di Gambar Patokan & semua adegan."
+        maxWidth="max-w-xl"
+        footer={
+          <>
+            <Button variant="secondary" onClick={() => setCharModalOpen(false)}>
+              Batal
+            </Button>
+            <Button
+              icon={<Check size={15} strokeWidth={2.8} />}
+              onClick={handleApplyCharacterSwap}
+            >
+              Terapkan ke Semua Adegan
+            </Button>
+          </>
+        }
+      >
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border-2 border-[var(--border-strong)] bg-[var(--accent-purple-soft)] px-3.5 py-2.5 text-[12.5px] font-bold text-[var(--text-primary)]">
+            <span>
+              Style Terkunci:{' '}
+              <strong>
+                {VIDEO_STYLES[project.answers.videoStyle || 'real-live']?.name ||
+                  pack.bible.videoStyleName}
+              </strong>
+            </span>
+            <Tag tone="purple">{pack.scenes.length} Adegan Tetap Sama</Tag>
+          </div>
+
+          <SegmentedControl<'preset' | 'custom' | 'none'>
+            fullWidth
+            value={charModalTab}
+            onChange={setCharModalTab}
+            items={[
+              { value: 'preset', label: 'Pilih Karakter Preset' },
+              { value: 'custom', label: 'Tulis Karakter Sendiri' },
+              { value: 'none', label: 'Tanpa Karakter' },
+            ]}
+          />
+
+          {charModalTab === 'preset' && (
+            <div className="grid max-h-[320px] gap-2.5 overflow-y-auto pr-1 sm:grid-cols-2">
+              {Object.values(CHARACTERS).map((ch) => {
+                const selected = selectedPresetKey === ch.id;
+                const isCurrent =
+                  Boolean(pack.bible.characterLock) &&
+                  pack.bible.characterName?.toLowerCase() === ch.name.toLowerCase();
+                return (
+                  <button
+                    key={ch.id}
+                    type="button"
+                    onClick={() => setSelectedPresetKey(ch.id)}
+                    className={`flex flex-col justify-between gap-1.5 rounded-xl border-2 border-[var(--border-strong)] p-3 text-left transition-all ${
+                      selected
+                        ? 'bg-[var(--brand-primary)] text-[#111111] shadow-[3px_3px_0_var(--border-strong)] -translate-y-[1px]'
+                        : 'bg-[var(--bg-surface)] hover:bg-[var(--bg-subtle)]'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-1.5">
+                        <span className="font-display text-[14.5px] font-bold">{ch.name}</span>
+                        {isCurrent && <Tag tone="purple">Aktif</Tag>}
+                      </div>
+                      <span
+                        className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border-[1.5px] border-[#111111] ${
+                          selected ? 'bg-[#111111] text-[var(--brand-primary)]' : 'bg-[var(--bg-surface)]'
+                        }`}
+                      >
+                        {selected && <Check size={12} strokeWidth={3} />}
+                      </span>
+                    </div>
+                    <p
+                      className={`text-[12px] leading-snug ${
+                        selected
+                          ? 'text-[#111111]/85 font-medium'
+                          : 'text-[var(--text-secondary)]'
+                      }`}
+                    >
+                      {ch.desc}
+                    </p>
+                  </button>
+                );
+              })}
+
+              {savedCharacters
+                .filter((c) => c.id !== 'lib-char-sinta')
+                .map((libChar) => {
+                  const key = `lib:${libChar.id}`;
+                  const selected = selectedPresetKey === key;
+                  return (
+                    <button
+                      key={key}
+                      type="button"
+                      onClick={() => setSelectedPresetKey(key)}
+                      className={`flex flex-col justify-between gap-1.5 rounded-xl border-2 border-[var(--border-strong)] p-3 text-left transition-all ${
+                        selected
+                          ? 'bg-[var(--brand-primary)] text-[#111111] shadow-[3px_3px_0_var(--border-strong)] -translate-y-[1px]'
+                          : 'bg-[var(--bg-surface)] hover:bg-[var(--bg-subtle)]'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-display text-[14.5px] font-bold">
+                            {libChar.name}
+                          </span>
+                          <Tag>Pustaka</Tag>
+                        </div>
+                        <span
+                          className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border-[1.5px] border-[#111111] ${
+                            selected
+                              ? 'bg-[#111111] text-[var(--brand-primary)]'
+                              : 'bg-[var(--bg-surface)]'
+                          }`}
+                        >
+                          {selected && <Check size={12} strokeWidth={3} />}
+                        </span>
+                      </div>
+                      <p
+                        className={`text-[12px] leading-snug ${
+                          selected
+                            ? 'text-[#111111]/85 font-medium'
+                            : 'text-[var(--text-secondary)]'
+                        }`}
+                      >
+                        {libChar.subtitle || libChar.lockText.slice(0, 70)}
+                      </p>
+                    </button>
+                  );
+                })}
+            </div>
+          )}
+
+          {charModalTab === 'custom' && (
+            <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-1">
+                <label className="text-[12.5px] font-bold text-[var(--text-primary)]">
+                  Nama panggilan karakter
+                </label>
+                <input
+                  type="text"
+                  value={customCharName}
+                  onChange={(e) => setCustomCharName(e.target.value)}
+                  placeholder="Contoh: Riko, Maya, atau Pak Budi"
+                  className="h-10.5 rounded-xl border-2 border-[var(--border-strong)] bg-[var(--bg-surface)] px-3.5 text-[13.5px] font-semibold focus:outline-none"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <label className="text-[12.5px] font-bold text-[var(--text-primary)]">
+                  Detail wajah, rambut, aksesoris & pakaian tetap
+                </label>
+                <textarea
+                  rows={3}
+                  value={customCharTraits}
+                  onChange={(e) => setCustomCharTraits(e.target.value)}
+                  placeholder="Contoh: Laki-laki 25 thn rambut ikal pendek, kacamata bulat tipis, pakai jaket hoodie biru tua & kaos putih..."
+                  className="w-full rounded-xl border-2 border-[var(--border-strong)] bg-[var(--bg-surface)] p-3 text-[13px] font-medium focus:outline-none"
+                />
+              </div>
+            </div>
+          )}
+
+          {charModalTab === 'none' && (
+            <div className="rounded-xl border-2 border-[var(--border-strong)] bg-[var(--bg-subtle)] p-4 text-[13px] font-medium text-[var(--text-secondary)] leading-relaxed">
+              Kunci karakter manusia akan dilepas dari proyek ini. Semua topik, latar lokasi, pencahayaan, dan urutan adegan tetap terjaga utuh dengan fokus visual objek/suasana.
+            </div>
+          )}
+        </div>
+      </CustomModal>
 
       <ConfirmModal
         open={Boolean(deleteSceneTarget)}

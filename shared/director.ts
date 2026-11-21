@@ -1448,6 +1448,235 @@ export function recalculatePack(pack: Pack, answers: Answers): Pack {
   };
 }
 
+export type CharacterSwapSelection =
+  | { mode: 'preset'; presetId: string }
+  | { mode: 'library'; id: string; name: string; lockText: string }
+  | { mode: 'custom'; name: string; customTraits: string }
+  | { mode: 'none' };
+
+function detectGenderFromLock(text: string): 'female' | 'male' {
+  if (/\b(woman|female|girl|hijab|she|her|perempuan|wanita|cewek|ibu)\b/i.test(text)) {
+    return 'female';
+  }
+  return 'male';
+}
+
+function escapeRegExpStr(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function rewriteCharacterMentions(
+  text: string,
+  oldName: string | undefined,
+  newName: string,
+  oldGender: 'female' | 'male' | null,
+  newGender: 'female' | 'male'
+): string {
+  if (!text) return text;
+  let out = text;
+
+  if (oldName && oldName.trim() && oldName !== 'Karakter Utama') {
+    const escapedOld = escapeRegExpStr(oldName.trim());
+    out = out.replace(new RegExp(`\\b${escapedOld}'s\\b`, 'g'), `${newName}'s`);
+    out = out.replace(new RegExp(`\\b${escapedOld}\\b`, 'g'), newName);
+  }
+
+  if (oldGender && oldGender !== newGender) {
+    if (oldGender === 'female' && newGender === 'male') {
+      out = out
+        .replace(/\bShe\b/g, 'He')
+        .replace(/\bshe\b/g, 'he')
+        .replace(/\bHerself\b/g, 'Himself')
+        .replace(/\bherself\b/g, 'himself')
+        // Object pronouns after common prepositions/verbs -> him
+        .replace(
+          /\b(behind|around|toward|towards|beside|near|with|follows|following|passes|around|at|to|for)\s+her\b/gi,
+          (_, prep: string) => `${prep} him`
+        )
+        // Remaining "her" in visual descriptions are possessives (her face, her outfit, her left wrist) -> his
+        .replace(/\bHer\b/g, 'His')
+        .replace(/\bher\b/g, 'his');
+    } else if (oldGender === 'male' && newGender === 'female') {
+      out = out
+        .replace(/\bHe\b/g, 'She')
+        .replace(/\bhe\b/g, 'she')
+        .replace(/\bHimself\b/g, 'Herself')
+        .replace(/\bhimself\b/g, 'herself')
+        .replace(/\bHis\b/g, 'Her')
+        .replace(/\bhis\b/g, 'her')
+        .replace(/\bHim\b/g, 'Her')
+        .replace(/\bhim\b/g, 'her');
+    }
+  }
+
+  return out;
+}
+
+export function swapPackCharacter(
+  pack: Pack,
+  answers: Answers,
+  selection: CharacterSwapSelection
+): { pack: Pack; answers: Answers } {
+  const vStyle = VIDEO_STYLES[answers.videoStyle || 'real-live'];
+  const vibe = VIBES[answers.vibe] ?? VIBES.minimalis;
+
+  const oldName = pack.bible.characterName;
+  const hadCharacter = Boolean(pack.bible.characterLock);
+  const oldGender: 'female' | 'male' | null = hadCharacter
+    ? detectGenderFromLock(`${pack.bible.characterLock} ${pack.bible.characterVoiceLock || ''}`)
+    : null;
+
+  if (selection.mode === 'none') {
+    const nextAnswers: Answers = {
+      ...answers,
+      cast: 'product',
+      characterId: undefined,
+      characterCustom: '',
+      voice: answers.voice === 'dialog' ? 'narasi' : answers.voice,
+    };
+    const nextBible: Bible = {
+      ...pack.bible,
+      characterName: '',
+      characterLock: '',
+      characterVoiceLock: '',
+    };
+    const nextAssets = pack.assets.filter((a) => a.id !== 'character');
+    const nextScenes = pack.scenes.map((sc) => {
+      let cleanAction = sc.actionEn;
+      if (oldName && oldName.trim()) {
+        const escapedOld = escapeRegExpStr(oldName.trim());
+        cleanAction = cleanAction.replace(new RegExp(`\\b${escapedOld}\\b`, 'g'), 'the presenter');
+      }
+      return { ...sc, actionEn: cleanAction };
+    });
+    const nextPack = recalculatePack(
+      { ...pack, bible: nextBible, assets: nextAssets, scenes: nextScenes },
+      nextAnswers
+    );
+    return { pack: nextPack, answers: nextAnswers };
+  }
+
+  let newName = 'Karakter Utama';
+  let newLock = '';
+  let newVoiceLock = 'consistent natural Indonesian voice timbre';
+  let nextCharId: string | undefined = answers.characterId;
+  let nextCharCustom = answers.characterCustom || '';
+
+  if (selection.mode === 'preset') {
+    const preset = CHARACTERS[selection.presetId] ?? CHARACTERS.sinta;
+    newName = preset.name;
+    newLock = `${preset.lock}, ${vStyle.characterAdapterEn}`;
+    newVoiceLock = preset.voiceLock;
+    nextCharId = preset.id;
+    nextCharCustom = '';
+  } else if (selection.mode === 'library') {
+    newName = selection.name.trim() || 'Karakter Pustaka';
+    const raw = selection.lockText.trim();
+    newLock = raw.includes(vStyle.characterAdapterEn)
+      ? raw
+      : `${raw}, ${vStyle.characterAdapterEn}`;
+    const g = detectGenderFromLock(raw);
+    newVoiceLock =
+      g === 'female'
+        ? 'consistent warm friendly female Indonesian voice timbre'
+        : 'consistent clear natural male Indonesian voice timbre';
+    nextCharId = selection.id;
+    nextCharCustom = raw;
+  } else {
+    newName = selection.name.trim() || 'Karakter Utama';
+    const raw = selection.customTraits.trim();
+    const isAlreadyDetailedEn =
+      raw.length > 90 && /\b(wearing|hair|face|eyes)\b/i.test(raw);
+    if (isAlreadyDetailedEn) {
+      newLock = raw;
+      const g = detectGenderFromLock(raw);
+      newVoiceLock =
+        g === 'female'
+          ? 'consistent warm friendly female Indonesian voice timbre'
+          : 'consistent clear natural male Indonesian voice timbre';
+    } else {
+      const built = buildCustomCharacterLock(
+        raw.toLowerCase().includes(newName.toLowerCase()) ? raw : `${newName}, ${raw}`,
+        vStyle
+      );
+      newLock = built.lock;
+      newVoiceLock = built.voiceLock;
+    }
+    nextCharId = 'custom';
+    nextCharCustom = raw;
+  }
+
+  const newGender = detectGenderFromLock(`${newLock} ${newVoiceLock}`);
+
+  const updatedLighting = rewriteCharacterMentions(
+    pack.bible.lighting,
+    oldName,
+    newName,
+    oldGender,
+    newGender
+  );
+
+  const nextBible: Bible = {
+    ...pack.bible,
+    lighting: updatedLighting,
+    characterName: newName,
+    characterLock: newLock,
+    characterVoiceLock: newVoiceLock,
+  };
+
+  const charAsset: Asset = {
+    id: 'character',
+    name: `Gambar Patokan Karakter (${newName})`,
+    upload: false,
+    purpose: `Buat 1 potret patokan karakter "${newName}" bergaya "${vStyle.name}" (gratis 0 credit di Nano Banana) agar wajah & pakaian 100% konsisten di semua adegan.`,
+    prompt: cleanSingleLinePrompt(
+      `Clean character model reference portrait of ${newLock}, rendered in ${vStyle.assetStyleEn}, waist-up front-facing natural pose showing full face, hair, and upper outfit clearly, solid clean neutral background matching ${vibe.palette}, sharp consistent character sheet details, no text, no watermark.`
+    ),
+  };
+
+  const hasCharAsset = pack.assets.some((a) => a.id === 'character');
+  const nextAssets = hasCharAsset
+    ? pack.assets.map((a) => (a.id === 'character' ? charAsset : a))
+    : [charAsset, ...pack.assets];
+
+  const nextScenes = pack.scenes.map((sc) => {
+    if (!hadCharacter) {
+      // Project originally had no character -> inject newName seamlessly while keeping exact scene action & setting!
+      const injectedAction = cleanSingleLinePrompt(
+        `${newName}, wearing ${newGender === 'female' ? 'her' : 'his'} exact locked outfit, appears naturally in the scene with expressive engagement while ${sc.actionEn.charAt(0).toLowerCase()}${sc.actionEn.slice(1)}`
+      );
+      return {
+        ...sc,
+        description: `${newName} hadir membawakan adegan: ${sc.description}`,
+        actionEn: injectedAction,
+      };
+    }
+
+    return {
+      ...sc,
+      description: rewriteCharacterMentions(sc.description, oldName, newName, oldGender, newGender),
+      shot: rewriteCharacterMentions(sc.shot, oldName, newName, oldGender, newGender),
+      camera: rewriteCharacterMentions(sc.camera, oldName, newName, oldGender, newGender),
+      actionEn: rewriteCharacterMentions(sc.actionEn, oldName, newName, oldGender, newGender),
+    };
+  });
+
+  const nextAnswers: Answers = {
+    ...answers,
+    cast: 'person',
+    characterId: nextCharId,
+    characterCustom: nextCharCustom,
+    voice: answers.voice === 'none' ? 'dialog' : answers.voice,
+  };
+
+  const nextPack = recalculatePack(
+    { ...pack, bible: nextBible, assets: nextAssets, scenes: nextScenes },
+    nextAnswers
+  );
+
+  return { pack: nextPack, answers: nextAnswers };
+}
+
 const VARIATION_ANGLES = [
   {
     shot: 'dynamic 45-degree close-up, 50mm prime lens, shallow depth of field',
