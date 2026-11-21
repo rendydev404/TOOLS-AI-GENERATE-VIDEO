@@ -67,9 +67,9 @@ import { CustomSelect } from '@/components/ui/CustomControls';
 import { VibePalettePreview } from '@/components/ui/StoryVisuals';
 
 const GUIDED_STEPS = [
-  { num: 1, label: 'Tujuan' },
+  { num: 1, label: 'Format Konten' },
   { num: 2, label: 'Style Video' },
-  { num: 3, label: 'Hook Pembuka' },
+  { num: 3, label: 'Hook 3 Detik' },
   { num: 4, label: 'Topik & Karakter' },
   { num: 5, label: 'Ukuran & Buat' },
 ];
@@ -106,10 +106,10 @@ const HOOK_ICONS: Record<HookStrategyId, React.ReactNode> = {
 };
 
 const HOOK_ORDER: HookStrategyId[] = [
-  'visual-kejutan',
-  'masalah-relatable',
-  'transformasi-instan',
   'rahasia-pov',
+  'masalah-relatable',
+  'visual-kejutan',
+  'transformasi-instan',
   'skala-unik',
   'bukti-langsung',
 ];
@@ -142,7 +142,7 @@ export function WizardPage() {
   const [templateId, setTemplateId] = useState<string>(() => {
     if (existingDraft) return existingDraft.templateId;
     if (initialTemplateParam && getTemplateById(initialTemplateParam)) return initialTemplateParam;
-    return 'iklan-produk';
+    return 'storytelling-konten';
   });
 
   const [answers, setAnswers] = useState<Answers>(() => {
@@ -151,11 +151,11 @@ export function WizardPage() {
       product: brand.brandName ? `${brand.brandName} ` : '',
       hasPhoto: false,
       productLockCustom: '',
-      advantages: ['Praktis & cepat', 'Mudah dipakai'],
-      cta: brand.defaultCta || 'Cek info lengkapnya di link bio',
+      advantages: ['Fakta jarang diketahui', 'Penjelasan simpel'],
+      cta: brand.defaultCta || 'Menurut kamu gimana? Tulis di kolom komentar',
       story: '',
-      videoStyle: brand.defaultVideoStyle || 'real-live',
-      hookStyle: brand.defaultHookStyle || 'visual-kejutan',
+      videoStyle: brand.defaultVideoStyle || 'kartun-3d',
+      hookStyle: brand.defaultHookStyle || 'rahasia-pov',
       customHookLine: '',
       vibe: brand.defaultVibe || 'minimalis',
       music: brand.defaultMusic || 'santai',
@@ -429,15 +429,15 @@ export function WizardPage() {
 
         {/* ==================== MAIN FOCUS STEP CARD ==================== */}
         <div className="neo-card rounded-2xl p-6">
-          {/* STEP 1: TUJUAN */}
+          {/* STEP 1: FORMAT KONTEN KREATOR */}
           {step === 1 && (
             <div className="flex flex-col gap-5">
               <div>
                 <h1 className="font-display text-[22px] sm:text-[25px] font-bold text-[var(--text-primary)]">
-                  1. Mau bikin video seperti apa?
+                  1. Mau bikin format konten seperti apa?
                 </h1>
                 <p className="mt-1 text-[14px] font-medium text-[var(--text-secondary)]">
-                  Pilih tujuan konten di bawah, lalu tekan tombol hijau Lanjut.
+                  Pilih gaya pembawaan konten — mulai dari storytelling, edukasi, opini, sketsa POV, sampai review.
                 </p>
               </div>
 
@@ -626,7 +626,7 @@ export function WizardPage() {
             </div>
           )}
 
-          {/* STEP 4: PRODUK */}
+          {/* STEP 4: TOPIK & KARAKTER KREATOR */}
           {step === 4 && (
             <div className="flex flex-col gap-5">
               <div>
@@ -635,18 +635,21 @@ export function WizardPage() {
                   <Tag tone="purple">Hook: {currentHook.name}</Tag>
                 </div>
                 <h1 className="font-display text-[22px] sm:text-[25px] font-bold text-[var(--text-primary)]">
-                  4. Apa produk atau topik videonya?
+                  4. Apa topik bahasan & karakter videonya?
                 </h1>
+                <p className="mt-1 text-[13.5px] font-medium text-[var(--text-secondary)]">
+                  Bebas bahas topik apa saja — cerita harian, fakta unik, edukasi, opini, teknologi, maupun ulasan.
+                </p>
               </div>
 
               {savedProducts.length > 0 && (
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[13px] font-bold text-[var(--text-secondary)]">
-                    Ambil cepat dari Pustaka (opsional)
+                    Ambil topik / ide tersimpan dari Pustaka (opsional)
                   </label>
                   <CustomSelect
                     value=""
-                    placeholder="Pilih item tersimpan..."
+                    placeholder="Pilih topik tersimpan..."
                     options={savedProducts.map((item) => ({
                       value: item.id,
                       label: item.name,
@@ -672,7 +675,7 @@ export function WizardPage() {
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center justify-between">
                   <label className="text-[14px] font-bold text-[var(--text-primary)]">
-                    Nama topik / layanan / produk utama (wajib)
+                    Topik bahasan / judul ide konten (wajib)
                   </label>
                   <button
                     type="button"
@@ -680,7 +683,7 @@ export function WizardPage() {
                     className="inline-flex items-center gap-1 text-[12px] font-bold text-[var(--accent-purple)] hover:underline"
                   >
                     <BookmarkPlus size={14} strokeWidth={2.5} />
-                    <span>Simpan ke Pustaka</span>
+                    <span>Simpan Topik</span>
                   </button>
                 </div>
                 <input
@@ -688,14 +691,27 @@ export function WizardPage() {
                   autoFocus
                   value={answers.product}
                   onChange={(e) => updateAnswer('product', e.target.value)}
-                  placeholder="Contoh: Paket AI Gratisan, Aplikasi Catatan Keuangan, atau Earbuds Wireless"
+                  placeholder="Contoh: Kenapa Otak Susah Fokus, Fakta Lubang Hitam, Cerita Anak Kos, atau Cara Kerja AI"
                   className="h-12 w-full rounded-xl border-2 border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 text-[15px] font-semibold text-[var(--text-primary)] shadow-[var(--shadow-xs)] placeholder:font-normal placeholder:text-[var(--text-tertiary)] focus:outline-none focus:shadow-[var(--focus-ring)]"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[14px] font-bold text-[var(--text-primary)]">
+                  Inti cerita / konteks singkat yang mau disampaikan · opsional
+                </label>
+                <input
+                  type="text"
+                  value={answers.story || ''}
+                  onChange={(e) => updateAnswer('story', e.target.value)}
+                  placeholder="Contoh: Bahas alasan kenapa notifikasi HP bikin cepat lelah dan tips mengatasinya..."
+                  className="h-11 w-full rounded-xl border-2 border-[var(--border-strong)] bg-[var(--bg-surface)] px-3.5 text-[13.5px] font-medium placeholder:text-[var(--text-tertiary)] focus:outline-none focus:shadow-[var(--focus-ring)]"
                 />
               </div>
 
               <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-bold text-[var(--text-primary)]">
-                  Klik 2–3 keunggulan atau poin utama
+                  Pilih 2–3 nuansa pembawaan / sudut pandang konten
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {allAdvantageChips.map((adv) => (
@@ -718,7 +734,7 @@ export function WizardPage() {
                         addCustomAdvantage();
                       }
                     }}
-                    placeholder="Ketik poin keunggulan sendiri..."
+                    placeholder="Tambah poin bahasan atau angle lain..."
                     className="h-10.5 flex-1 rounded-xl border-2 border-[var(--border-strong)] bg-[var(--bg-surface)] px-3.5 text-[13.5px] font-medium focus:outline-none focus:shadow-[var(--focus-ring)]"
                   />
                   <Button
@@ -734,7 +750,7 @@ export function WizardPage() {
 
               <div className="flex flex-col gap-1.5">
                 <label className="text-[14px] font-bold text-[var(--text-primary)]">
-                  Kalimat ajakan di penutup video (CTA)
+                  Kalimat penutup kreator (pancing komentar / save / share)
                 </label>
                 <input
                   type="text"

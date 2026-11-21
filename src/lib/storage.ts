@@ -21,11 +21,11 @@ export interface StoredState {
 
 export const DEFAULT_BRAND: BrandPreset = {
   brandName: '',
-  defaultVideoStyle: 'real-live',
-  defaultHookStyle: 'visual-kejutan',
+  defaultVideoStyle: 'kartun-3d',
+  defaultHookStyle: 'rahasia-pov',
   defaultVibe: 'minimalis',
   defaultMusic: 'santai',
-  defaultCta: 'Cek info lengkapnya di link bio',
+  defaultCta: 'Menurut kamu gimana? Tulis di kolom komentar',
   defaultAspect: '9:16',
   defaultQuality: 'seimbang',
   defaultSeamlessChain: false,
@@ -40,43 +40,44 @@ export const DEFAULT_SETTINGS: AppSettings = {
 
 export const DEFAULT_LIBRARY: LibraryItem[] = [
   {
-    id: 'lib-prod-toolkit',
+    id: 'lib-topic-fokus',
     kind: 'product',
-    name: 'Workspace AI Toolkit Pro',
-    subtitle: 'Dashboard aplikasi modern minimalis di layar laptop tipis, antarmuka bersih hijau neon & hitam',
+    name: 'Kenapa Otak Cepat Lelah karena Notifikasi',
+    subtitle: 'Topik edukasi & psikologi harian — meja kerja modern, layar HP menyala, suasana reflektif',
     lockText:
-      'a sleek modern silver ultrabook laptop displaying a clean minimalist productivity dashboard interface with crisp lime-green and dark charcoal cards',
-    advantages: ['Praktis & cepat', 'Mudah dipakai', 'Hemat waktu'],
+      'modern creator desk setup with a glowing smartphone notification screen, notebook, and clean ambient desk lamp illustrating digital distraction vs calm focus',
+    advantages: ['Fakta jarang diketahui', 'Relatable sehari-hari', 'Penjelasan simpel'],
     hasPhoto: false,
-    art: 'produk',
+    art: 'manfaat',
     createdAt: '2026-11-21T03:00:00.000Z',
   },
   {
     id: 'lib-char-sinta',
     kind: 'character',
     name: 'Sinta (Host Kreator)',
-    subtitle: 'Perempuan Indonesia 25 thn, rambut hitam sebahu, kemeja kasual krem rapi',
+    subtitle: 'Perempuan Indonesia 25 thn, rambut hitam sebahu, sweter rajut krem rapi',
     lockText:
-      'a friendly Indonesian woman in her mid-20s with warm skin, shoulder-length straight black hair, light natural makeup, wearing a neat cream casual overshirt',
+      'Sinta, a 25-year-old Indonesian woman, slender build, oval face, warm golden-tan complexion, expressive dark-brown almond eyes, sleek straight jet-black shoulder-length bob hair with a center part tucked behind her left ear, no glasses, wearing a solid cream crew-neck knit sweater over a crisp white shirt collar and dark charcoal trousers',
     art: 'char-1',
     createdAt: '2026-11-21T03:00:00.000Z',
   },
 ];
 
 export function createSampleProject(): Project {
-  const tpl = getTemplateById('iklan-produk')!;
+  const tpl = getTemplateById('storytelling-konten')!;
   const answers: Answers = {
-    product: 'Workspace AI Toolkit Pro',
+    product: 'Kenapa Otak Cepat Lelah di Era Notifikasi',
     hasPhoto: false,
-    advantages: ['Praktis & cepat', 'Mudah dipakai', 'Hemat waktu'],
-    cta: 'Coba sekarang, klik link di bio',
-    story: 'Membantu pekerjaan harian selesai jauh lebih ringkas dan rapi.',
+    advantages: ['Fakta jarang diketahui', 'Relatable sehari-hari', 'Solusi praktis'],
+    cta: 'Menurut kamu gimana? Tulis di kolom komentar',
+    story: 'Membahas efek berpindah-pindah aplikasi terhadap fokus harian dan cara mengatasinya dengan santai.',
     videoStyle: 'kartun-3d',
-    hookStyle: 'visual-kejutan',
+    hookStyle: 'rahasia-pov',
     vibe: 'minimalis',
-    music: 'upbeat',
-    cast: 'product',
-    voice: 'none',
+    music: 'santai',
+    cast: 'person',
+    characterId: 'sinta',
+    voice: 'dialog',
     durationS: 20,
     aspect: '9:16',
     quality: 'seimbang',
@@ -85,11 +86,11 @@ export function createSampleProject(): Project {
   const pack = generateOfflinePack(tpl, answers);
   const now = new Date().toISOString();
   return {
-    id: 'proj-sample-toolkit',
-    name: 'Workspace AI Toolkit Pro',
+    id: 'proj-sample-creator',
+    name: 'Kenapa Otak Cepat Lelah di Era Notifikasi',
     templateId: tpl.id,
     templateName: tpl.name,
-    art: 'produk',
+    art: 'tpl-story',
     status: 'panduan',
     answers,
     pack,
@@ -156,11 +157,16 @@ export async function loadStoredState(): Promise<StoredState> {
   }
 
   const migratedLibrary = Array.isArray(raw.library)
-    ? raw.library.map((item) => (item.id === 'lib-prod-kopi' ? DEFAULT_LIBRARY[0] : item))
+    ? raw.library.map((item) =>
+        item.id === 'lib-prod-kopi' || item.id === 'lib-prod-toolkit' ? DEFAULT_LIBRARY[0] : item
+      )
     : DEFAULT_LIBRARY;
 
   const migratedBrand: BrandPreset = { ...DEFAULT_BRAND, ...(raw.brand ?? {}) };
-  if (migratedBrand.defaultCta === 'Pesan sekarang, link di bio') {
+  if (
+    migratedBrand.defaultCta === 'Pesan sekarang, link di bio' ||
+    migratedBrand.defaultCta === 'Cek info lengkapnya di link bio'
+  ) {
     migratedBrand.defaultCta = DEFAULT_BRAND.defaultCta;
   }
 

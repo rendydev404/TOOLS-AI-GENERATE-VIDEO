@@ -134,101 +134,101 @@ export interface HookStrategyPreset {
 }
 
 export const HOOK_STRATEGIES: Record<HookStrategyId, HookStrategyPreset> = {
-  'visual-kejutan': {
-    id: 'visual-kejutan',
-    name: 'Kejutan Detail Dekat',
-    tag: 'Tahan Jempol',
-    shortDesc: 'Detik 0.0 langsung dibuka gerakan tekstur super dekat yang memuaskan mata.',
-    whyItWorks: 'Mata manusia otomatis berhenti saat melihat gerakan tajam jarak dekat di 1 detik pertama.',
-    shotOverride: 'extreme macro close-up, 100mm probe lens, razor-thin depth of field',
-    cameraOverride: 'rapid punchy push-in decelerating into crisp slow-motion focus',
+  'rahasia-pov': {
+    id: 'rahasia-pov',
+    name: 'Curiosity Gap ("99% Belum Sadar")',
+    tag: 'Paling Viral',
+    shortDesc: 'Memicu rasa penasaran penonton dengan fakta atau sisi tersembunyi dari topikmu.',
+    whyItWorks: 'Otak manusia sulit mengabaikan informasi yang terasa eksklusif atau belum lengkap (curiosity gap).',
+    shotOverride: 'intimate creator medium close-up, 35mm prime lens, shallow depth of field',
+    cameraOverride: 'engaging push-in as the scene reveals the key visual clue of {product}',
     cameraIdOverride: 'Push-in',
     visualHookEn:
-      'SCROLL-STOPPING 0.0s OPENING HOOK: immediate kinetic micro-action right in front of the lens as {product} catches a dramatic glint of light with crisp physical motion in the first second before settling cleanly into sharp hero focus',
+      'SCROLL-STOPPING 0.0s CURIOSITY HOOK: immediate expressive lean-in toward the camera as visual clues illustrating "{product}" come into sharp focus, creating instant intrigue like sharing an untold insight',
     descHookId:
-      'Detik pertama langsung menyuguhkan close-up tajam {product} yang bergerak memikat mata supaya penonton berhenti scroll.',
-    spokenHookId: 'Tunggu, lihat dulu detail {product} ini dari dekat!',
-    sfxOverride: 'crisp tactile ASMR micro-impact and subtle whoosh',
+      'Detik pertama langsung memancing rasa ingin tahu penonton lewat sisi menarik dari {product} yang jarang disadari orang.',
+    spokenHookId: 'Jarang banget yang sadar kalau soal {product}, bagian paling menariknya justru ada di sini.',
+    sfxOverride: 'subtle intriguing whoosh and crisp studio focus tone',
   },
   'masalah-relatable': {
     id: 'masalah-relatable',
-    name: 'Masalah yang Sering Dialami',
-    tag: 'Relatable',
-    shortDesc: 'Membuka dengan situasi menjengkelkan sehari-hari sebelum produk muncul.',
-    whyItWorks: 'Penonton merasa "wah ini gue banget" sehingga penasaran menonton solusinya.',
-    shotOverride: 'expressive medium close-up, 35mm lens, immediate eye-level connection',
-    cameraOverride: 'quick handheld snap-focus onto the situation then revealing {product}',
+    name: 'Situasi Relatable ("Pernah Nggak Sih?")',
+    tag: 'Tinggi Share',
+    shortDesc: 'Membuka dengan situasi sehari-hari yang langsung bikin penonton merasa "wah gue banget".',
+    whyItWorks: 'Konten yang relevan dengan pengalaman pribadi penonton paling sering di-share ke teman.',
+    shotOverride: 'expressive medium close-up, 35mm lens, immediate eye-level creator connection',
+    cameraOverride: 'natural handheld snap-focus capturing a relatable everyday moment around {product}',
     cameraIdOverride: 'Handheld',
     visualHookEn:
-      'SCROLL-STOPPING 0.0s PROBLEM HOOK: immediate relatable everyday frustration moment in the first two seconds, quickly interrupted as {product} enters the foreground cleanly as the clear hero solution',
+      'SCROLL-STOPPING 0.0s RELATABLE HOOK: authentic everyday slice-of-life moment illustrating the real situation around "{product}" in the very first second, expressive natural reaction that viewers immediately relate to',
     descHookId:
-      'Dibuka dengan situasi masalah yang sering dialami pembeli, lalu {product} langsung masuk sebagai penyelamat.',
-    spokenHookId: 'Masih sering kesel gara-gara susah nemu yang beneran {adv1}?',
-    sfxOverride: 'subtle record-scratch pause into crisp upbeat reveal sound',
+      'Dibuka dengan situasi keseharian seputar {product} yang sangat dekat dengan pengalaman penonton.',
+    spokenHookId: 'Pernah nggak sih kamu lagi ngadepin urusan {product}, terus bingung sebenernya gimana?',
+    sfxOverride: 'crisp everyday foley beat into natural creator room tone',
+  },
+  'visual-kejutan': {
+    id: 'visual-kejutan',
+    name: 'Visual Kejutan Detik 0.0 (Pattern Interrupt)',
+    tag: 'Tahan Jempol',
+    shortDesc: 'Detik 0.0 langsung dibuka gerakan visual unik & dekat supaya jempol berhenti scroll.',
+    whyItWorks: 'Gerakan kontras di 1 detik pertama memutus pola scroll otomatis penonton di feed.',
+    shotOverride: 'dynamic close-up perspective, 50mm lens, shallow depth of field',
+    cameraOverride: 'rapid punchy push-in decelerating into crisp slow-motion focus',
+    cameraIdOverride: 'Push-in',
+    visualHookEn:
+      'SCROLL-STOPPING 0.0s PATTERN-INTERRUPT HOOK: immediate kinetic visual motion right in front of the lens illustrating "{product}" with dramatic light and crisp detail in the first second before settling cleanly into focus',
+    descHookId:
+      'Detik pertama langsung menyuguhkan visual dinamis seputar {product} agar penonton otomatis berhenti scroll.',
+    spokenHookId: 'Tunggu, jangan di-scroll dulu — lihat apa yang sebenernya terjadi di balik {product} ini.',
+    sfxOverride: 'crisp tactile micro-impact and subtle cinematic whoosh',
   },
   'transformasi-instan': {
     id: 'transformasi-instan',
-    name: 'Perubahan Drastis Cepat',
-    tag: 'Kontras Kuat',
-    shortDesc: 'Dari kondisi biasa langsung berubah total begitu produk masuk ke layar.',
-    whyItWorks: 'Otak penasaran membandingkan kondisi sebelum dan sesudah dalam hitungan detik.',
-    shotOverride: 'dynamic medium shot, 35mm lens, centered subject framing',
-    cameraOverride: 'whip-reveal camera motion snapping into a crisp hero lock',
+    name: 'Patahkan Mitos / Sudut Pandang Baru',
+    tag: 'Pancing Komentar',
+    shortDesc: 'Membuka dengan mematahkan anggapan umum supaya penonton penasaran mendengar alasannya.',
+    whyItWorks: 'Pernyataan yang menantang asumsi umum memicu penonton menonton sampai akhir dan berkomentar.',
+    shotOverride: 'confident creator medium shot, 35mm lens, centered framing',
+    cameraOverride: 'whip-reveal camera motion snapping into a crisp focused frame',
     cameraIdOverride: 'Whip pan',
     visualHookEn:
-      'SCROLL-STOPPING 0.0s TRANSFORMATION HOOK: starts for one beat on a dull flat scene, then as {product} lands squarely onto {surface}, warm light and rich color sweep across the entire frame instantly',
+      'SCROLL-STOPPING 0.0s CONTRARIAN HOOK: starts for one beat on a conventional ordinary moment, then snaps cleanly into a vibrant fresh visual perspective on "{product}"',
     descHookId:
-      'Suasana yang tadinya biasa langsung berubah hidup seketika saat {product} hadir di layar.',
-    spokenHookId: 'Cuma butuh sedetik buat ubah semuanya lewat {product} ini.',
-    sfxOverride: 'energetic snap transition into rich room ambience',
-  },
-  'rahasia-pov': {
-    id: 'rahasia-pov',
-    name: 'POV "Jarang yang Tahu"',
-    tag: 'Bikin Penasaran',
-    shortDesc: 'Sudut pandang mata penonton sendiri seperti sedang diberi bocoran rahasia.',
-    whyItWorks: 'Memicu rasa takut ketinggalan info penting (curiosity gap) sejak detik pertama.',
-    shotOverride: 'first-person POV shot looking down at hands, 28mm wide natural lens',
-    cameraOverride: 'natural first-person POV tilt-up revealing {product} clearly',
-    cameraIdOverride: 'Tracking',
-    visualHookEn:
-      'SCROLL-STOPPING 0.0s FIRST-PERSON POV HOOK: authentic first-person point-of-view as hands bring {product} close into the light, turning it slightly to reveal {advantages_en} like sharing an insider secret',
-    descHookId:
-      'Sudut pandang mata penonton (POV) memegang {product} secara dekat sambil memicu rasa penasaran.',
-    spokenHookId: 'Jarang banget yang tahu kenapa banyak orang pindah ke {product} ini.',
-    sfxOverride: 'intimate close-mic handling foley',
+      'Membuka bahasan dengan mematahkan anggapan umum tentang {product} sehingga memancing rasa penasaran.',
+    spokenHookId: 'Banyak yang masih salah paham soal {product}, padahal kenyataannya beda jauh.',
+    sfxOverride: 'energetic snap transition into clean studio ambience',
   },
   'skala-unik': {
     id: 'skala-unik',
-    name: 'Sudut Kamera Spektakuler',
-    tag: 'Viral Visual',
-    shortDesc: 'Kamera meluncur rendah atau menembus ruang secara sinematik ke arah produk.',
-    whyItWorks: 'Gerakan kamera yang tidak biasa membuat video terlihat mahal dan ditonton ulang.',
-    shotOverride: 'dramatic low-angle hero perspective, 24mm cinema wide lens',
-    cameraOverride: 'sweeping low-altitude FPV-style glide stopping right in front of {product}',
+    name: 'Pembuka Sinematik Bikin Melirik',
+    tag: 'Visual Mahal',
+    shortDesc: 'Kamera meluncur dramatis menembus ruang untuk membangun atmosfer cerita yang kuat.',
+    whyItWorks: 'Komposisi sinematik membuat konten terlihat niat, estetik, dan punya watch-time tinggi.',
+    shotOverride: 'dramatic low-angle cinematic perspective, 24mm wide cinema lens',
+    cameraOverride: 'sweeping low-altitude glide moving smoothly into the world of {product}',
     cameraIdOverride: 'Dolly-in',
     visualHookEn:
-      'SCROLL-STOPPING 0.0s SPECTACLE HOOK: sweeping low-angle camera glides smoothly across {surface} straight toward {product}, making it look monumental, iconic, and impossible to ignore',
+      'SCROLL-STOPPING 0.0s CINEMATIC HOOK: sweeping cinema camera glides smoothly through the environment into the core scene of "{product}", creating an iconic, immersive storytelling opening',
     descHookId:
-      'Kamera meluncur rendah secara dramatis langsung menuju {product} sehingga terlihat ikonik sejak detik awal.',
-    spokenHookId: 'Jangan lewatkan yang satu ini kalau kamu cari yang beneran {adv1}!',
-    sfxOverride: 'cinematic smooth air glide and crisp bass settle',
+      'Kamera meluncur sinematik membangun atmosfer cerita seputar {product} sejak detik pertama.',
+    spokenHookId: 'Bayangin gimana jadinya kalau kita lihat {product} langsung dari sudut pandang ini.',
+    sfxOverride: 'cinematic smooth air glide and warm atmospheric swell',
   },
   'bukti-langsung': {
     id: 'bukti-langsung',
-    name: 'Bukti Nyata Tanpa Intro',
-    tag: 'To The Point',
-    shortDesc: 'Tanpa basa-basi, detik pertama langsung mendemonstrasikan keunggulan utama.',
-    whyItWorks: 'Penonton TikTok/Reels suka bukti instan tanpa pembukaan yang bertele-tele.',
-    shotOverride: 'crisp 45-degree hero demonstration close-up, 50mm prime lens',
-    cameraOverride: 'steady precision tracking focused tightly on the action',
+    name: 'To The Point Tanpa Basa-Basi',
+    tag: 'Tinggi Save',
+    shortDesc: 'Tanpa sapaan bertele-tele, detik pertama langsung masuk ke inti bahasan utama.',
+    whyItWorks: 'Penonton video pendek menyukai kreator yang langsung memberikan value padat sejak kalimat pertama.',
+    shotOverride: 'crisp 45-degree creator framing, 50mm prime lens',
+    cameraOverride: 'steady precision tracking focused tightly on the main subject',
     cameraIdOverride: 'Slow motion',
     visualHookEn:
-      'SCROLL-STOPPING 0.0s DIRECT PROOF HOOK: zero-delay visual demonstration right from frame one proving {advantages_en} of {product} in crisp high-detail slow motion',
+      'SCROLL-STOPPING 0.0s VALUE-FIRST HOOK: zero-delay visual illustration right from frame one demonstrating {advantages_en} of "{product}" with crisp clarity',
     descHookId:
-      'Tanpa intro panjang, detik pertama langsung membuktikan keunggulan {product} ({advantages}) di depan mata.',
-    spokenHookId: 'Langsung buktiin sendiri kenapa {product} ini juara soal {adv1}.',
-    sfxOverride: 'clean satisfying demonstration foley',
+      'Tanpa intro panjang, detik pertama langsung masuk ke inti bahasan {product} ({advantages}).',
+    spokenHookId: 'Tanpa basa-basi, ini poin paling penting soal {product} yang wajib kamu tahu.',
+    sfxOverride: 'clean modern creator pop and crisp room tone',
   },
 };
 
@@ -498,28 +498,40 @@ export const CAMERA_PRESETS: CameraPreset[] = [
 ];
 
 export const ADVANTAGE_SUGGESTIONS = [
-  'Praktis & cepat',
-  'Mudah dipakai',
-  'Hemat biaya',
-  'Hasil instan',
-  'Fitur lengkap',
-  'Kualitas premium',
-  'Terbukti efektif',
+  'Fakta jarang diketahui',
+  'Relatable sehari-hari',
+  'Penjelasan simpel',
+  'Mudah dipraktikkan',
+  'Sudut pandang baru',
+  'Contoh nyata',
+  'Langkah demi langkah',
+  'Bikin penasaran',
+  'Solusi praktis',
   'Hemat waktu',
-  'Desain modern',
-  'Tahan lama',
-  'Aman & terpercaya',
-  'Cocok untuk pemula',
+  'Logis & mudah paham',
+  'Cocok buat pemula',
 ];
 
 export const CTA_SUGGESTIONS = [
+  'Menurut kamu gimana? Tulis di kolom komentar',
+  'Save video ini biar gampang dicari lagi nanti',
+  'Follow buat bahasan seru lainnya setiap hari',
+  'Share ke temanmu yang butuh bahasan ini',
   'Cek info lengkapnya di link bio',
-  'Coba sekarang, klik link di bio',
-  'Simpan & bagikan kalau bermanfaat',
-  'Ambil promonya sekarang di link bio',
 ];
 
 const ADV_EN: Record<string, string> = {
+  'fakta jarang diketahui': 'surprising lesser-known facts and insights',
+  'relatable sehari-hari': 'relatable everyday real-life context',
+  'penjelasan simpel': 'simple, crystal-clear visual explanation',
+  'mudah dipraktikkan': 'easy-to-apply practical actionability',
+  'sudut pandang baru': 'fresh eye-opening perspective',
+  'contoh nyata': 'concrete real-world illustration',
+  'langkah demi langkah': 'clear step-by-step progression',
+  'bikin penasaran': 'high-curiosity narrative tension',
+  'solusi praktis': 'practical everyday solution',
+  'logis & mudah paham': 'clear logical breakdown that is easy to grasp',
+  'cocok buat pemula': 'beginner-friendly clarity',
   'praktis & cepat': 'fast, practical, and effortless workflow',
   'mudah dipakai': 'intuitive and easy to use',
   'hemat biaya': 'cost-effective great value',
@@ -573,7 +585,7 @@ function joinEn(items: string[]): string {
 
 export function joinId(items: string[]): string {
   const clean = items.map((s) => s.trim().toLowerCase()).filter(Boolean);
-  if (clean.length === 0) return 'kualitas terbaiknya';
+  if (clean.length === 0) return 'isi bahasan utamanya';
   if (clean.length === 1) return clean[0];
   return `${clean.slice(0, -1).join(', ')} dan ${clean[clean.length - 1]}`;
 }
@@ -586,7 +598,7 @@ export function translateAdvantages(items: string[]): string {
     const mapped = ADV_EN[s.toLowerCase()];
     out.push(mapped ?? `"${s}"`);
   }
-  return out.length > 0 ? joinEn(out) : 'its standout quality and appeal';
+  return out.length > 0 ? joinEn(out) : 'clear, engaging creator storytelling and visual clarity';
 }
 
 function capFirst(s: string): string {
@@ -601,7 +613,7 @@ export function normalizeAnswers(input: Answers): Answers {
     a.videoStyle = 'real-live';
   }
   if (!a.hookStyle || !HOOK_STRATEGIES[a.hookStyle]) {
-    a.hookStyle = 'visual-kejutan';
+    a.hookStyle = 'rahasia-pov';
   }
   if (a.durationS !== 15 && a.durationS !== 20 && a.durationS !== 30) {
     a.durationS = 20;
@@ -628,7 +640,7 @@ export function normalizeAnswers(input: Answers): Answers {
     a.cast = 'product';
   }
   if (!a.cta || !a.cta.trim()) {
-    a.cta = 'Cek info lengkapnya di link bio';
+    a.cta = 'Menurut kamu gimana? Tulis di kolom komentar';
   } else {
     a.cta = a.cta.trim();
   }
@@ -725,21 +737,36 @@ export function buildSceneVideoPrompt(
 
 function defaultNarration(role: string, a: Answers, advId: string): string {
   switch (role) {
+    case 'latar':
+    case 'miskonsepsi':
+    case 'realita':
+    case 'ekspektasi':
+    case 'poin1':
+    case 'alasan':
     case 'produk':
-    case 'sajian':
+    case 'suasana':
     case 'transisi':
-    case 'buka':
-    case 'temuan':
-    case 'penjelasan':
-      return `Kenalan sama ${a.product} yang digarap serius buat kamu.`;
+      return `Kalau kita perhatiin lebih dekat, bahasan soal ${a.product} ini punya sisi menarik yang jarang kelihatan.`;
+    case 'konflik':
+    case 'inti':
+    case 'perspektif':
+    case 'poin2':
+    case 'uji':
     case 'manfaat':
-    case 'gigitan':
     case 'sesudah':
-    case 'isi':
-    case 'keunggulan':
+      return `Intinya ada di ${advId} yang bikin semuanya jauh lebih gampang dipahami.`;
+    case 'puncak':
+    case 'contoh':
+    case 'dampak':
     case 'solusi':
-    case 'nikmati':
-      return `Keunggulannya langsung kerasa: ${advId}.`;
+    case 'hasil':
+    case 'nilai':
+    case 'detail':
+      return `Begitu ngerti pola utamanya, cara pandang kita soal ${a.product} langsung berubah.`;
+    case 'penutup':
+    case 'diskusi':
+    case 'outro':
+    case 'simpan':
     case 'ajakan':
       return `${a.cta.replace(/[.!]+$/, '')}!`;
     default:
@@ -748,31 +775,31 @@ function defaultNarration(role: string, a: Answers, advId: string): string {
 }
 
 function buildAssets(bible: Bible, a: Answers, vibe: VibePreset, vStyle: VideoStylePreset): Asset[] {
-  const out: Asset[] = [
-    {
-      id: 'product',
-      name: 'Gambar Patokan Produk',
-      upload: a.hasPhoto,
-      purpose: a.hasPhoto
-        ? 'Unggah foto produk aslimu ke Google Flow supaya bentuk dan warnanya dipakai terus di setiap klip.'
-        : `Buat 1 gambar patokan produk bergaya "${vStyle.name}" (gratis 0 credit di Flow) supaya bentuk produk konsisten di semua adegan.`,
-      prompt: cleanSingleLinePrompt(
-        `Reference sheet / hero visual of ${bible.product}, rendered in ${vStyle.assetStyleEn}, centered composition on ${vibe.surface}, ${vibe.lighting}, color palette of ${vibe.palette}, ultra-clean geometry and consistent details, no text overlays, no watermark.`
-      ),
-    },
-  ];
+  const out: Asset[] = [];
 
   if (bible.characterLock) {
     out.push({
       id: 'character',
-      name: `Gambar Patokan Karakter (${bible.characterName || 'Utama'})`,
+      name: `Gambar Patokan Karakter (${bible.characterName || 'Kreator'})`,
       upload: false,
-      purpose: `Buat 1 potret patokan karakter "${bible.characterName || 'Utama'}" bergaya "${vStyle.name}" (gratis 0 credit), lalu lampirkan terus sebagai Ingredients di setiap adegan agar wajah & pakaian 100% sama.`,
+      purpose: `Buat 1 potret patokan karakter "${bible.characterName || 'Kreator'}" bergaya "${vStyle.name}" (gratis 0 credit), lalu lampirkan terus sebagai Ingredients di setiap adegan agar wajah & pakaian 100% konsisten.`,
       prompt: cleanSingleLinePrompt(
         `Clean character model reference portrait of ${bible.characterLock}, rendered in ${vStyle.assetStyleEn}, waist-up front-facing natural pose showing full face, hair, and upper outfit clearly, solid clean neutral background matching ${vibe.palette}, sharp consistent character sheet details, no text, no watermark.`
       ),
     });
   }
+
+  out.push({
+    id: 'product',
+    name: 'Gambar Patokan Visual Topik / Latar',
+    upload: a.hasPhoto,
+    purpose: a.hasPhoto
+      ? 'Unggah gambar/foto referensi topikmu ke Google Flow supaya nuansa visualnya dipakai konsisten di setiap klip.'
+      : `Buat 1 gambar patokan visual topik "${bible.product}" bergaya "${vStyle.name}" (gratis 0 credit di Flow) agar elemen visual & suasana konsisten di semua adegan.`,
+    prompt: cleanSingleLinePrompt(
+      `Key visual concept & scene reference illustrating the topic "${bible.product}", rendered in ${vStyle.assetStyleEn}, set in ${vibe.setting}, ${vibe.lighting}, color palette of ${vibe.palette}, coherent props and visual details, no text overlays, no watermark.`
+    ),
+  });
 
   return out;
 }
@@ -812,11 +839,12 @@ function buildSceneTips(
 
 function buildCaption(a: Answers, advId: string): { caption: string; hashtags: string[] } {
   const cleanCta = a.cta.replace(/[.!]+$/, '');
-  const caption = `${a.product}, ${advId}. ${cleanCta}.`;
+  const extraContext = a.story?.trim() ? ` ${a.story.trim().replace(/[.!]+$/, '')}.` : '';
+  const caption = `Bahas ${a.product} — mulai dari ${advId}.${extraContext} ${cleanCta}!`;
   const slug = a.product.toLowerCase().replace(/[^a-z0-9]/g, '');
   const hashtags: string[] = [];
-  if (slug) hashtags.push(`#${slug}`);
-  hashtags.push('#rekomendasi', '#kontenkreator', '#infomenarik', '#tipsbermanfaat');
+  if (slug) hashtags.push(`#${slug.slice(0, 24)}`);
+  hashtags.push('#kontenkreator', '#bahasanseru', '#edukasisingkat', '#fypindonesia');
   return { caption, hashtags };
 }
 
@@ -924,8 +952,8 @@ export function buildFlowSteps(
     } else {
       const refList =
         pack.assets.length > 1
-          ? 'gambar patokan produk DAN gambar patokan karakter'
-          : 'gambar patokan produk tadi';
+          ? 'gambar patokan karakter DAN gambar patokan visual topik'
+          : 'gambar patokan visual tadi';
       substeps.push(
         `Klik "${L.settingsTrigger}" → pilih "${L.radioVideo}" → pilih "${L.radioIngredients}" → ukuran "${pack.settings.aspect}" → pada "${L.selectModel}" pilih "${pack.settings.model}" → jumlah "x1".`,
         `Klik tombol "${L.addIngredients}" di kotak bawah, lalu pilih ${refList} (klik "${L.addToPrompt}" bila muncul konfirmasi).`,
@@ -1006,9 +1034,9 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
 
   let productLock =
     a.productLockCustom?.trim() ||
-    `The hero product is "${a.product}" rendered consistently in ${vStyle.name} aesthetic; keep its exact geometry, colors, proportions, packaging and design identical in every shot`;
+    `Core Topic & Visual Motif: every scene visually illustrates the topic "${a.product}" rendered consistently in ${vStyle.name} aesthetic; keep visual props, environment motifs, and world design coherent across all shots`;
   if (a.hasPhoto && !productLock.toLowerCase().includes('reference image')) {
-    productLock += ', matching the attached product reference image faithfully';
+    productLock += ', matching the attached visual reference image faithfully';
   }
 
   const bible: Bible = {
@@ -1046,9 +1074,9 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
 
   const advId = joinId(a.advantages);
   const advEn = translateAdvantages(a.advantages);
-  const adv1 = a.advantages[0]?.trim().toLowerCase() || 'berkualitas';
-  const charRef = bible.characterLock || 'the presenter';
-  const charId = bible.characterName || 'Presenter';
+  const adv1 = a.advantages[0]?.trim().toLowerCase() || 'menarik buat dibahas';
+  const charRef = bible.characterLock || 'the creator';
+  const charId = bible.characterName || 'Kreator';
 
   const replacements: Record<string, string> = {
     '{product}': a.product,
@@ -1090,12 +1118,8 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
       ? `${applyPlaceholders(hookPreset.visualHookEn, replacements)}. Context: ${applyPlaceholders(r.action, replacements)}`
       : applyPlaceholders(r.action, replacements);
 
-    if (
-      !isOpeningHook &&
-      a.story?.trim() &&
-      (r.role === 'produk' || r.role === 'suasana' || r.role === 'sajian' || r.role === 'isi')
-    ) {
-      actionEn += ` (context nuance: "${a.story.trim()}")`;
+    if (!isOpeningHook && i < plan.roles.length - 1 && a.story?.trim()) {
+      actionEn += ` (narrative context: "${a.story.trim()}")`;
     }
 
     let dialogue: string | undefined;

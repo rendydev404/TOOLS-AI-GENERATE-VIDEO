@@ -37,26 +37,26 @@ import { CustomSelect } from '@/components/ui/CustomControls';
 const INITIAL_ROWS: BatchRow[] = [
   {
     id: 'row-1',
-    product: 'Paket Tools AI Kreator',
-    advantages: 'Praktis & cepat, Mudah dipakai, Hemat waktu',
-    cta: 'Coba sekarang, klik link di bio',
-    story: '',
+    product: 'Kenapa Otak Cepat Lelah di Era Notifikasi',
+    advantages: 'Fakta jarang diketahui, Relatable sehari-hari, Solusi praktis',
+    cta: 'Menurut kamu gimana? Tulis di kolom komentar',
+    story: 'Efek berpindah-pindah aplikasi ke energi fokus kita',
     hasPhoto: false,
   },
   {
     id: 'row-2',
-    product: 'Earbuds Wireless AeroPro',
-    advantages: 'Kualitas premium, Desain modern, Tahan lama',
-    cta: 'Cek info lengkapnya di link bio',
-    story: '',
+    product: 'Fakta Unik Waktu di Luar Angkasa',
+    advantages: 'Bikin penasaran, Penjelasan simpel, Contoh nyata',
+    cta: 'Save video ini biar gampang dicari lagi nanti',
+    story: 'Perbedaan waktu di dekat gravitasi besar dijelasin santai',
     hasPhoto: false,
   },
   {
     id: 'row-3',
-    product: 'Template Keuangan Bulanan',
-    advantages: 'Mudah dipakai, Hemat biaya, Cocok untuk pemula',
-    cta: 'Ambil promonya sekarang di link bio',
-    story: '',
+    product: '3 Kebiasaan Pagi yang Mengubah Mood Seharian',
+    advantages: 'Mudah dipraktikkan, Langkah demi langkah, Cocok buat pemula',
+    cta: 'Share ke temanmu yang butuh bahasan ini',
+    story: 'Mulai dari 5 menit tanpa layar HP setelah bangun tidur',
     hasPhoto: false,
   },
 ];
@@ -116,12 +116,12 @@ export function BatchPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const templates = useMemo(() => getAllTemplates(), []);
-  const [templateId, setTemplateId] = useState('iklan-produk');
+  const [templateId, setTemplateId] = useState('storytelling-konten');
   const [videoStyle, setVideoStyle] = useState<VideoStyleId>(
-    brand.defaultVideoStyle || 'real-live'
+    brand.defaultVideoStyle || 'kartun-3d'
   );
   const [hookStyle, setHookStyle] = useState<HookStrategyId>(
-    brand.defaultHookStyle || 'visual-kejutan'
+    brand.defaultHookStyle || 'rahasia-pov'
   );
   const [durationS, setDurationS] = useState<DurationChoice>(20);
   const [aspect, setAspect] = useState<AspectRatio>(brand.defaultAspect || '9:16');
