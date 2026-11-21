@@ -1,5 +1,5 @@
 import rawTemplates from './templates.json';
-import type { ContentMode, Template, TemplatePlan, TemplateRole } from './types';
+import type { ContentMode, SellingStyle, Template, TemplatePlan, TemplateRole } from './types';
 
 const templates = rawTemplates as Template[];
 
@@ -20,7 +20,10 @@ export function getAllTemplates(): Template[] {
   return templates;
 }
 
-export function getTemplatesByMode(mode: ContentMode): Template[] {
+export function getTemplatesByMode(mode: ContentMode, sellingStyle?: SellingStyle): Template[] {
+  if (mode === 'marketing' && sellingStyle) {
+    return templates.filter((t) => t.mode === 'marketing' && t.sellingStyle === sellingStyle);
+  }
   return templates.filter((t) => t.mode === mode);
 }
 

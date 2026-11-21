@@ -1,4 +1,5 @@
 export type ContentMode = 'creator' | 'marketing';
+export type SellingStyle = 'soft' | 'hard';
 export type QualityTier = 'hemat' | 'seimbang' | 'terbaik';
 export type AspectRatio = '9:16' | '16:9';
 export type VibeId = 'hangat' | 'mewah' | 'ceria' | 'sinematik' | 'minimalis' | 'retro';
@@ -27,6 +28,7 @@ export type HookStrategyId =
 
 export interface Answers {
   contentMode?: ContentMode;
+  sellingStyle?: SellingStyle;
   product: string;
   category?: string;
   hasPhoto: boolean;
@@ -51,6 +53,7 @@ export interface Answers {
 
 export interface Bible {
   contentMode: ContentMode;
+  sellingStyle?: SellingStyle;
   product: string;
   productLock: string;
   characterName?: string;
@@ -163,6 +166,7 @@ export interface TemplatePlan {
 export interface Template {
   id: string;
   mode: ContentMode;
+  sellingStyle?: SellingStyle;
   name: string;
   description: string;
   category: string;

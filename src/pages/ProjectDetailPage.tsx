@@ -49,7 +49,6 @@ export function ProjectDetailPage() {
   const navigate = useNavigate();
   const {
     projects,
-    settings,
     health,
     copyText,
     upsertProject,
@@ -192,7 +191,7 @@ export function ProjectDetailPage() {
         sc,
         pack.bible,
         project.answers,
-        Boolean(settings.useLlmWhenAvailable && health.llmAvailable),
+        Boolean(health.llmAvailable),
         Date.now() + idx
       );
       const nextScenes = pack.scenes.map((item, i) => (i === idx ? varied : item));

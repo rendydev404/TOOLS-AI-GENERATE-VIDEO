@@ -11,6 +11,7 @@ import type {
   PackSettings,
   QualityTier,
   Scene,
+  SellingStyle,
   Template,
   VibeId,
   VideoStyleId,
@@ -122,9 +123,11 @@ export const VIDEO_STYLES: Record<VideoStyleId, VideoStylePreset> = {
 export interface HookStrategyPreset {
   id: HookStrategyId;
   name: string;
+  softSellingName: string;
   marketingName: string;
   tag: string;
   shortDesc: string;
+  softSellingShortDesc: string;
   marketingShortDesc: string;
   whyItWorks: string;
   shotOverride: string;
@@ -133,6 +136,7 @@ export interface HookStrategyPreset {
   visualHookEn: string;
   descHookId: string;
   spokenHookId: string;
+  spokenHookSoftId: string;
   spokenHookMarketingId: string;
   sfxOverride: string;
 }
@@ -141,10 +145,12 @@ export const HOOK_STRATEGIES: Record<HookStrategyId, HookStrategyPreset> = {
   'rahasia-pov': {
     id: 'rahasia-pov',
     name: 'Curiosity Gap ("99% Belum Sadar")',
-    marketingName: 'POV Rekomendasi ("Jarang yang Tahu")',
+    softSellingName: 'Cerita Rahasia ("Jarang yang Sadar")',
+    marketingName: 'POV Rekomendasi ("Wajib Tahu Ini")',
     tag: 'Paling Viral',
     shortDesc: 'Memicu rasa penasaran penonton dengan fakta atau sisi tersembunyi dari topikmu.',
-    marketingShortDesc: 'Membuka seperti bocoran rahasia kenapa banyak orang beralih ke produk/solusimu.',
+    softSellingShortDesc: 'Membuka dengan insight menarik sehari-hari sebelum mengenalkan produk secara halus di akhir.',
+    marketingShortDesc: 'Membuka langsung dengan alasan kuat kenapa banyak orang memilih produkmu.',
     whyItWorks: 'Otak manusia sulit mengabaikan informasi yang terasa eksklusif atau belum lengkap (curiosity gap).',
     shotOverride: 'intimate creator medium close-up, 35mm prime lens, shallow depth of field',
     cameraOverride: 'engaging push-in as the scene reveals the key visual clue of {product}',
@@ -154,16 +160,19 @@ export const HOOK_STRATEGIES: Record<HookStrategyId, HookStrategyPreset> = {
     descHookId:
       'Detik pertama langsung memancing rasa ingin tahu penonton lewat sisi menarik dari {product}.',
     spokenHookId: 'Jarang banget yang sadar kalau soal {product}, bagian paling menariknya justru ada di sini.',
-    spokenHookMarketingId: 'Jarang banget yang tahu kenapa sekarang banyak orang beralih ke {product} ini.',
+    spokenHookSoftId: 'Jarang yang nyangka kalau kebiasaan kecil ini ternyata bikin urusan harian jauh lebih gampang.',
+    spokenHookMarketingId: 'Wajib tahu {product} ini kalau kamu mau solusi yang beneran {adv1} sekarang juga!',
     sfxOverride: 'subtle intriguing whoosh and crisp studio focus tone',
   },
   'masalah-relatable': {
     id: 'masalah-relatable',
     name: 'Situasi Relatable ("Pernah Nggak Sih?")',
-    marketingName: 'Pain-Point Pembeli ("Masih Sering Kesel?")',
+    softSellingName: 'Curhat Relatable ("Pernah Ngalamin?")',
+    marketingName: 'Pain-Point Pembeli -> Solusi Cepat',
     tag: 'Tinggi Share',
     shortDesc: 'Membuka dengan situasi sehari-hari yang langsung bikin penonton merasa "wah gue banget".',
-    marketingShortDesc: 'Membuka dengan masalah yang sering bikin calon pembeli pusing sebelum produkmu muncul.',
+    softSellingShortDesc: 'Curhat masalah harian tanpa terlihat jualan agar penonton betah menyimak sampai akhir.',
+    marketingShortDesc: 'Sentuh masalah utama calon pembeli lalu langsung perlihatkan produkmu sebagai jawaban.',
     whyItWorks: 'Konten yang relevan dengan pengalaman pribadi atau keluhan penonton menahan perhatian lebih lama.',
     shotOverride: 'expressive medium close-up, 35mm lens, immediate eye-level creator connection',
     cameraOverride: 'natural handheld snap-focus capturing a relatable everyday moment around {product}',
@@ -173,16 +182,19 @@ export const HOOK_STRATEGIES: Record<HookStrategyId, HookStrategyPreset> = {
     descHookId:
       'Dibuka dengan situasi keseharian seputar {product} yang dekat dengan pengalaman penonton.',
     spokenHookId: 'Pernah nggak sih kamu lagi ngadepin urusan {product}, terus bingung sebenernya gimana?',
-    spokenHookMarketingId: 'Masih sering repot gara-gara belum nemu solusi yang beneran {adv1}?',
+    spokenHookSoftId: 'Pernah nggak sih ngerasa capek sendiri tiap kali harus beresin urusan ini berulang-ulang?',
+    spokenHookMarketingId: 'Stop buang waktu pakai cara lama — ganti ke {product} yang jauh lebih {adv1}!',
     sfxOverride: 'crisp everyday foley beat into natural creator room tone',
   },
   'visual-kejutan': {
     id: 'visual-kejutan',
     name: 'Visual Kejutan Detik 0.0 (Pattern Interrupt)',
+    softSellingName: 'Momen Visual Estetik Bikin Berhenti Scroll',
     marketingName: 'Close-Up Produk Menggoda Detik 0.0',
     tag: 'Tahan Jempol',
     shortDesc: 'Detik 0.0 langsung dibuka gerakan visual unik & dekat supaya jempol berhenti scroll.',
-    marketingShortDesc: 'Detik 0.0 langsung memamerkan detail tajam & gerakan memukau dari produkmu.',
+    softSellingShortDesc: 'Visual pembuka estetik yang memanjakan mata sambil masuk ke alur cerita dengan halus.',
+    marketingShortDesc: 'Detik 0.0 langsung memamerkan detail tajam & kualitas unggulan dari produkmu.',
     whyItWorks: 'Gerakan kontras di 1 detik pertama memutus pola scroll otomatis penonton di feed.',
     shotOverride: 'dynamic close-up perspective, 50mm lens, shallow depth of field',
     cameraOverride: 'rapid punchy push-in decelerating into crisp slow-motion focus',
@@ -192,16 +204,19 @@ export const HOOK_STRATEGIES: Record<HookStrategyId, HookStrategyPreset> = {
     descHookId:
       'Detik pertama langsung menyuguhkan visual dinamis seputar {product} agar penonton otomatis berhenti scroll.',
     spokenHookId: 'Tunggu, jangan di-scroll dulu — lihat apa yang sebenernya terjadi di balik {product} ini.',
-    spokenHookMarketingId: 'Tunggu, lihat dulu detail kualitas {product} ini dari dekat!',
+    spokenHookSoftId: 'Tunggu sebentar, kadang hal sesimpel ini yang justru paling ngubah mood seharian.',
+    spokenHookMarketingId: 'Lihat langsung detail kualitas {product} ini dari dekat — beneran {adv1}!',
     sfxOverride: 'crisp tactile micro-impact and subtle cinematic whoosh',
   },
   'transformasi-instan': {
     id: 'transformasi-instan',
     name: 'Patahkan Mitos / Sudut Pandang Baru',
-    marketingName: 'Transformasi Sebelum vs Sesudah Cepat',
+    softSellingName: 'Edukasi Cara Lama vs Cara Cerdas',
+    marketingName: 'Bukti Sebelum vs Sesudah Instan',
     tag: 'Kontras Kuat',
     shortDesc: 'Membuka dengan mematahkan anggapan umum supaya penonton penasaran mendengar alasannya.',
-    marketingShortDesc: 'Kontras perubahan instan begitu produk/layananmu mulai dipakai di layar.',
+    softSellingShortDesc: 'Mengedukasi perbedaan cara lama yang melelahkan dibanding pendekatan baru yang lebih santai.',
+    marketingShortDesc: 'Kontras hasil nyata begitu produk/layananmu dipakai langsung di layar.',
     whyItWorks: 'Kontras kuat membuat otak penonton penasaran menunggu penjelasan sampai akhir.',
     shotOverride: 'confident creator medium shot, 35mm lens, centered framing',
     cameraOverride: 'whip-reveal camera motion snapping into a crisp focused frame',
@@ -211,16 +226,19 @@ export const HOOK_STRATEGIES: Record<HookStrategyId, HookStrategyPreset> = {
     descHookId:
       'Membuka dengan kontras perubahan sudut pandang atau hasil nyata seputar {product}.',
     spokenHookId: 'Banyak yang masih salah paham soal {product}, padahal kenyataannya beda jauh.',
-    spokenHookMarketingId: 'Cuma butuh hitungan detik buat lihat bedanya setelah pakai {product} ini.',
+    spokenHookSoftId: 'Ternyata selama ini kita sering salah langkah waktu ngatur urusan sehari-hari kayak gini.',
+    spokenHookMarketingId: 'Cuma butuh hitungan detik buat buktiin bedanya setelah pakai {product} ini!',
     sfxOverride: 'energetic snap transition into clean studio ambience',
   },
   'skala-unik': {
     id: 'skala-unik',
     name: 'Pembuka Sinematik Bikin Melirik',
-    marketingName: 'Hero Shot Sinematik Kelas Brand Besar',
+    softSellingName: 'Vibes Sinematik & Mood Cerita',
+    marketingName: 'Hero Shot Iklan Kelas Brand Besar',
     tag: 'Visual Mahal',
     shortDesc: 'Kamera meluncur dramatis menembus ruang untuk membangun atmosfer cerita yang kuat.',
-    marketingShortDesc: 'Kamera meluncur rendah sinematik ke arah produk sehingga terlihat mewah & kredibel.',
+    softSellingShortDesc: 'Membangun mood cerita sinematik yang hangat sebelum produk muncul alami di tengah cerita.',
+    marketingShortDesc: 'Kamera meluncur rendah sinematik langsung menyorot produk secara megah & meyakinkan.',
     whyItWorks: 'Komposisi sinematik membuat video terlihat bernilai tinggi dan meningkatkan kepercayaan.',
     shotOverride: 'dramatic low-angle cinematic perspective, 24mm wide cinema lens',
     cameraOverride: 'sweeping low-altitude glide moving smoothly into the world of {product}',
@@ -230,16 +248,19 @@ export const HOOK_STRATEGIES: Record<HookStrategyId, HookStrategyPreset> = {
     descHookId:
       'Kamera meluncur sinematik membangun atmosfer ikonik seputar {product} sejak detik pertama.',
     spokenHookId: 'Bayangin gimana jadinya kalau kita lihat {product} langsung dari sudut pandang ini.',
-    spokenHookMarketingId: 'Jangan lewatkan {product} ini kalau kamu mengutamakan yang beneran {adv1}!',
+    spokenHookSoftId: 'Ada satu momen tenang yang akhirnya bikin aku sadar pentingnya punya ritme yang pas.',
+    spokenHookMarketingId: 'Jangan lewatkan penawaran {product} ini kalau kamu cari kualitas yang {adv1}!',
     sfxOverride: 'cinematic smooth air glide and warm atmospheric swell',
   },
   'bukti-langsung': {
     id: 'bukti-langsung',
     name: 'To The Point Tanpa Basa-Basi',
-    marketingName: 'Demo Bukti Nyata Tanpa Intro',
+    softSellingName: 'Tips Praktis Langsung ke Inti',
+    marketingName: 'Demo Keunggulan & Promo Tanpa Intro',
     tag: 'To The Point',
     shortDesc: 'Tanpa sapaan bertele-tele, detik pertama langsung masuk ke inti bahasan utama.',
-    marketingShortDesc: 'Tanpa basa-basi, detik pertama langsung mendemonstrasikan keunggulan produk.',
+    softSellingShortDesc: 'Langsung bagikan tips praktis yang bermanfaat bagi penonton sebelum menyentuh produk.',
+    marketingShortDesc: 'Tanpa intro bertele-tele, detik pertama langsung mendemonstrasikan produk & keunggulannya.',
     whyItWorks: 'Penonton TikTok/Reels menyukai video yang langsung memberi bukti & isi sejak detik pertama.',
     shotOverride: 'crisp 45-degree creator framing, 50mm prime lens',
     cameraOverride: 'steady precision tracking focused tightly on the main subject',
@@ -249,7 +270,8 @@ export const HOOK_STRATEGIES: Record<HookStrategyId, HookStrategyPreset> = {
     descHookId:
       'Tanpa intro panjang, detik pertama langsung masuk ke inti {product} ({advantages}).',
     spokenHookId: 'Tanpa basa-basi, ini poin paling penting soal {product} yang wajib kamu tahu.',
-    spokenHookMarketingId: 'Langsung buktiin sendiri kenapa {product} ini paling diandalkan soal {adv1}.',
+    spokenHookSoftId: 'Satu tips simpel buat kamu yang pengen semuanya beres lebih cepat hari ini.',
+    spokenHookMarketingId: 'Langsung buktiin sendiri kenapa {product} jadi pilihan nomor satu soal {adv1}!',
     sfxOverride: 'clean modern creator pop and crisp room tone',
   },
 };
@@ -555,12 +577,21 @@ export const CREATOR_CTA_SUGGESTIONS = [
   'Share ke temanmu yang butuh bahasan ini',
 ];
 
-export const MARKETING_CTA_SUGGESTIONS = [
-  'Cek info & promonya di link bio',
-  'Klik keranjang kuning sekarang mumpung ready',
-  'Coba sekarang, klik link di bio',
-  'Hubungi kami lewat link di bio hari ini',
+export const SOFT_SELLING_CTA_SUGGESTIONS = [
+  'Yang penasaran sama yang aku pakai, infonya aku taruh di bio ya',
+  'Kalau kamu lagi butuh juga, boleh intip detailnya di bio',
+  'Save dulu videonya siapa tahu nanti kepakai',
+  'Ada yang udah pernah coba juga? Cerita di komentar ya',
 ];
+
+export const HARD_SELLING_CTA_SUGGESTIONS = [
+  'Klik keranjang kuning sekarang mumpung masih promo',
+  'Checkout hari ini lewat link di bio sebelum kehabisan',
+  'Ambil promonya sekarang juga di link bio',
+  'Hubungi kami di link bio untuk pesan sekarang',
+];
+
+export const MARKETING_CTA_SUGGESTIONS = HARD_SELLING_CTA_SUGGESTIONS;
 
 export const ADVANTAGE_SUGGESTIONS = CREATOR_ANGLE_SUGGESTIONS;
 export const CTA_SUGGESTIONS = CREATOR_CTA_SUGGESTIONS;
@@ -656,6 +687,11 @@ function capFirst(s: string): string {
 export function normalizeAnswers(input: Answers): Answers {
   const a: Answers = { ...input };
   a.contentMode = a.contentMode === 'marketing' ? 'marketing' : 'creator';
+  if (a.contentMode === 'marketing') {
+    a.sellingStyle = a.sellingStyle === 'hard' ? 'hard' : 'soft';
+  } else {
+    a.sellingStyle = undefined;
+  }
   a.product = (a.product || '').trim();
   if (!a.videoStyle || !VIDEO_STYLES[a.videoStyle]) {
     a.videoStyle = 'real-live';
@@ -688,10 +724,14 @@ export function normalizeAnswers(input: Answers): Answers {
     a.cast = 'product';
   }
   if (!a.cta || !a.cta.trim()) {
-    a.cta =
-      a.contentMode === 'marketing'
-        ? 'Cek info & promonya di link bio'
-        : 'Menurut kamu gimana? Tulis di kolom komentar';
+    if (a.contentMode === 'marketing') {
+      a.cta =
+        a.sellingStyle === 'hard'
+          ? 'Klik keranjang kuning sekarang mumpung masih promo'
+          : 'Yang penasaran sama yang aku pakai, infonya aku taruh di bio ya';
+    } else {
+      a.cta = 'Menurut kamu gimana? Tulis di kolom komentar';
+    }
   } else {
     a.cta = a.cta.trim();
   }
@@ -1115,7 +1155,15 @@ export function buildFlowSteps(
 
 export function generateOfflinePack(template: Template, rawAnswers: Answers): Pack {
   const resolvedMode: ContentMode = rawAnswers.contentMode ?? template.mode ?? 'creator';
-  const a = normalizeAnswers({ ...rawAnswers, contentMode: resolvedMode });
+  const resolvedSelling: SellingStyle | undefined =
+    resolvedMode === 'marketing'
+      ? (rawAnswers.sellingStyle ?? template.sellingStyle ?? 'soft')
+      : undefined;
+  const a = normalizeAnswers({
+    ...rawAnswers,
+    contentMode: resolvedMode,
+    sellingStyle: resolvedSelling,
+  });
   if (!a.product) {
     throw new Error(
       resolvedMode === 'marketing' ? 'Nama produk/layanan wajib diisi.' : 'Topik konten wajib diisi.'
@@ -1133,7 +1181,11 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
   const vibe = VIBES[a.vibe];
   const model = MODELS[a.quality];
   const activeHookTitle =
-    resolvedMode === 'marketing' ? hookPreset.marketingName : hookPreset.name;
+    resolvedMode === 'marketing'
+      ? resolvedSelling === 'hard'
+        ? hookPreset.marketingName
+        : hookPreset.softSellingName
+      : hookPreset.name;
 
   let productLock =
     a.productLockCustom?.trim() ||
@@ -1146,6 +1198,7 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
 
   const bible: Bible = {
     contentMode: resolvedMode,
+    sellingStyle: resolvedSelling,
     product: a.product,
     productLock,
     videoStyleName: vStyle.name,
@@ -1233,7 +1286,9 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
       if (isOpeningHook) {
         const hookLineTemplate =
           resolvedMode === 'marketing'
-            ? hookPreset.spokenHookMarketingId
+            ? resolvedSelling === 'hard'
+              ? hookPreset.spokenHookMarketingId
+              : hookPreset.spokenHookSoftId
             : hookPreset.spokenHookId;
         dialogue = a.customHookLine?.trim() || applyPlaceholders(hookLineTemplate, replacements);
       } else if (r.dialogue) {
@@ -1288,7 +1343,12 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
   };
 
   const { caption, hashtags } = buildCaption(a, advId, resolvedMode);
-  const modeLabel = resolvedMode === 'marketing' ? 'Mode Marketing' : 'Mode Konten';
+  const modeLabel =
+    resolvedMode === 'marketing'
+      ? resolvedSelling === 'hard'
+        ? 'Hard Selling'
+        : 'Soft Selling'
+      : 'Konten Kreator';
   const summary = `${modeLabel} · ${scenes.length} klip · ±${a.durationS} dtk · ${a.aspect} · ${vStyle.name}.`;
 
   const basePack: Omit<Pack, 'steps' | 'guideUpdatedAt'> = {

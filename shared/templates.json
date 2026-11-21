@@ -470,7 +470,8 @@
   {
     "id": "iklan-konversi",
     "mode": "marketing",
-    "name": "Iklan Produk / Layanan (Konversi)",
+    "sellingStyle": "hard",
+    "name": "Iklan Produk / Layanan (Direct Konversi)",
     "description": "Struktur iklan teruji: Hook pemikat, tampilan produk/jasa jelas, bukti keunggulan, dan ajakan beli yang tegas.",
     "category": "Marketing",
     "badge": "Konversi Tinggi",
@@ -548,7 +549,8 @@
   {
     "id": "ugc-affiliate",
     "mode": "marketing",
-    "name": "Review Jujur / Affiliate UGC",
+    "sellingStyle": "soft",
+    "name": "Sharing Jujur Kreator / Affiliate UGC",
     "description": "Gaya kreator review jujur ala TikTok Affiliate & Reels yang terasa akrab, organik, dan dipercaya pembeli.",
     "category": "Affiliate",
     "badge": "Laris di TikTok",
@@ -626,7 +628,8 @@
   {
     "id": "before-after-produk",
     "mode": "marketing",
-    "name": "Before vs After Pemakaian",
+    "sellingStyle": "hard",
+    "name": "Bukti Kontras Before vs After",
     "description": "Tunjukkan bukti kontras kondisi sebelum dan sesudah memakai produk/jasa agar calon pembeli langsung yakin.",
     "category": "Marketing",
     "badge": "Bukti Nyata",
@@ -704,7 +707,8 @@
   {
     "id": "unboxing-detail",
     "mode": "marketing",
-    "name": "Unboxing & Showcase Detail",
+    "sellingStyle": "hard",
+    "name": "Showcase Fitur & Kualitas Dekat",
     "description": "Perlihatkan pengalaman membuka produk, kelengkapan, fitur, atau detail kualitas dari jarak dekat.",
     "category": "Marketing",
     "badge": "ASMR / Detail",
@@ -782,6 +786,7 @@
   {
     "id": "promo-penawaran",
     "mode": "marketing",
+    "sellingStyle": "hard",
     "name": "Promo Kilat / Penawaran Spesial",
     "description": "Tempo dinamis untuk promo terbatas, launching produk/fitur baru, atau diskon spesial dengan urgensi tinggi.",
     "category": "Promo",
@@ -848,10 +853,11 @@
   {
     "id": "soft-selling-edukasi",
     "mode": "marketing",
-    "name": "Soft-Selling (Edukasi ke Produk)",
+    "sellingStyle": "soft",
+    "name": "Edukasi & Tips ke Solusi Produk",
     "description": "Beri edukasi atau tips bermanfaat lebih dulu agar penonton tidak skip, lalu hubungkan mulus ke produkmu.",
     "category": "Soft-Selling",
-    "badge": "Halus & Ampuh",
+    "badge": "Anti Skip",
     "available": true,
     "art": "manfaat",
     "cast": "person",
@@ -921,6 +927,164 @@
       "15": { "roles": ["masalah", "jembatan", "ajakan"], "durations": [5, 6, 4] },
       "20": { "roles": ["masalah", "tips", "jembatan", "ajakan"], "durations": [5, 5, 6, 4] },
       "30": { "roles": ["masalah", "tips", "jembatan", "bukti", "ajakan"], "durations": [6, 6, 7, 5, 6] }
+    }
+  },
+  {
+    "id": "soft-story-pengalaman",
+    "mode": "marketing",
+    "sellingStyle": "soft",
+    "name": "Cerita Pengalaman Harian (Story Selling)",
+    "description": "Bercerita santai tentang kejadian sehari-hari, lalu selipkan produk secara organik tanpa kesan memaksa beli.",
+    "category": "Soft-Selling",
+    "badge": "Paling Natural",
+    "available": true,
+    "art": "tpl-story",
+    "cast": "person",
+    "roles": [
+      {
+        "role": "cerita",
+        "label": "Awal Cerita Harian",
+        "art": "tpl-story",
+        "descId": "{character_id} membuka cerita pengalaman pribadinya secara santai tanpa membawa produk.",
+        "action": "{character} sits comfortably in {setting} sharing a candid personal everyday story with warm relatable expression",
+        "shot": "cinematic medium close-up, 35mm lens, shallow depth of field",
+        "camera": "gentle slow push-in",
+        "cameraId": "Push-in",
+        "dialogue": "Kemarin aku sempat ngerasa keteteran banget waktu harus nyelesain semuanya sekaligus.",
+        "sfx": "warm natural indoor room ambience"
+      },
+      {
+        "role": "kendala",
+        "label": "Momen Repot",
+        "art": "hook",
+        "descId": "{character_id} menceritakan titik repot yang bikin penonton ikut merasakan.",
+        "action": "{character} sighs lightly with a relatable smile in {setting}, gesturing naturally about daily hassle",
+        "shot": "medium shot, 35mm lens",
+        "camera": "subtle handheld movement",
+        "cameraId": "Handheld",
+        "dialogue": "Rasanya kalau pakai cara biasa tuh selalu makan energi ekstra.",
+        "sfx": "soft everyday room tone"
+      },
+      {
+        "role": "temuan",
+        "label": "Momen Terbantu",
+        "art": "produk",
+        "descId": "{character_id} menggunakan {product} secara alami di sela aktivitasnya.",
+        "action": "{character} naturally uses {product} as part of their routine in {setting}, visibly enjoying {advantages_en} without looking staged",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "smooth tracking follow",
+        "cameraId": "Tracking",
+        "dialogue": "Sampai akhirnya aku kebantu banget sejak rutin pakai {product} yang {adv_all} ini.",
+        "sfx": "gentle authentic interaction foley"
+      },
+      {
+        "role": "lega",
+        "label": "Suasana Lebih Ringan",
+        "art": "manfaat",
+        "descId": "Suasana {character_id} jadi jauh lebih tenang dan produktif.",
+        "action": "{character} continues their day relaxed and smiling in {setting} with {product} nearby on {surface}",
+        "shot": "medium shot, 50mm lens",
+        "camera": "gentle lateral slide",
+        "cameraId": "Slide",
+        "dialogue": "Hal sesimpel ini ternyata ngaruh besar buat keseharian.",
+        "sfx": "pleasant calm ambience"
+      },
+      {
+        "role": "ajakan",
+        "label": "Sharing Santai",
+        "art": "ajakan",
+        "descId": "{character_id} menutup cerita dengan rekomendasi ramah: \"{cta}\".",
+        "action": "{character} smiles warmly toward the camera in {setting}, relaxed friendly creator vibe",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "steady natural hold",
+        "cameraId": "Statis",
+        "dialogue": "{cta}.",
+        "sfx": "soft warm fade ambience"
+      }
+    ],
+    "plans": {
+      "15": { "roles": ["cerita", "temuan", "ajakan"], "durations": [5, 6, 4] },
+      "20": { "roles": ["cerita", "kendala", "temuan", "ajakan"], "durations": [5, 5, 6, 4] },
+      "30": { "roles": ["cerita", "kendala", "temuan", "lega", "ajakan"], "durations": [6, 6, 7, 6, 5] }
+    }
+  },
+  {
+    "id": "soft-pov-solusi",
+    "mode": "marketing",
+    "sellingStyle": "soft",
+    "name": "Sketsa POV Relatable + Penyelamat",
+    "description": "Hiburan sketsa POV masalah keseharian yang lucu/relatable, lalu diselamatkan secara halus oleh produkmu.",
+    "category": "Soft-Selling",
+    "badge": "Hiburan Halus",
+    "available": true,
+    "art": "tpl-ugc",
+    "cast": "person",
+    "roles": [
+      {
+        "role": "pov",
+        "label": "Situasi POV Lucu",
+        "art": "hook",
+        "descId": "{character_id} berakting di tengah situasi keseharian yang relatable.",
+        "action": "{character} is caught in a relatable everyday struggle in {setting}, glancing at the camera with natural comedic expression",
+        "shot": "handheld POV medium close-up, 28mm lens",
+        "camera": "quick natural handheld snap",
+        "cameraId": "Handheld",
+        "dialogue": "POV: ketika kamu harus beresin semuanya cepat tapi nggak mau ribet!",
+        "sfx": "crisp everyday life foley"
+      },
+      {
+        "role": "drama",
+        "label": "Drama Kecil",
+        "art": "tpl-ugc",
+        "descId": "Reaksi jujur {character_id} menghadapi kerepotan biasa.",
+        "action": "{character} reacts expressively in {setting} to how tedious the old routine feels",
+        "shot": "medium shot, 35mm lens",
+        "camera": "gentle handheld sway",
+        "cameraId": "Handheld",
+        "dialogue": "Kalau masih manual kayak dulu sih udah pasti pusing duluan.",
+        "sfx": "natural indoor ambience"
+      },
+      {
+        "role": "penyelamat",
+        "label": "Penyelamat Masuk",
+        "art": "produk",
+        "descId": "{character_id} mengeluarkan {product} dan urusan langsung beres.",
+        "action": "{character} casually brings out {product} in {setting} with a relieved grin, effortlessly showing {advantages_en}",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "smooth push-in",
+        "cameraId": "Push-in",
+        "dialogue": "Untung sekarang udah ada penyelamat andalan, {product} yang {adv_all}.",
+        "sfx": "upbeat subtle reveal foley"
+      },
+      {
+        "role": "beres",
+        "label": " Langsung Santai",
+        "art": "manfaat",
+        "descId": "{character_id} kembali santai karena masalah teratasi.",
+        "action": "{character} relaxes happily in {setting} as {product} works smoothly",
+        "shot": "medium close-up, 35mm lens",
+        "camera": "gentle tracking shot",
+        "cameraId": "Tracking",
+        "dialogue": "Beres tanpa drama, sisa waktunya tinggal santai.",
+        "sfx": "pleasant room tone"
+      },
+      {
+        "role": "ajakan",
+        "label": "Outro Santai",
+        "art": "ajakan",
+        "descId": "{character_id} menutup sketsa dengan kalimat ringan: \"{cta}\".",
+        "action": "{character} winks or smiles casually at the camera in {setting}",
+        "shot": "selfie-style medium close-up",
+        "camera": "steady handheld",
+        "cameraId": "Selfie",
+        "dialogue": "{cta}!",
+        "sfx": "natural room ambience"
+      }
+    ],
+    "plans": {
+      "15": { "roles": ["pov", "penyelamat", "ajakan"], "durations": [5, 6, 4] },
+      "20": { "roles": ["pov", "drama", "penyelamat", "ajakan"], "durations": [5, 5, 6, 4] },
+      "30": { "roles": ["pov", "drama", "penyelamat", "beres", "ajakan"], "durations": [6, 6, 7, 6, 5] }
     }
   }
 ]

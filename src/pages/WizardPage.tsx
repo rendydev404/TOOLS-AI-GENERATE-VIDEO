@@ -29,11 +29,12 @@ import {
   CHARACTERS,
   CREATOR_ANGLE_SUGGESTIONS,
   CREATOR_CTA_SUGGESTIONS,
+  HARD_SELLING_CTA_SUGGESTIONS,
   HOOK_STRATEGIES,
   MARKETING_ADVANTAGE_SUGGESTIONS,
-  MARKETING_CTA_SUGGESTIONS,
   MODELS,
   MUSIC_LABELS,
+  SOFT_SELLING_CTA_SUGGESTIONS,
   VIBES,
   VIDEO_STYLES,
 } from '@shared/director';
@@ -53,6 +54,7 @@ import type {
   MusicChoice,
   Project,
   QualityTier,
+  SellingStyle,
   VibeId,
   VideoStyleId,
   VoiceChoice,
@@ -125,7 +127,6 @@ export function WizardPage() {
     projects,
     library,
     brand,
-    settings,
     health,
     upsertProject,
     upsertLibraryItem,
@@ -158,8 +159,10 @@ export function WizardPage() {
     const startMode: ContentMode =
       initialTemplateObj?.mode ?? brand.defaultContentMode ?? 'creator';
     const isMkt = startMode === 'marketing';
+    const startSelling: SellingStyle = initialTemplateObj?.sellingStyle ?? 'soft';
     return {
       contentMode: startMode,
+      sellingStyle: isMkt ? startSelling : undefined,
       product: brand.brandName && isMkt ? `${brand.brandName} ` : '',
       hasPhoto: false,
       productLockCustom: '',
@@ -167,7 +170,9 @@ export function WizardPage() {
         ? ['Praktis & cepat', 'Mudah dipakai']
         : ['Fakta jarang diketahui', 'Penjelasan simpel'],
       cta: isMkt
-        ? 'Cek info & promonya di link bio'
+        ? startSelling === 'hard'
+          ? 'Klik keranjang kuning sekarang mumpung masih promo'
+          : 'Yang penasaran sama yang aku pakai, infonya aku taruh di bio ya'
         : brand.defaultCta || 'Menurut kamu gimana? Tulis di kolom komentar',
       story: '',
       videoStyle: brand.defaultVideoStyle || (isMkt ? 'real-live' : 'kartun-3d'),
@@ -188,24 +193,49 @@ export function WizardPage() {
 
   const contentMode: ContentMode = answers.contentMode ?? 'creator';
   const isMarketing = contentMode === 'marketing';
-  const modeTemplates = useMemo(() => getTemplatesByMode(contentMode), [contentMode]);
+  const sellingStyle: SellingStyle = answers.sellingStyle ?? 'soft';
+  const modeTemplates = useMemo(
+    () => getTemplatesByMode(contentMode, isMarketing ? sellingStyle : undefined),
+    [contentMode, isMarketing, sellingStyle]
+  );
 
   const handleSwitchMode = (nextMode: ContentMode) => {
     if (nextMode === contentMode) return;
-    const nextList = getTemplatesByMode(nextMode);
+    const nextIsMkt = nextMode === 'marketing';
+    const nextSelling: SellingStyle = answers.sellingStyle ?? 'soft';
+    const nextList = getTemplatesByMode(nextMode, nextIsMkt ? nextSelling : undefined);
     if (nextList[0]) {
       setTemplateId(nextList[0].id);
     }
-    const nextIsMkt = nextMode === 'marketing';
     setAnswers((prev) => ({
       ...prev,
       contentMode: nextMode,
+      sellingStyle: nextIsMkt ? nextSelling : undefined,
       advantages: nextIsMkt
         ? ['Praktis & cepat', 'Mudah dipakai']
         : ['Fakta jarang diketahui', 'Penjelasan simpel'],
       cta: nextIsMkt
-        ? 'Cek info & promonya di link bio'
+        ? nextSelling === 'hard'
+          ? 'Klik keranjang kuning sekarang mumpung masih promo'
+          : 'Yang penasaran sama yang aku pakai, infonya aku taruh di bio ya'
         : 'Menurut kamu gimana? Tulis di kolom komentar',
+    }));
+  };
+
+  const handleSwitchSellingStyle = (nextSelling: SellingStyle) => {
+    if (nextSelling === sellingStyle) return;
+    const nextList = getTemplatesByMode('marketing', nextSelling);
+    if (nextList[0]) {
+      setTemplateId(nextList[0].id);
+    }
+    setAnswers((prev) => ({
+      ...prev,
+      contentMode: 'marketing',
+      sellingStyle: nextSelling,
+      cta:
+        nextSelling === 'hard'
+          ? 'Klik keranjang kuning sekarang mumpung masih promo'
+          : 'Yang penasaran sama yang aku pakai, infonya aku taruh di bio ya',
     }));
   };
 
@@ -297,7 +327,7 @@ export function WizardPage() {
       const { pack } = await generatePackSmart(
         activeTemplate.id,
         answers,
-        Boolean(settings.useLlmWhenAvailable && health.llmAvailable)
+        Boolean(health.llmAvailable)
       );
       const now = new Date().toISOString();
       const id = existingDraft?.id ?? `proj-${Date.now().toString(36)}`;
@@ -353,7 +383,9 @@ export function WizardPage() {
     ? MARKETING_ADVANTAGE_SUGGESTIONS
     : CREATOR_ANGLE_SUGGESTIONS;
   const activeCtaSuggestions = isMarketing
-    ? MARKETING_CTA_SUGGESTIONS
+    ? sellingStyle === 'hard'
+      ? HARD_SELLING_CTA_SUGGESTIONS
+      : SOFT_SELLING_CTA_SUGGESTIONS
     : CREATOR_CTA_SUGGESTIONS;
 
   const allAdvantageChips = useMemo(() => {
@@ -505,6 +537,37 @@ export function WizardPage() {
                   },
                 ]}
               />
+
+              {isMarketing && (
+                <div className="flex flex-col gap-2 rounded-xl border-2 border-[var(--border-strong)] bg-[var(--bg-subtle)] p-3.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[13px] font-bold text-[var(--text-primary)]">
+                      Pilih gaya pembawaan marketing:
+                    </span>
+                    <Tag tone="purple">
+                      {sellingStyle === 'soft' ? 'Halus & Anti-Skip' : 'Langsung & Promo'}
+                    </Tag>
+                  </div>
+                  <SegmentedControl<SellingStyle>
+                    fullWidth
+                    tall
+                    value={sellingStyle}
+                    onChange={handleSwitchSellingStyle}
+                    items={[
+                      {
+                        value: 'soft',
+                        label: 'Soft Selling (Halus)',
+                        sub: 'Cerita / edukasi dulu, produk masuk natural di akhir',
+                      },
+                      {
+                        value: 'hard',
+                        label: 'Hard Selling (Langsung)',
+                        sub: 'To-the-point pamer keunggulan, bukti & ajakan beli',
+                      },
+                    ]}
+                  />
+                </div>
+              )}
 
               <div className="grid gap-3 sm:grid-cols-2">
                 {modeTemplates.map((tpl) => {
@@ -660,12 +723,20 @@ export function WizardPage() {
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center justify-between gap-2">
                           <span className="font-display text-[15.5px] font-bold text-[var(--text-primary)]">
-                            {isMarketing ? hk.marketingName : hk.name}
+                            {isMarketing
+                              ? sellingStyle === 'hard'
+                                ? hk.marketingName
+                                : hk.softSellingName
+                              : hk.name}
                           </span>
                           <Tag tone={selected ? 'purple' : 'neutral'}>{hk.tag}</Tag>
                         </div>
                         <p className="mt-1 text-[13.5px] font-semibold text-[var(--text-primary)] leading-snug">
-                          {isMarketing ? hk.marketingShortDesc : hk.shortDesc}
+                          {isMarketing
+                            ? sellingStyle === 'hard'
+                              ? hk.marketingShortDesc
+                              : hk.softSellingShortDesc
+                            : hk.shortDesc}
                         </p>
                         <p className="mt-1 text-[12px] font-medium text-[var(--text-secondary)]">
                           Alasan berhasil: {hk.whyItWorks}
@@ -697,7 +768,11 @@ export function WizardPage() {
               <div>
                 <div className="flex flex-wrap items-center gap-1.5 mb-2">
                   <Tag tone="purple">
-                    {isMarketing ? 'Mode Marketing (Jualan)' : 'Konten Biasa (Kreator)'}
+                    {isMarketing
+                      ? sellingStyle === 'hard'
+                        ? 'Marketing · Hard Selling'
+                        : 'Marketing · Soft Selling'
+                      : 'Konten Biasa (Kreator)'}
                   </Tag>
                   <Tag tone="brand">{currentVideoStyle.name}</Tag>
                 </div>

@@ -28,6 +28,7 @@ import type {
   Pack,
   Project,
   QualityTier,
+  SellingStyle,
   VideoStyleId,
 } from '@shared/types';
 import { downloadTextFile } from '@/lib/api';
@@ -117,7 +118,11 @@ export function BatchPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [contentMode, setContentMode] = useState<ContentMode>('creator');
-  const templates = useMemo(() => getTemplatesByMode(contentMode), [contentMode]);
+  const [sellingStyle, setSellingStyle] = useState<SellingStyle>('soft');
+  const templates = useMemo(
+    () => getTemplatesByMode(contentMode, contentMode === 'marketing' ? sellingStyle : undefined),
+    [contentMode, sellingStyle]
+  );
   const [templateId, setTemplateId] = useState('storytelling-konten');
   const [videoStyle, setVideoStyle] = useState<VideoStyleId>(
     brand.defaultVideoStyle || 'kartun-3d'
@@ -212,6 +217,7 @@ export function BatchPage() {
     for (const row of validRows) {
       const pack = generateOfflinePack(tpl, {
         contentMode,
+        sellingStyle: contentMode === 'marketing' ? sellingStyle : undefined,
         product: row.product.trim(),
         hasPhoto: row.hasPhoto,
         advantages: row.advantages
@@ -251,6 +257,7 @@ export function BatchPage() {
         status: 'panduan',
         answers: {
           contentMode,
+          sellingStyle: contentMode === 'marketing' ? sellingStyle : undefined,
           product: row.product.trim(),
           hasPhoto: row.hasPhoto,
           advantages: row.advantages
@@ -374,18 +381,37 @@ export function BatchPage() {
             </p>
           </div>
 
-          <SegmentedControl<ContentMode>
-            value={contentMode}
-            onChange={(next) => {
-              setContentMode(next);
-              const nextTpls = getTemplatesByMode(next);
-              if (nextTpls[0]) setTemplateId(nextTpls[0].id);
-            }}
-            items={[
-              { value: 'creator', label: 'Konten Biasa (Kreator)' },
-              { value: 'marketing', label: 'Mode Marketing (Jualan)' },
-            ]}
-          />
+          <div className="flex flex-wrap items-center gap-2">
+            <SegmentedControl<ContentMode>
+              value={contentMode}
+              onChange={(next) => {
+                setContentMode(next);
+                const nextTpls = getTemplatesByMode(
+                  next,
+                  next === 'marketing' ? sellingStyle : undefined
+                );
+                if (nextTpls[0]) setTemplateId(nextTpls[0].id);
+              }}
+              items={[
+                { value: 'creator', label: 'Konten Biasa (Kreator)' },
+                { value: 'marketing', label: 'Mode Marketing (Jualan)' },
+              ]}
+            />
+            {contentMode === 'marketing' && (
+              <SegmentedControl<SellingStyle>
+                value={sellingStyle}
+                onChange={(nextStyle) => {
+                  setSellingStyle(nextStyle);
+                  const nextTpls = getTemplatesByMode('marketing', nextStyle);
+                  if (nextTpls[0]) setTemplateId(nextTpls[0].id);
+                }}
+                items={[
+                  { value: 'soft', label: 'Soft Selling' },
+                  { value: 'hard', label: 'Hard Selling' },
+                ]}
+              />
+            )}
+          </div>
         </div>
 
         {/* Shared Settings Row (All CustomSelect, zero native <select>) */}

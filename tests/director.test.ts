@@ -31,20 +31,23 @@ const BASE_ANSWERS: Answers = {
 };
 
 describe('Rangkai Director Engine', () => {
-  it('generates complete offline prompt packs for all 12 templates (6 Creator + 6 Marketing) across 15s, 20s, and 30s', () => {
+  it('generates complete offline prompt packs for all 14 templates (6 Creator + 4 Soft Selling + 4 Hard Selling) across 15s, 20s, and 30s', () => {
     const templates = getAllTemplates();
-    expect(templates.length).toBe(12);
+    expect(templates.length).toBe(14);
     expect(templates.filter((t) => t.mode === 'creator').length).toBe(6);
-    expect(templates.filter((t) => t.mode === 'marketing').length).toBe(6);
+    expect(templates.filter((t) => t.mode === 'marketing' && t.sellingStyle === 'soft').length).toBe(4);
+    expect(templates.filter((t) => t.mode === 'marketing' && t.sellingStyle === 'hard').length).toBe(4);
 
     for (const tpl of templates) {
       for (const dur of [15, 20, 30] as const) {
         const pack = generateOfflinePack(tpl, {
           ...BASE_ANSWERS,
           contentMode: tpl.mode,
+          sellingStyle: tpl.sellingStyle,
           durationS: dur,
         });
         expect(pack.bible.contentMode).toBe(tpl.mode);
+        expect(pack.bible.sellingStyle).toBe(tpl.sellingStyle);
         expect(pack.scenes.length).toBeGreaterThanOrEqual(3);
         expect(pack.steps.length).toBeGreaterThanOrEqual(pack.scenes.length + 2);
         expect(pack.settings.creditsTotal).toBe(pack.scenes.length * 20);
@@ -83,11 +86,23 @@ describe('Rangkai Director Engine', () => {
       const mktPack = generateOfflinePack(marketingTpl, {
         ...BASE_ANSWERS,
         contentMode: 'marketing',
+        sellingStyle: 'hard',
         hookStyle: hookId,
         voice: 'dialog',
       });
       expect(mktPack.bible.hookStrategyName).toBe(HOOK_STRATEGIES[hookId].marketingName);
       expect(mktPack.bible.productLock).toContain('Hero Product / Service Lock');
+
+      const softTpl = getTemplateById('soft-selling-edukasi')!;
+      const softPack = generateOfflinePack(softTpl, {
+        ...BASE_ANSWERS,
+        contentMode: 'marketing',
+        sellingStyle: 'soft',
+        hookStyle: hookId,
+        voice: 'dialog',
+      });
+      expect(softPack.bible.hookStrategyName).toBe(HOOK_STRATEGIES[hookId].softSellingName);
+      expect(softPack.bible.sellingStyle).toBe('soft');
     }
   });
 

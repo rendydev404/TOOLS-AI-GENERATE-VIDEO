@@ -121,10 +121,10 @@ function getGatewayConfig(): GatewayConfig {
 
   return {
     enabled,
-    providerLabel: process.env.AI_PROVIDER_NAME?.trim() || 'Hermes · 9Router (VPS 3)',
+    providerLabel: 'StudioFlow AI',
     endpointUrl,
     apiKey,
-    model: model || 'belum-diatur',
+    model: model || 'local',
     timeoutMs,
   };
 }
@@ -132,7 +132,7 @@ function getGatewayConfig(): GatewayConfig {
 async function callHermes9Router(systemPrompt: string, userPrompt: string): Promise<string> {
   const cfg = getGatewayConfig();
   if (!cfg.enabled) {
-    throw new Error('Gateway Hermes / 9Router belum dikonfigurasi di .env');
+    throw new Error('Layanan AI belum dikonfigurasi.');
   }
 
   const controller = new AbortController();
@@ -232,10 +232,10 @@ app.get('/api/health', (c) => {
   const cfg = getGatewayConfig();
   return c.json({
     ok: true,
-    version: '0.4.1',
+    version: '1.0.0',
     llmAvailable: cfg.enabled,
-    provider: cfg.enabled ? cfg.providerLabel : null,
-    model: cfg.enabled ? cfg.model : 'menunggu-konfigurasi-9router',
+    provider: null,
+    model: cfg.enabled ? 'active' : 'local',
   });
 });
 
@@ -245,14 +245,14 @@ app.post('/api/director/ping', async (c) => {
     return c.json(
       {
         ok: false,
-        message: 'AI_BASE_URL dan AI_MODEL belum diisi di file .env server.',
+        message: 'Layanan AI sedang dalam mode lokal.',
       },
       400
     );
   }
   const t0 = Date.now();
   try {
-    const reply = await callHermes9Router(
+    await callHermes9Router(
       'Reply ONLY with valid JSON: {"status":"ready"}',
       'ping'
     );
@@ -260,15 +260,14 @@ app.post('/api/director/ping', async (c) => {
     return c.json({
       ok: true,
       latencyMs: ms,
-      model: cfg.model,
-      provider: cfg.providerLabel,
-      sample: reply.slice(0, 120),
+      model: 'active',
+      provider: null,
     });
-  } catch (err) {
+  } catch {
     return c.json(
       {
         ok: false,
-        message: err instanceof Error ? err.message : 'Gagal menghubungi gateway 9Router / Hermes',
+        message: 'Gagal menghubungi layanan AI.',
       },
       502
     );
@@ -310,23 +309,40 @@ app.post('/api/director/enrich', async (c) => {
     const selectedVideoStyle = VIDEO_STYLES[normalized.videoStyle || 'real-live'];
     const selectedHook = HOOK_STRATEGIES[normalized.hookStyle || 'rahasia-pov'];
     const isMarketing = normalized.contentMode === 'marketing';
-    const activeHookTitle = isMarketing ? selectedHook.marketingName : selectedHook.name;
+    const isHardSelling = isMarketing && normalized.sellingStyle === 'hard';
+    const activeHookTitle = isMarketing
+      ? isHardSelling
+        ? selectedHook.marketingName
+        : selectedHook.softSellingName
+      : selectedHook.name;
+
+    const voiceDirective = !isMarketing
+      ? [
+          '1. AUTHENTIC CONTENT CREATOR VOICE (MODE = KONTEN BIASA / GENERAL):',
+          '- Treat the input topic strictly as general creator content — NEVER write online-shop sales copy, promos, or packaging descriptions.',
+          '- Spoken lines ("dialogueId") MUST sound like a charismatic Indonesian content creator speaking casually to viewers ("aku / kamu / kita", intriguing insights, natural storytelling).',
+        ]
+      : isHardSelling
+        ? [
+            '1. DIRECT-RESPONSE HARD SELLING VOICE (MODE = MARKETING · HARD SELLING):',
+            '- Go straight to the point from second 0.0! Spotlight the product/service immediately, showcase concrete proof of its advantages, create strong urgency/desire, and close with a decisive purchase/conversion CTA.',
+            '- Spoken lines ("dialogueId") must be punchy, persuasive, high-energy Indonesian commercial/affiliate copy that drives immediate checkout or click.',
+          ]
+        : [
+            '1. ORGANIC SOFT SELLING VOICE (MODE = MARKETING · SOFT SELLING):',
+            '- ANTI-SKIP RULE: Open the first 70% of the video like organic everyday storytelling, relatable POV, or helpful education WITHOUT sounding like an ad or pushing a sale early!',
+            '- Introduce the product/service naturally near the middle-to-end as what personally helped the creator, and close with a gentle, friendly, non-pushy recommendation ("kalau penasaran boleh cek di bio ya").',
+          ];
 
     const systemPrompt = [
       isMarketing
-        ? 'You are StudioFlow Master Direct-Response Marketing, Affiliate UGC & Commercial Veo 3.1 Director.'
+        ? isHardSelling
+          ? 'You are StudioFlow Master Direct-Response Hard-Selling Commercial & Veo 3.1 Director.'
+          : 'You are StudioFlow Master Organic Soft-Selling Storyteller, UGC Creator & Veo 3.1 Director.'
         : 'You are StudioFlow Master Content Creator Scriptwriter & Veo 3.1 Director for TikTok, Reels, YouTube Shorts, and YouTube.',
-      isMarketing
-        ? 'Your job is to craft high-converting, authentic product/service/app marketing scenes (hooks, benefits, proof, clear CTA) with locked product consistency.'
-        : 'Your job is to turn ANY general topic (storytelling, education, science, psychology, daily life, tech/AI, history, opinion, comedy POV) into high-retention creator scenes WITHOUT forced sales pitches.',
       'Follow this strict Content Strategy & Prompt Engineering Hierarchy:',
       '',
-      isMarketing
-        ? '1. MARKETING & CONVERSION VOICE (ACTIVE MODE = MARKETING / JUALAN):'
-        : '1. AUTHENTIC CONTENT CREATOR VOICE (ACTIVE MODE = KONTEN BIASA / GENERAL):',
-      isMarketing
-        ? '- Highlight real benefits, relatable buyer pain points, hands-on proof, and persuasive yet natural Indonesian UGC/commercial spoken lines ("dialogueId"). Keep the promoted product/service visually consistent in shape, colors, and design.'
-        : '- Treat the input topic strictly as general creator content — NEVER write online-shop sales copy, promos, or packaging descriptions. Spoken lines ("dialogueId") MUST sound like a charismatic Indonesian content creator speaking casually to viewers ("aku / kamu / kita", intriguing insights, natural storytelling).',
+      ...voiceDirective,
       '',
       '2. VISUAL MEDIUM LOCK (NON-NEGOTIABLE):',
       `- Every scene and reference asset MUST strictly render in "${selectedVideoStyle.name}" (${selectedVideoStyle.mediumLock}).`,
@@ -370,6 +386,7 @@ app.post('/api/director/enrich', async (c) => {
 
     const userPrompt = JSON.stringify({
       contentMode: normalized.contentMode,
+      sellingStyle: normalized.sellingStyle || null,
       templateName: template.name,
       videoStyle: {
         id: selectedVideoStyle.id,
