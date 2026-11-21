@@ -1,0 +1,158 @@
+@import "tailwindcss";
+
+:root {
+  /* StudioFlow Neo-Brutalism Palette:
+     White Surface + Highlighter Stabilo Primary + Crisp Black Ink + Subtle Electric Purple Accent
+     Strictly ZERO gradients (Global Rule #6) */
+  --bg-canvas: #f7f8f3;
+  --bg-surface: #ffffff;
+  --bg-subtle: #eff1ea;
+  --bg-muted: #e2e5da;
+  --bg-inverse: #111111;
+
+  --border-default: #111111;
+  --border-strong: #111111;
+  --border-soft: #d4d7cb;
+
+  --text-primary: #111111;
+  --text-secondary: #383b35;
+  --text-tertiary: #63685e;
+  --text-on-brand: #111111;
+
+  /* Primary: Highlighter Stabilo Green */
+  --brand-primary: #b8ff01;
+  --brand-hover: #a6eb00;
+  --brand-soft: #ecffb3;
+  --brand-on-soft: #111111;
+
+  /* Secondary Sparse Accent: Neo Purple */
+  --accent-purple: #8b5cf6;
+  --accent-purple-soft: #f3e8ff;
+  --accent-purple-fg: #5b21b6;
+
+  --success-fg: #15803d;
+  --success-soft: #dcfce7;
+  --warning-fg: #b45309;
+  --warning-soft: #fef3c7;
+  --danger-fg: #dc2626;
+  --danger-soft: #fee2e2;
+
+  /* Tactile Hard Offset Neo-Brutalist Shadows (Zero Blur) */
+  --shadow-xs: 2px 2px 0px #111111;
+  --shadow-sm: 4px 4px 0px #111111;
+  --shadow-lg: 6px 6px 0px #111111;
+  --focus-ring: 0 0 0 3px #8b5cf6;
+}
+
+.dark {
+  --bg-canvas: #111210;
+  --bg-surface: #1a1c18;
+  --bg-subtle: #242721;
+  --bg-muted: #31352d;
+  --bg-inverse: #ffffff;
+
+  --border-default: #e5e7eb;
+  --border-strong: #ffffff;
+  --border-soft: #363a32;
+
+  --text-primary: #f9fafb;
+  --text-secondary: #d1d5db;
+  --text-tertiary: #9ca3af;
+  --text-on-brand: #111111;
+
+  --brand-primary: #b8ff01;
+  --brand-hover: #ccff33;
+  --brand-soft: #2b3808;
+  --brand-on-soft: #b8ff01;
+
+  --accent-purple: #a78bfa;
+  --accent-purple-soft: #2e1065;
+  --accent-purple-fg: #ddd6fe;
+
+  --success-fg: #4ade80;
+  --success-soft: #052e16;
+  --warning-fg: #fbbf24;
+  --warning-soft: #451a03;
+  --danger-fg: #f87171;
+  --danger-soft: #450a0a;
+
+  --shadow-xs: 2px 2px 0px #000000;
+  --shadow-sm: 4px 4px 0px #000000;
+  --shadow-lg: 6px 6px 0px #000000;
+  --focus-ring: 0 0 0 3px #a78bfa;
+}
+
+@layer base {
+  html {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
+  }
+
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+    letter-spacing: -0.025em;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
+  }
+
+  code,
+  pre,
+  kbd,
+  .font-mono {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']) {
+    cursor: pointer;
+  }
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tactile Neo-Brutalist Card & Press Mechanics */
+.neo-card {
+  background-color: var(--bg-surface);
+  border: 2px solid var(--border-strong);
+  box-shadow: var(--shadow-sm);
+}
+
+.neo-btn {
+  border: 2px solid var(--border-strong);
+  box-shadow: var(--shadow-xs);
+  transition: transform 100ms ease, box-shadow 100ms ease, background-color 120ms ease;
+}
+
+.neo-btn:hover:not(:disabled) {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px var(--border-strong);
+}
+
+.neo-btn:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px var(--border-strong);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-subtle);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--text-primary);
+  border: 2px solid var(--bg-subtle);
+}

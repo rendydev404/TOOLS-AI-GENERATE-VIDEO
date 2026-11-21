@@ -1,0 +1,43 @@
+export function StudioFlowLogo({
+  size = 32,
+  className = '',
+}: {
+  size?: number;
+  className?: string;
+}) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 40 40"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={`shrink-0 select-none ${className}`}
+      aria-label="StudioFlow Logo"
+    >
+      <rect
+        x="1.5"
+        y="1.5"
+        width="37"
+        height="37"
+        rx="8"
+        fill="#B8FF01"
+        stroke="#111111"
+        strokeWidth="2.5"
+      />
+      <path d="M10 10L29 8.5L29.5 13.5L10.5 15L10 10Z" fill="#111111" />
+      <rect x="11" y="18" width="18" height="3.8" rx="1" fill="#111111" />
+      <rect x="11" y="24" width="13" height="3.8" rx="1" fill="#111111" />
+      <rect
+        x="11"
+        y="30"
+        width="7"
+        height="3.8"
+        rx="1"
+        fill="#8B5CF6"
+        stroke="#111111"
+        strokeWidth="1.4"
+      />
+    </svg>
+  );
+}

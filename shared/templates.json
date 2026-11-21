@@ -1,0 +1,585 @@
+[
+  {
+    "id": "iklan-produk",
+    "name": "Iklan Produk",
+    "description": "Hook, produk, manfaat, ajakan. Cocok untuk jualan online sehari-hari.",
+    "category": "Jualan",
+    "badge": "Populer",
+    "available": true,
+    "art": "tpl-product",
+    "cast": "product",
+    "roles": [
+      {
+        "role": "hook",
+        "label": "Hook",
+        "art": "hook",
+        "descId": "Close-up {product} yang menggugah, langsung menarik perhatian di detik pertama.",
+        "action": "an extreme close-up hero moment of {product}: texture and fine detail come alive, tiny highlights and droplets catch the light, a satisfying micro-motion that instantly grabs attention",
+        "shot": "extreme close-up, 100mm macro lens, very shallow depth of field",
+        "camera": "slow push-in",
+        "cameraId": "Push-in",
+        "sfx": "a crisp satisfying detail sound"
+      },
+      {
+        "role": "produk",
+        "label": "Produk",
+        "art": "produk",
+        "descId": "{product} tampil jelas di tengah dengan {setting_id}.",
+        "action": "{product} stands as the clear hero at the center of the frame on {surface}; the full product, its shape and label are perfectly readable",
+        "shot": "medium close-up at eye level, 50mm lens",
+        "camera": "smooth 180-degree orbit around the product",
+        "cameraId": "Orbit",
+        "sfx": "soft ambient room tone"
+      },
+      {
+        "role": "manfaat",
+        "label": "Manfaat",
+        "art": "manfaat",
+        "descId": "Menonjolkan keunggulan utama: {advantages}.",
+        "action": "a detail moment that visually proves these qualities of {product}: {advantages_en}",
+        "shot": "macro detail shot, 85mm lens",
+        "camera": "slow-motion slide across the detail",
+        "cameraId": "Slow motion",
+        "sfx": "a gentle detailed foley sound that matches the action"
+      },
+      {
+        "role": "suasana",
+        "label": "Suasana",
+        "art": "produk",
+        "descId": "{product} dinikmati santai dalam suasana {vibe_id}.",
+        "action": "a candid lifestyle moment: {product} being enjoyed naturally in {setting}, hands interacting with it casually",
+        "shot": "medium shot, 35mm lens",
+        "camera": "gentle handheld tracking shot",
+        "cameraId": "Tracking",
+        "sfx": "light natural ambience of the location"
+      },
+      {
+        "role": "detail",
+        "label": "Detail",
+        "art": "manfaat",
+        "descId": "Detail tekstur dan kemasan {product} dari dekat.",
+        "action": "macro texture study of {product}, rich surface detail with light gliding smoothly over it",
+        "shot": "macro shot, 100mm lens",
+        "camera": "slow lateral slide",
+        "cameraId": "Slide",
+        "sfx": "subtle texture foley"
+      },
+      {
+        "role": "ajakan",
+        "label": "Ajakan",
+        "art": "ajakan",
+        "descId": "{product} mendekat ke kamera, ditutup ajakan \"{cta}\".",
+        "action": "{product} as the final hero shot, moving gently toward the camera and settling still, leaving clean empty space in the upper third of the frame for a title added later",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "slow dolly-in that ends in a steady hold",
+        "cameraId": "Dolly-in",
+        "sfx": "a soft final whoosh that settles into calm ambience"
+      }
+    ],
+    "plans": {
+      "15": { "roles": ["hook", "produk", "ajakan"], "durations": [4, 6, 5] },
+      "20": { "roles": ["hook", "produk", "manfaat", "ajakan"], "durations": [4, 6, 6, 4] },
+      "30": { "roles": ["hook", "produk", "manfaat", "suasana", "detail", "ajakan"], "durations": [4, 6, 5, 6, 4, 5] }
+    }
+  },
+  {
+    "id": "before-after",
+    "name": "Before-After",
+    "description": "Tunjukkan perubahan kontras sebelum dan sesudah memakai produk.",
+    "category": "Jualan",
+    "badge": "Baru",
+    "available": true,
+    "art": "produk",
+    "cast": "product",
+    "roles": [
+      {
+        "role": "sebelum",
+        "label": "Sebelum",
+        "art": "hook",
+        "descId": "Kondisi sebelum ada {product}: biasa saja dan kurang menarik.",
+        "action": "the before moment without {product}: an ordinary, slightly dull everyday scene with muted, desaturated colors and flat light",
+        "shot": "static medium shot, 35mm lens",
+        "camera": "locked-off static camera",
+        "cameraId": "Statis",
+        "sfx": "quiet, slightly empty room tone"
+      },
+      {
+        "role": "transisi",
+        "label": "Transisi",
+        "art": "produk",
+        "descId": "{product} hadir di meja dan suasana langsung hidup.",
+        "action": "{product} enters the frame on {surface} and the whole scene brightens: colors bloom, warm highlights appear, the space comes alive",
+        "shot": "medium shot, 35mm lens",
+        "camera": "smooth whip-pan that lands cleanly on the product",
+        "cameraId": "Whip pan",
+        "sfx": "a crisp energetic transition swoosh"
+      },
+      {
+        "role": "sesudah",
+        "label": "Sesudah",
+        "art": "manfaat",
+        "descId": "Hasil sesudah memakai {product}: {advantages}.",
+        "action": "the after moment with {product}: vibrant, inviting and clearly elevated, visibly demonstrating {advantages_en}",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "slow reveal dolly-out",
+        "cameraId": "Dolly-out",
+        "sfx": "uplifting airy ambience"
+      },
+      {
+        "role": "detail",
+        "label": "Bukti Detail",
+        "art": "produk",
+        "descId": "Close-up bukti kualitas {product} dari dekat.",
+        "action": "close-up proof shot of {product} highlighting {advantages_en} with crisp detail",
+        "shot": "macro close-up, 85mm lens",
+        "camera": "slow push-in",
+        "cameraId": "Push-in",
+        "sfx": "subtle crisp foley"
+      },
+      {
+        "role": "ajakan",
+        "label": "Ajakan",
+        "art": "ajakan",
+        "descId": "{product} tampil mantap di akhir dengan ajakan \"{cta}\".",
+        "action": "{product} hero shot holding perfectly still on {surface}, clean empty space in the upper third of the frame for a title added later",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "steady locked-off shot",
+        "cameraId": "Statis",
+        "sfx": "a soft final chime"
+      }
+    ],
+    "plans": {
+      "15": { "roles": ["sebelum", "transisi", "sesudah"], "durations": [5, 4, 6] },
+      "20": { "roles": ["sebelum", "transisi", "sesudah", "ajakan"], "durations": [5, 4, 6, 5] },
+      "30": { "roles": ["sebelum", "transisi", "sesudah", "detail", "ajakan"], "durations": [6, 5, 7, 6, 6] }
+    }
+  },
+  {
+    "id": "ugc-testimoni",
+    "name": "Testimoni Kreator (UGC)",
+    "description": "Orang bercerita pengalaman jujur memakai produkmu seperti konten review harian.",
+    "category": "Jualan",
+    "badge": "Ada Karakter",
+    "available": true,
+    "art": "tpl-ugc",
+    "cast": "person",
+    "roles": [
+      {
+        "role": "pembuka",
+        "label": "Pembuka",
+        "art": "tpl-ugc",
+        "descId": "{character_id} bicara ke kamera dengan pembuka yang bikin penasaran.",
+        "action": "{character} looks straight into a handheld phone camera with genuine excitement, holding {product} near chest level, like an authentic social media creator video",
+        "shot": "selfie-style medium close-up, natural phone camera perspective",
+        "camera": "subtle handheld selfie framing",
+        "cameraId": "Selfie",
+        "dialogue": "Jujur ya, aku nggak nyangka {product} bisa sebagus ini.",
+        "sfx": "natural indoor room ambience"
+      },
+      {
+        "role": "masalah",
+        "label": "Masalah",
+        "art": "tpl-ugc",
+        "descId": "{character_id} menceritakan keluhan sebelum kenal {product}.",
+        "action": "{character} talks to the camera with a relatable expression, gesturing naturally with one hand while explaining an everyday problem",
+        "shot": "selfie-style medium shot, 28mm lens feel",
+        "camera": "handheld, subtle natural movement",
+        "cameraId": "Handheld",
+        "dialogue": "Biasanya susah banget cari yang beneran {adv1}.",
+        "sfx": "natural room ambience"
+      },
+      {
+        "role": "pakai",
+        "label": "Pakai Produk",
+        "art": "produk",
+        "descId": "{character_id} menunjukkan dan mencoba {product} langsung.",
+        "action": "{character} uses and enjoys {product} on camera, showing its packaging and texture clearly in hand with an authentic happy reaction",
+        "shot": "medium close-up, 35mm lens",
+        "camera": "gentle handheld follow",
+        "cameraId": "Tracking",
+        "dialogue": "Pas coba {product}, kerasa banget {adv_all}.",
+        "sfx": "authentic foley of using the product"
+      },
+      {
+        "role": "hasil",
+        "label": "Reaksi Puas",
+        "art": "manfaat",
+        "descId": "Reaksi puas {character_id} sambil memperlihatkan {product}.",
+        "action": "{character} reacts with a warm satisfied smile and nods to the camera while holding {product} clearly so the product stays identical",
+        "shot": "selfie-style close-up",
+        "camera": "steady handheld",
+        "cameraId": "Selfie",
+        "dialogue": "Serius, ini bakal jadi langganan aku sih!",
+        "sfx": "light pleasant room ambience"
+      },
+      {
+        "role": "ajakan",
+        "label": "Ajakan",
+        "art": "ajakan",
+        "descId": "{character_id} menutup video dengan ajakan \"{cta}\".",
+        "action": "{character} smiles warmly at the camera while holding {product} steady beside their face, leaving clean negative space in the upper third of the frame",
+        "shot": "selfie-style medium close-up",
+        "camera": "steady handheld",
+        "cameraId": "Selfie",
+        "dialogue": "{cta}!",
+        "sfx": "natural room ambience"
+      }
+    ],
+    "plans": {
+      "15": { "roles": ["pembuka", "pakai", "ajakan"], "durations": [5, 6, 4] },
+      "20": { "roles": ["pembuka", "masalah", "pakai", "ajakan"], "durations": [5, 5, 6, 4] },
+      "30": { "roles": ["pembuka", "masalah", "pakai", "hasil", "ajakan"], "durations": [6, 6, 7, 6, 5] }
+    }
+  },
+  {
+    "id": "promo-makanan",
+    "name": "Promo Makanan",
+    "description": "Close-up kuliner menggugah selera dengan tekstur dan suara alami.",
+    "category": "Makanan",
+    "available": true,
+    "art": "tpl-food",
+    "cast": "product",
+    "roles": [
+      {
+        "role": "aroma",
+        "label": "Hook Kuliner",
+        "art": "tpl-food",
+        "descId": "Uap hangat dan kilau tekstur {product} bikin lapar seketika.",
+        "action": "delicate steam rises from freshly prepared {product}, glistening textures and appetizing details catch the light",
+        "shot": "extreme close-up, 100mm macro lens, shallow depth of field",
+        "camera": "slow push-in through the steam",
+        "cameraId": "Push-in",
+        "sfx": "gentle sizzling and appetizing food sounds"
+      },
+      {
+        "role": "sajian",
+        "label": "Sajian",
+        "art": "toast",
+        "descId": "{product} disajikan rapi di atas meja, {setting_id}.",
+        "action": "{product} beautifully plated as the centerpiece on {surface}, garnish and colors neatly arranged",
+        "shot": "45-degree tabletop angle, 50mm lens",
+        "camera": "slow crane-down",
+        "cameraId": "Crane",
+        "sfx": "soft clink of tableware being set down"
+      },
+      {
+        "role": "gigitan",
+        "label": "Tekstur & Rasa",
+        "art": "manfaat",
+        "descId": "Suapan atau potongan pertama yang memperlihatkan {advantages}.",
+        "action": "a clean spoon or fork lifts a generous portion of {product} in slow motion, revealing its rich interior texture and showing {advantages_en}",
+        "shot": "macro close-up, 85mm lens",
+        "camera": "slow-motion tracking shot",
+        "cameraId": "Slow motion",
+        "sfx": "satisfying crispy or juicy culinary foley"
+      },
+      {
+        "role": "suasana",
+        "label": "Momen Makan",
+        "art": "produk",
+        "descId": "{product} dinikmati hangat dalam suasana {vibe_id}.",
+        "action": "{product} being enjoyed happily in {setting}, hands reaching for the dish, warm candid dining atmosphere",
+        "shot": "medium tabletop shot, 35mm lens",
+        "camera": "gentle handheld tracking shot",
+        "cameraId": "Tracking",
+        "sfx": "warm cafe ambience and light cutlery clinks"
+      },
+      {
+        "role": "ajakan",
+        "label": "Ajakan",
+        "art": "ajakan",
+        "descId": "Sajian utuh {product} dengan ajakan \"{cta}\".",
+        "action": "{product} final appetizing hero shot on {surface}, holding steady with clean empty space in the upper third of the frame for a title added later",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "steady locked-off shot",
+        "cameraId": "Statis",
+        "sfx": "soft warm room tone"
+      }
+    ],
+    "plans": {
+      "15": { "roles": ["aroma", "gigitan", "ajakan"], "durations": [5, 5, 5] },
+      "20": { "roles": ["aroma", "sajian", "gigitan", "ajakan"], "durations": [4, 6, 6, 4] },
+      "30": { "roles": ["aroma", "sajian", "gigitan", "suasana", "ajakan"], "durations": [5, 7, 7, 6, 5] }
+    }
+  },
+  {
+    "id": "unboxing",
+    "name": "Unboxing Produk",
+    "description": "Buka kemasan perlahan, perlihatkan isi dan detail kualitas produk.",
+    "category": "Jualan",
+    "available": true,
+    "art": "toast",
+    "cast": "product",
+    "roles": [
+      {
+        "role": "kemasan",
+        "label": "Kemasan",
+        "art": "toast",
+        "descId": "Paket kemasan {product} diletakkan rapi di atas meja.",
+        "action": "neat unopened packaging of {product} rests squarely on {surface}, clean studio composition that builds anticipation",
+        "shot": "top-down 45-degree shot, 35mm lens",
+        "camera": "slow push-in",
+        "cameraId": "Push-in",
+        "sfx": "crisp cardboard box placement sound"
+      },
+      {
+        "role": "buka",
+        "label": "Buka Segel",
+        "art": "hook",
+        "descId": "Tangan membuka kemasan {product} dengan rapi dan memuaskan.",
+        "action": "neat hands gently open the box lid to reveal {product} nestled inside, smooth ASMR-style unboxing movement",
+        "shot": "close-up overhead angle, 50mm lens",
+        "camera": "steady overhead framing",
+        "cameraId": "Statis",
+        "sfx": "satisfying paper rustle and lid opening ASMR sound"
+      },
+      {
+        "role": "isi",
+        "label": "Isi Utama",
+        "art": "produk",
+        "descId": "{product} diangkat keluar, memperlihatkan {advantages}.",
+        "action": "hands lift {product} smoothly into the light, turning it slightly to showcase {advantages_en} and clean craftsmanship",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "smooth slow orbit",
+        "cameraId": "Orbit",
+        "sfx": "soft tactile handling foley"
+      },
+      {
+        "role": "detail",
+        "label": "Detail Dekat",
+        "art": "manfaat",
+        "descId": "Close-up material dan finishing {product}.",
+        "action": "extreme close-up of {product} showing fine material texture and premium finish under controlled light",
+        "shot": "macro shot, 85mm lens",
+        "camera": "slow lateral slide",
+        "cameraId": "Slide",
+        "sfx": "subtle crisp foley"
+      },
+      {
+        "role": "ajakan",
+        "label": "Ajakan",
+        "art": "ajakan",
+        "descId": "{product} berdiri lengkap di samping kemasannya, ditutup \"{cta}\".",
+        "action": "{product} displayed proudly beside its open box on {surface}, clean empty space in the upper third of the frame for a title added later",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "slow dolly-in to steady hold",
+        "cameraId": "Dolly-in",
+        "sfx": "gentle final chime"
+      }
+    ],
+    "plans": {
+      "15": { "roles": ["kemasan", "buka", "ajakan"], "durations": [5, 5, 5] },
+      "20": { "roles": ["kemasan", "buka", "isi", "ajakan"], "durations": [4, 6, 6, 4] },
+      "30": { "roles": ["kemasan", "buka", "isi", "detail", "ajakan"], "durations": [5, 6, 7, 6, 6] }
+    }
+  },
+  {
+    "id": "promo-diskon",
+    "name": "Promo Kilat",
+    "description": "Tempo cepat, fokus nilai terbaik dan ajakan bertindak sekarang.",
+    "category": "Jualan",
+    "available": true,
+    "art": "jar",
+    "cast": "product",
+    "roles": [
+      {
+        "role": "gebrak",
+        "label": "Gebrakan Awal",
+        "art": "jar",
+        "descId": "{product} muncul dinamis dengan pencahayaan tegas.",
+        "action": "{product} lands cleanly onto {surface} in crisp slow motion, dramatic highlights catching its silhouette immediately",
+        "shot": "low-angle hero close-up, 35mm lens",
+        "camera": "energetic push-in",
+        "cameraId": "Push-in",
+        "sfx": "punchy clean impact whoosh"
+      },
+      {
+        "role": "keunggulan",
+        "label": "Nilai Utama",
+        "art": "manfaat",
+        "descId": "Sorotan cepat keunggulan {product}: {advantages}.",
+        "action": "dynamic showcase of {product} proving {advantages_en} with crisp light sweeps across the product",
+        "shot": "close-up, 50mm lens",
+        "camera": "smooth 180-degree orbit",
+        "cameraId": "Orbit",
+        "sfx": "crisp rhythmic swoosh"
+      },
+      {
+        "role": "bukti",
+        "label": "Tampilan Penuh",
+        "art": "produk",
+        "descId": "{product} tampil utuh dan siap dibawa pulang.",
+        "action": "full hero presentation of {product} on {surface} in {setting}, looking irresistible and ready to order",
+        "shot": "medium shot, 50mm lens",
+        "camera": "slow dolly-out reveal",
+        "cameraId": "Dolly-out",
+        "sfx": "upbeat subtle room energy"
+      },
+      {
+        "role": "ajakan",
+        "label": "Ajakan Tegas",
+        "art": "ajakan",
+        "descId": "Penutup tegas {product} dengan ruang teks promo \"{cta}\".",
+        "action": "{product} centered hero frame with generous clean space in the upper third for promo price and call-to-action overlay added in editing",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "locked-off steady hero hold",
+        "cameraId": "Statis",
+        "sfx": "clean bright confirmation chime"
+      }
+    ],
+    "plans": {
+      "15": { "roles": ["gebrak", "keunggulan", "ajakan"], "durations": [5, 5, 5] },
+      "20": { "roles": ["gebrak", "keunggulan", "bukti", "ajakan"], "durations": [4, 6, 5, 5] },
+      "30": { "roles": ["gebrak", "keunggulan", "bukti", "ajakan"], "durations": [7, 8, 8, 7] }
+    }
+  },
+  {
+    "id": "edukasi-singkat",
+    "name": "Edukasi Singkat",
+    "description": "Tips atau fakta menarik dalam 20-30 detik yang diakhiri solusi produk.",
+    "category": "Edukasi",
+    "available": true,
+    "art": "manfaat",
+    "cast": "person",
+    "roles": [
+      {
+        "role": "fakta",
+        "label": "Pertanyaan Hook",
+        "art": "tpl-ugc",
+        "descId": "{character_id} membuka dengan pertanyaan singkat yang relevan.",
+        "action": "{character} speaks directly to the camera in {setting} with an engaging curious expression, raising one index finger to make a clear point",
+        "shot": "medium close-up, 35mm lens, shallow depth of field",
+        "camera": "gentle push-in",
+        "cameraId": "Push-in",
+        "dialogue": "Banyak yang belum tahu kenapa pilih yang {adv1} itu penting banget.",
+        "sfx": "quiet clean studio room tone"
+      },
+      {
+        "role": "penjelasan",
+        "label": "Tips Singkat",
+        "art": "manfaat",
+        "descId": "{character_id} menjelaskan alasan secara sederhana.",
+        "action": "{character} explains calmly and clearly to the camera with natural hand gestures, warm approachable tone",
+        "shot": "medium shot, 50mm lens",
+        "camera": "steady tripod shot",
+        "cameraId": "Statis",
+        "dialogue": "Kalau bahannya pas, hasilnya jauh lebih maksimal buat sehari-hari.",
+        "sfx": "quiet clean room tone"
+      },
+      {
+        "role": "solusi",
+        "label": "Contoh Produk",
+        "art": "produk",
+        "descId": "{character_id} memperkenalkan {product} sebagai contoh nyata.",
+        "action": "{character} holds up {product} clearly toward the camera, pointing out its quality with a confident friendly smile",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "smooth slight pan",
+        "cameraId": "Slide",
+        "dialogue": "Makanya aku pilih {product}, soalnya udah {adv_all}.",
+        "sfx": "subtle handling foley"
+      },
+      {
+        "role": "detail",
+        "label": "Detail Bukti",
+        "art": "hook",
+        "descId": "Close-up {product} memperlihatkan kualitas aslinya.",
+        "action": "clean close-up of {product} on {surface} showcasing {advantages_en} clearly",
+        "shot": "macro close-up, 85mm lens",
+        "camera": "slow push-in",
+        "cameraId": "Push-in",
+        "sfx": "soft pleasant detail sound"
+      },
+      {
+        "role": "ajakan",
+        "label": "Penutup",
+        "art": "ajakan",
+        "descId": "{character_id} menutup edukasi dengan ajakan \"{cta}\".",
+        "action": "{character} smiles warmly holding {product} steady, leaving clean space in the upper third of the frame for a summary title",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "steady locked-off shot",
+        "cameraId": "Statis",
+        "dialogue": "Mau coba juga? {cta}!",
+        "sfx": "clean room ambience"
+      }
+    ],
+    "plans": {
+      "15": { "roles": ["fakta", "solusi", "ajakan"], "durations": [5, 5, 5] },
+      "20": { "roles": ["fakta", "penjelasan", "solusi", "ajakan"], "durations": [5, 5, 6, 4] },
+      "30": { "roles": ["fakta", "penjelasan", "solusi", "detail", "ajakan"], "durations": [6, 6, 7, 5, 6] }
+    }
+  },
+  {
+    "id": "cerita-pendek",
+    "name": "Cerita Pendek",
+    "description": "Kisah keseharian hangat dengan karakter konsisten dari awal hingga akhir.",
+    "category": "Cerita",
+    "available": true,
+    "art": "tpl-story",
+    "cast": "person",
+    "roles": [
+      {
+        "role": "awal",
+        "label": "Awal Cerita",
+        "art": "tpl-story",
+        "descId": "{character_id} memulai aktivitas tetapi butuh penyemangat.",
+        "action": "{character} sits in {setting} looking slightly tired during a busy day, pausing for a quiet breath",
+        "shot": "cinematic medium wide shot, 35mm lens",
+        "camera": "slow dolly-in",
+        "cameraId": "Dolly-in",
+        "dialogue": "Hari panjang banget rasanya butuh sesuatu yang bikin balik semangat.",
+        "sfx": "soft ambient atmosphere"
+      },
+      {
+        "role": "temuan",
+        "label": "Momen Produk",
+        "art": "produk",
+        "descId": "{character_id} mengambil {product} di atas meja.",
+        "action": "{character} reaches for {product} on {surface}, picking it up with a gentle hopeful smile",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "smooth tracking follow",
+        "cameraId": "Tracking",
+        "sfx": "gentle tactile pickup sound"
+      },
+      {
+        "role": "nikmati",
+        "label": "Menikmati",
+        "art": "manfaat",
+        "descId": "{character_id} menikmati {product} yang {advantages}.",
+        "action": "{character} enjoys {product} slowly, eyes brightening as the mood lifts, visibly experiencing {advantages_en}",
+        "shot": "close-up, 85mm lens, shallow depth of field",
+        "camera": "slow push-in",
+        "cameraId": "Push-in",
+        "dialogue": "Nah, {product} ini emang paling mengerti suasana hati.",
+        "sfx": "warm comforting foley"
+      },
+      {
+        "role": "cerah",
+        "label": "Suasana Baru",
+        "art": "tpl-story",
+        "descId": "{character_id} kembali bersemangat menjalani hari.",
+        "action": "{character} continues their activity in {setting} with fresh energy and a relaxed genuine smile, {product} resting nearby on {surface}",
+        "shot": "medium shot, 35mm lens",
+        "camera": "gentle lateral slide",
+        "cameraId": "Slide",
+        "sfx": "pleasant uplifting ambience"
+      },
+      {
+        "role": "ajakan",
+        "label": "Akhir Cerita",
+        "art": "ajakan",
+        "descId": "Close-up hangat {product} bersama {character_id}, ditutup \"{cta}\".",
+        "action": "{product} in sharp focus in the foreground on {surface} while {character} smiles softly in the background, clean empty space in the upper third of the frame",
+        "shot": "medium close-up, 50mm lens, shallow depth of field",
+        "camera": "steady locked-off shot",
+        "cameraId": "Statis",
+        "dialogue": "{cta}.",
+        "sfx": "soft warm fade-out ambience"
+      }
+    ],
+    "plans": {
+      "15": { "roles": ["awal", "nikmati", "ajakan"], "durations": [5, 5, 5] },
+      "20": { "roles": ["awal", "temuan", "nikmati", "ajakan"], "durations": [5, 5, 6, 4] },
+      "30": { "roles": ["awal", "temuan", "nikmati", "cerah", "ajakan"], "durations": [6, 6, 7, 6, 5] }
+    }
+  }
+]

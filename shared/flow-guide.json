@@ -1,0 +1,35 @@
+{
+  "updatedAt": "21 Nov 2026",
+  "flowUrl": "https://flow.google.com/?hl=en",
+  "labels": {
+    "newProject": "New project",
+    "projectTitle": "Editable text",
+    "allMedia": "All media",
+    "agentToggle": "Flow Agent",
+    "settingsTrigger": "Settings trigger",
+    "radioImage": "Image",
+    "radioVideo": "Video",
+    "radioIngredients": "Ingredients",
+    "radioFrames": "Frames",
+    "selectModel": "Select model family",
+    "addMediaMenu": "Add media menu",
+    "menuUpload": "Upload",
+    "addIngredients": "Add ingredients to the prompt box",
+    "addToPrompt": "Add to prompt",
+    "frameStart": "Start",
+    "frameEnd": "End",
+    "clearPrompt": "Clear prompt",
+    "startGeneration": "Start generation",
+    "moreOptions": "More options",
+    "menuDownload": "Download",
+    "download720p": "720p Original size",
+    "download1080p": "1080p Upscaled",
+    "downloadImage1k": "1K Original size"
+  },
+  "commonTips": {
+    "policyRejected": "Jika muncul pesan kebijakan 'prominent people' saat memakai foto orang asli, gunakan foto referensi karakter buatan Nano Banana dari Langkah Aset (bukan foto selebritas/orang terkenal).",
+    "textInVideo": "Prompt sengaja melarang teks di dalam video karena Veo sering salah mengeja huruf. Tambahkan tulisan harga/CTA saat merakit di CapCut, Canva, atau editor favoritmu.",
+    "upscaleSlow": "Unduhan '1080p Upscaled' di Flow kadang memakan waktu 5-7 menit. Pilih '720p Original size' jika ingin langsung selesai dalam hitungan detik.",
+    "agentOff": "Pastikan tombol 'Flow Agent' di kotak prompt dalam keadaan mati (tidak menyala biru) supaya kita memegang kendali penuh atas model dan pengaturan per scene."
+  }
+}
