@@ -14,12 +14,14 @@ import {
   Flame,
   HelpCircle,
   Layers,
+  Maximize2,
   Monitor,
   PenTool,
   Plus,
   RefreshCw,
   ShieldCheck,
   Smartphone,
+  Sun,
   Target,
   Zap,
 } from 'lucide-react';
@@ -69,7 +71,7 @@ import {
   SegmentedControl,
   Tag,
 } from '@/components/ui/Primitives';
-import { CustomSelect } from '@/components/ui/CustomControls';
+import { CustomModal, CustomSelect } from '@/components/ui/CustomControls';
 import { VibePalettePreview } from '@/components/ui/StoryVisuals';
 
 const GUIDED_STEPS = [
@@ -241,6 +243,18 @@ export function WizardPage() {
 
   const [customAdvInput, setCustomAdvInput] = useState('');
   const [generating, setGenerating] = useState(false);
+  const [previewStyleModal, setPreviewStyleModal] = useState<VideoStyleId | null>(null);
+
+  // Preload lightweight WebP Sun style previews in background so Step 2 renders with 0ms image wait
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      VIDEO_STYLE_ORDER.forEach((id) => {
+        const img = new window.Image();
+        img.src = VIDEO_STYLES[id].previewImage;
+      });
+    }, 150);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   const activeTemplate = useMemo(
     () => getTemplateById(templateId) ?? templates[0],
@@ -631,51 +645,111 @@ export function WizardPage() {
                   2. Pilih style visual videonya
                 </h1>
                 <p className="mt-1 text-[14px] font-medium text-[var(--text-secondary)]">
-                  Mulai dari orang asli, animasi 3D kartun, 2D anime, sampai kotak ala Minecraft.
+                  Semua contoh memakai objek <strong className="text-[var(--text-primary)]">Matahari</strong> yang sama supaya beda tiap style langsung terlihat jelas.
                 </p>
               </div>
 
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className="grid gap-3.5 sm:grid-cols-2">
                 {VIDEO_STYLE_ORDER.map((styleId) => {
                   const st = VIDEO_STYLES[styleId];
                   const selected = (answers.videoStyle || 'real-live') === styleId;
                   return (
-                    <button
+                    <div
                       key={styleId}
-                      type="button"
+                      role="button"
+                      tabIndex={0}
+                      aria-pressed={selected}
                       onClick={() => updateAnswer('videoStyle', styleId)}
-                      className={`flex min-h-[96px] w-full min-w-0 items-start gap-3.5 overflow-hidden rounded-xl border-2 border-[var(--border-strong)] p-4 text-left transition-all ${
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          updateAnswer('videoStyle', styleId);
+                        }
+                      }}
+                      className={`group flex w-full min-w-0 cursor-pointer flex-col overflow-hidden rounded-xl border-2 border-[var(--border-strong)] text-left transition-all ${
                         selected
                           ? 'bg-[var(--brand-primary)] text-[#111111] shadow-[4px_4px_0_var(--border-strong)] -translate-y-[2px]'
                           : 'bg-[var(--bg-surface)] hover:bg-[var(--bg-subtle)]'
                       }`}
                     >
-                      <span
-                        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border-2 border-[#111111] ${
-                          selected
-                            ? 'bg-[#111111] text-[var(--brand-primary)]'
-                            : 'bg-[var(--bg-subtle)] text-[var(--text-primary)]'
-                        }`}
-                      >
-                        {VIDEO_STYLE_ICONS[styleId]}
-                      </span>
+                      {/* 16:9 Sun Visual Preview */}
+                      <div className="relative aspect-[16/9] w-full overflow-hidden border-b-2 border-[#111111] bg-[#111111]">
+                        <img
+                          src={st.previewImage}
+                          alt={`Preview style ${st.name} dengan objek Matahari`}
+                          width={800}
+                          height={450}
+                          decoding="async"
+                          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                        />
 
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-center justify-between gap-1.5">
-                          <span className="font-display text-[15px] font-bold">
-                            {st.name}
-                          </span>
-                          <Tag tone={selected ? 'purple' : 'neutral'}>{st.badge}</Tag>
-                        </div>
-                        <p
-                          className={`mt-1 text-[12.5px] leading-snug ${
-                            selected ? 'text-[#111111]/85 font-medium' : 'text-[var(--text-secondary)]'
+                        {/* Top-left Status / Subject Pill */}
+                        <span
+                          className={`absolute left-2.5 top-2.5 inline-flex items-center gap-1 rounded-md border-[1.5px] border-[#111111] px-2 py-0.5 font-mono text-[10.5px] font-bold uppercase shadow-[2px_2px_0_#111111] ${
+                            selected
+                              ? 'bg-[var(--brand-primary)] text-[#111111]'
+                              : 'bg-[#FFFFFF] text-[#111111]'
                           }`}
                         >
-                          {st.shortDesc}
-                        </p>
+                          {selected ? (
+                            <>
+                              <Check size={11} strokeWidth={3} />
+                              <span>Dipilih</span>
+                            </>
+                          ) : (
+                            <>
+                              <Sun size={11} strokeWidth={2.5} />
+                              <span>Preview Matahari</span>
+                            </>
+                          )}
+                        </span>
+
+                        {/* Top-right Zoom Button */}
+                        <button
+                          type="button"
+                          aria-label={`Perbesar preview ${st.name}`}
+                          title={`Perbesar preview ${st.name}`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setPreviewStyleModal(styleId);
+                          }}
+                          className="absolute right-2.5 top-2.5 flex h-7 w-7 items-center justify-center rounded-md border-[1.5px] border-[#111111] bg-[#FFFFFF] text-[#111111] shadow-[2px_2px_0_#111111] transition-transform hover:scale-105 active:translate-x-[1px] active:translate-y-[1px]"
+                        >
+                          <Maximize2 size={13} strokeWidth={2.6} />
+                        </button>
                       </div>
-                    </button>
+
+                      {/* Style Info */}
+                      <div className="flex items-start gap-3 p-3.5">
+                        <span
+                          className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border-2 border-[#111111] ${
+                            selected
+                              ? 'bg-[#111111] text-[var(--brand-primary)]'
+                              : 'bg-[var(--bg-subtle)] text-[var(--text-primary)]'
+                          }`}
+                        >
+                          {VIDEO_STYLE_ICONS[styleId]}
+                        </span>
+
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-wrap items-center justify-between gap-1.5">
+                            <span className="font-display text-[14.5px] font-bold leading-tight">
+                              {st.name}
+                            </span>
+                            <Tag tone={selected ? 'purple' : 'neutral'}>{st.badge}</Tag>
+                          </div>
+                          <p
+                            className={`mt-1 text-[12.5px] leading-snug ${
+                              selected
+                                ? 'text-[#111111]/85 font-medium'
+                                : 'text-[var(--text-secondary)]'
+                            }`}
+                          >
+                            {st.shortDesc}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   );
                 })}
               </div>
@@ -1288,6 +1362,46 @@ export function WizardPage() {
           </div>
         </div>
       </div>
+
+      {/* Full-Size Sun Style Preview Lightbox Modal */}
+      {previewStyleModal && (
+        <CustomModal
+          open={Boolean(previewStyleModal)}
+          onClose={() => setPreviewStyleModal(null)}
+          title={VIDEO_STYLES[previewStyleModal].name}
+          description={VIDEO_STYLES[previewStyleModal].previewCaption}
+          maxWidth="max-w-xl"
+          footer={
+            <>
+              <Button variant="secondary" onClick={() => setPreviewStyleModal(null)}>
+                Tutup
+              </Button>
+              <Button
+                icon={<Check size={15} strokeWidth={2.8} />}
+                onClick={() => {
+                  updateAnswer('videoStyle', previewStyleModal);
+                  setPreviewStyleModal(null);
+                }}
+              >
+                Pakai Style Ini
+              </Button>
+            </>
+          }
+        >
+          <div className="overflow-hidden rounded-xl border-2 border-[#111111] bg-[#111111] shadow-[4px_4px_0_var(--border-strong)]">
+            <img
+              src={VIDEO_STYLES[previewStyleModal].previewImage}
+              alt={`Preview ukuran penuh ${VIDEO_STYLES[previewStyleModal].name}`}
+              width={800}
+              height={450}
+              className="aspect-[16/9] w-full object-cover"
+            />
+          </div>
+          <p className="mt-3 text-[13px] font-medium text-[var(--text-secondary)]">
+            {VIDEO_STYLES[previewStyleModal].shortDesc}
+          </p>
+        </CustomModal>
+      )}
     </AppShell>
   );
 }

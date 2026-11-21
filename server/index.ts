@@ -583,6 +583,10 @@ if (fs.existsSync(clientDist)) {
     await next();
     c.header('Cache-Control', 'public, max-age=31536000, immutable');
   });
+  app.use('/style-previews/*', async (c, next) => {
+    await next();
+    c.header('Cache-Control', 'public, max-age=604800');
+  });
   app.use('/*', serveStatic({ root: './dist/client' }));
   app.get('*', (c) => {
     const indexHtml = fs.readFileSync(path.join(clientDist, 'index.html'), 'utf-8');

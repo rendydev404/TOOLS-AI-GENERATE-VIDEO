@@ -431,14 +431,25 @@ export function BatchPage() {
             <label className="text-[12px] font-semibold text-[var(--text-secondary)]">
               Style Video
             </label>
-            <CustomSelect<VideoStyleId>
-              value={videoStyle}
-              onChange={setVideoStyle}
-              options={Object.values(VIDEO_STYLES).map((vs) => ({
-                value: vs.id,
-                label: vs.name,
-              }))}
-            />
+            <div className="flex items-center gap-2">
+              <img
+                src={VIDEO_STYLES[videoStyle].previewImage}
+                alt={VIDEO_STYLES[videoStyle].name}
+                width={80}
+                height={45}
+                decoding="async"
+                className="h-11 w-16 shrink-0 rounded-xl border-2 border-[#111111] object-cover"
+              />
+              <CustomSelect<VideoStyleId>
+                value={videoStyle}
+                onChange={setVideoStyle}
+                className="min-w-0 flex-1"
+                options={Object.values(VIDEO_STYLES).map((vs) => ({
+                  value: vs.id,
+                  label: vs.name,
+                }))}
+              />
+            </div>
           </div>
 
           <div className="flex flex-col gap-1.5">

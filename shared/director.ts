@@ -23,6 +23,8 @@ export interface VideoStylePreset {
   name: string;
   badge: string;
   shortDesc: string;
+  previewImage: string;
+  previewCaption: string;
   mediumLock: string;
   assetStyleEn: string;
   characterAdapterEn: string;
@@ -34,6 +36,8 @@ export const VIDEO_STYLES: Record<VideoStyleId, VideoStylePreset> = {
     name: 'Orang & Objek Realistis',
     badge: 'Paling Laris',
     shortDesc: 'Tampilan nyata seperti rekaman kamera profesional asli.',
+    previewImage: '/style-previews/real-live.webp',
+    previewCaption: 'Contoh Matahari: cahaya optik kamera sinema asli, awan & lembah fotorealistis.',
     mediumLock:
       'Photorealistic live-action footage shot on ARRI Alexa Mini LF with prime cinema lenses, authentic physical materials, true optical depth of field, natural motion blur, realistic skin pores and lighting physics',
     assetStyleEn:
@@ -45,6 +49,8 @@ export const VIDEO_STYLES: Record<VideoStyleId, VideoStylePreset> = {
     name: 'Rekaman HP Kreator (UGC)',
     badge: 'Natural',
     shortDesc: 'Gaya kamera HP jujur ala review TikTok & Reels sehari-hari.',
+    previewImage: '/style-previews/real-ugc.webp',
+    previewCaption: 'Contoh Matahari: rekaman jujur kamera HP dari balkon rumah sehari-hari.',
     mediumLock:
       'Authentic casual smartphone video recording aesthetic, iPhone front/rear camera natural lens look, genuine everyday indoor daylight, organic handheld micro-shake, raw believable social media creator realism',
     assetStyleEn:
@@ -56,6 +62,8 @@ export const VIDEO_STYLES: Record<VideoStyleId, VideoStylePreset> = {
     name: '3D Video Kartun',
     badge: 'Animasi 3D',
     shortDesc: 'Animasi 3D halus, ekspresif, dan cerah ala film animasi modern.',
+    previewImage: '/style-previews/kartun-3d.webp',
+    previewCaption: 'Contoh Matahari: karakter 3D halus, bulat ekspresif, dan warna cerah ala film animasi.',
     mediumLock:
       'High-end stylized 3D CGI feature animation in Pixar and DreamWorks aesthetic, appealing rounded proportions, soft subsurface scattering, tactile stylized 3D shaders, expressive squash-and-stretch smooth 3D keyframe animation',
     assetStyleEn:
@@ -67,6 +75,8 @@ export const VIDEO_STYLES: Record<VideoStyleId, VideoStylePreset> = {
     name: '2D Video / Anime',
     badge: 'Ilustrasi 2D',
     shortDesc: 'Gambar animasi 2D garis tajam dan warna hidup ala anime.',
+    previewImage: '/style-previews/animasi-2d.webp',
+    previewCaption: 'Contoh Matahari: ilustrasi 2D anime cel-shading dengan garis tegas & langit dramatis.',
     mediumLock:
       'High-budget modern 2D cel-shaded anime animation, crisp hand-drawn keyframe linework, lush painted background art in Makoto Shinkai aesthetic, expressive 2D sakuga motion and cel highlights',
     assetStyleEn:
@@ -78,6 +88,8 @@ export const VIDEO_STYLES: Record<VideoStyleId, VideoStylePreset> = {
     name: 'Style Minecraft (Voxel)',
     badge: 'Unik & Viral',
     shortDesc: 'Dunia serba kotak 3D blok piksel ala game Minecraft.',
+    previewImage: '/style-previews/minecraft-voxel.webp',
+    previewCaption: 'Contoh Matahari: dunia serba kubus 3D voxel piksel lengkap dengan blok awan & pohon.',
     mediumLock:
       'Authentic Minecraft-style 3D cubic voxel block world animation, everything built from crisp 3D pixel-art blocks and cubic geometry, blocky voxel props and characters, RTX voxel path-traced sunlight, crisp blocky particle physics',
     assetStyleEn:
@@ -89,6 +101,8 @@ export const VIDEO_STYLES: Record<VideoStyleId, VideoStylePreset> = {
     name: 'Stop-Motion Clay (Lilin)',
     badge: 'Kreatif',
     shortDesc: 'Tekstur kerajinan plastisin / tanah liat bergerak yang unik.',
+    previewImage: '/style-previews/clay-stopmotion.webp',
+    previewCaption: 'Contoh Matahari: bentuk lilin plastisin buatan tangan dengan tekstur sidik jari.',
     mediumLock:
       'Charming handcrafted claymation stop-motion video, sculpted matte plasticine clay surfaces with subtle artisan fingerprint textures, miniature tabletop studio lighting, tactile 12fps stop-motion animation feel',
     assetStyleEn:
@@ -100,6 +114,8 @@ export const VIDEO_STYLES: Record<VideoStyleId, VideoStylePreset> = {
     name: 'Dunia Miniatur Mungil',
     badge: 'Bikin Melirik',
     shortDesc: 'Efek dunia serba kecil (diorama makro) yang memanjakan mata.',
+    previewImage: '/style-previews/miniatur-diorama.webp',
+    previewCaption: 'Contoh Matahari: panggung maket diorama skala mungil dengan efek lensa makro.',
     mediumLock:
       'Hyper-detailed tilt-shift macro miniature diorama world, tiny 1:87 scale artisan figures working around the hero object, ultra-shallow macro lens depth of field, crisp miniature craftsmanship',
     assetStyleEn:
@@ -111,6 +127,8 @@ export const VIDEO_STYLES: Record<VideoStyleId, VideoStylePreset> = {
     name: 'Iklan TV Sinematik',
     badge: 'Premium',
     shortDesc: 'Visual dramatis kelas iklan brand besar dengan gerak presisi.',
+    previewImage: '/style-previews/iklan-studio.webp',
+    previewCaption: 'Contoh Matahari: tata cahaya panggung studio mewah dengan pantulan emas dramatis.',
     mediumLock:
       'Flagship global brand TV commercial cinematography shot on Phantom Flex4K high-speed cinema camera, precision motorized motion-control rig, sculpted specular rim lighting, razor-sharp commercial clarity',
     assetStyleEn:
