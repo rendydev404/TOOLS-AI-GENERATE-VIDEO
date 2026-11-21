@@ -18,10 +18,11 @@ import {
   MODELS,
   VIDEO_STYLES,
 } from '@shared/director';
-import { getAllTemplates, getTemplateById } from '@shared/templates';
+import { getTemplateById, getTemplatesByMode } from '@shared/templates';
 import type {
   AspectRatio,
   BatchRow,
+  ContentMode,
   DurationChoice,
   HookStrategyId,
   Pack,
@@ -31,7 +32,7 @@ import type {
 } from '@shared/types';
 import { downloadTextFile } from '@/lib/api';
 import { AppShell } from '@/components/layout/AppShell';
-import { Button, Tag } from '@/components/ui/Primitives';
+import { Button, SegmentedControl, Tag } from '@/components/ui/Primitives';
 import { CustomSelect } from '@/components/ui/CustomControls';
 
 const INITIAL_ROWS: BatchRow[] = [
@@ -115,7 +116,8 @@ export function BatchPage() {
   const { brand, upsertProject, pushToast } = useApp();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const templates = useMemo(() => getAllTemplates(), []);
+  const [contentMode, setContentMode] = useState<ContentMode>('creator');
+  const templates = useMemo(() => getTemplatesByMode(contentMode), [contentMode]);
   const [templateId, setTemplateId] = useState('storytelling-konten');
   const [videoStyle, setVideoStyle] = useState<VideoStyleId>(
     brand.defaultVideoStyle || 'kartun-3d'
@@ -164,13 +166,21 @@ export function BatchPage() {
   };
 
   const handleDownloadSampleCsv = () => {
-    const sample = [
-      'nama_produk,keunggulan,cta,catatan',
-      '"Kopi Susu Gula Aren","Manis pas, Gula aren asli, Segar","Pesan sekarang, link di bio","Cocok diminum sore hari"',
-      '"Sambal Bawang Bu Rini","Pedas nampol, Wangi, Tanpa pengawet","Cek keranjang kuning","Kemasan botol segel"',
-      '"Roti Bakar Cokelat","Lumer, Lembut, Porsi besar","Mampir ke outlet kami","Hangat baru matang"',
-    ].join('\n');
-    downloadTextFile('contoh-massal-rangkai.csv', sample, 'text/csv;charset=utf-8');
+    const sample =
+      contentMode === 'marketing'
+        ? [
+            'nama_produk,keunggulan,cta,catatan',
+            '"Aplikasi Keuangan FokusKu","Praktis & cepat, Mudah dipakai, Hemat waktu","Coba sekarang, klik link di bio","Membantu catat pengeluaran otomatis"',
+            '"Earbuds Wireless AeroPro","Kualitas premium, Desain modern, Tahan lama","Cek info & promonya di link bio","Baterai awet seharian"',
+            '"Template Konten Kalender","Fitur lengkap, Hemat biaya, Cocok buat pemula","Klik keranjang kuning sekarang","Siap pakai untuk 30 hari"',
+          ].join('\n')
+        : [
+            'topik_konten,poin_bahasan,cta,catatan',
+            '"Kenapa Otak Cepat Lelah di Era Notifikasi","Fakta jarang diketahui, Relatable sehari-hari","Menurut kamu gimana? Tulis di kolom komentar","Efek pindah aplikasi ke energi fokus"',
+            '"Fakta Unik Waktu di Luar Angkasa","Bikin penasaran, Penjelasan simpel","Save video ini biar gampang dicari lagi nanti","Perbedaan waktu dekat gravitasi besar"',
+            '"3 Kebiasaan Pagi Pengubah Mood","Mudah dipraktikkan, Langkah demi langkah","Share ke temanmu yang butuh bahasan ini","5 menit pertama tanpa layar HP"',
+          ].join('\n');
+    downloadTextFile('contoh-massal-studioflow.csv', sample, 'text/csv;charset=utf-8');
     pushToast('Contoh CSV berhasil diunduh', 'success');
   };
 
@@ -201,6 +211,7 @@ export function BatchPage() {
     const results: Array<{ row: BatchRow; pack: Pack }> = [];
     for (const row of validRows) {
       const pack = generateOfflinePack(tpl, {
+        contentMode,
         product: row.product.trim(),
         hasPhoto: row.hasPhoto,
         advantages: row.advantages
@@ -239,6 +250,7 @@ export function BatchPage() {
         art: tpl.art,
         status: 'panduan',
         answers: {
+          contentMode,
           product: row.product.trim(),
           hasPhoto: row.hasPhoto,
           advantages: row.advantages
@@ -352,13 +364,28 @@ export function BatchPage() {
       }
     >
       <div className="mx-auto flex max-w-[1160px] flex-col gap-6">
-        <div>
-          <h1 className="text-[24px] font-semibold tracking-tight text-[var(--text-primary)]">
-            Buat banyak paket prompt sekaligus
-          </h1>
-          <p className="mt-1 text-[14px] text-[var(--text-secondary)]">
-            Satu baris = satu video lengkap. Cocok untuk katalog toko online, menu kuliner, atau agensi sosmed.
-          </p>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h1 className="text-[24px] font-semibold tracking-tight text-[var(--text-primary)]">
+              Buat banyak paket prompt sekaligus
+            </h1>
+            <p className="mt-1 text-[14px] text-[var(--text-secondary)]">
+              Satu baris = satu video lengkap untuk jadwal konten kreator harian maupun katalog marketing/produk.
+            </p>
+          </div>
+
+          <SegmentedControl<ContentMode>
+            value={contentMode}
+            onChange={(next) => {
+              setContentMode(next);
+              const nextTpls = getTemplatesByMode(next);
+              if (nextTpls[0]) setTemplateId(nextTpls[0].id);
+            }}
+            items={[
+              { value: 'creator', label: 'Konten Biasa (Kreator)' },
+              { value: 'marketing', label: 'Mode Marketing (Jualan)' },
+            ]}
+          />
         </div>
 
         {/* Shared Settings Row (All CustomSelect, zero native <select>) */}

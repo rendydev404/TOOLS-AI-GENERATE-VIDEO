@@ -1,3 +1,4 @@
+export type ContentMode = 'creator' | 'marketing';
 export type QualityTier = 'hemat' | 'seimbang' | 'terbaik';
 export type AspectRatio = '9:16' | '16:9';
 export type VibeId = 'hangat' | 'mewah' | 'ceria' | 'sinematik' | 'minimalis' | 'retro';
@@ -25,6 +26,7 @@ export type HookStrategyId =
   | 'bukti-langsung';
 
 export interface Answers {
+  contentMode?: ContentMode;
   product: string;
   category?: string;
   hasPhoto: boolean;
@@ -48,6 +50,7 @@ export interface Answers {
 }
 
 export interface Bible {
+  contentMode: ContentMode;
   product: string;
   productLock: string;
   characterName?: string;
@@ -159,9 +162,10 @@ export interface TemplatePlan {
 
 export interface Template {
   id: string;
+  mode: ContentMode;
   name: string;
   description: string;
-  category: 'Jualan' | 'Makanan' | 'Cerita' | 'Edukasi';
+  category: string;
   badge?: string;
   available: boolean;
   art: string;
@@ -200,6 +204,7 @@ export interface LibraryItem {
 
 export interface BrandPreset {
   brandName: string;
+  defaultContentMode?: ContentMode;
   defaultVideoStyle?: VideoStyleId;
   defaultHookStyle?: HookStrategyId;
   defaultVibe: VibeId;

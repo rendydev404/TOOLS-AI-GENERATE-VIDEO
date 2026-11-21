@@ -1,21 +1,27 @@
 import rawTemplates from './templates.json';
-import type { Template, TemplatePlan, TemplateRole } from './types';
+import type { ContentMode, Template, TemplatePlan, TemplateRole } from './types';
 
 const templates = rawTemplates as Template[];
 
 const LEGACY_TEMPLATE_ALIASES: Record<string, string> = {
   'cerita-pendek': 'storytelling-konten',
   'edukasi-singkat': 'edukasi-tips',
-  'promo-diskon': 'opini-insight',
-  'ugc-testimoni': 'review-jujur',
-  'unboxing': 'review-jujur',
-  'before-after': 'transformasi-perbandingan',
-  'iklan-produk': 'showcase-sinematik',
-  'promo-makanan': 'showcase-sinematik',
+  'transformasi-perbandingan': 'before-after-produk',
+  'review-jujur': 'ugc-affiliate',
+  'iklan-produk': 'iklan-konversi',
+  'ugc-testimoni': 'ugc-affiliate',
+  'before-after': 'before-after-produk',
+  'unboxing': 'unboxing-detail',
+  'promo-diskon': 'promo-penawaran',
+  'promo-makanan': 'iklan-konversi',
 };
 
 export function getAllTemplates(): Template[] {
   return templates;
+}
+
+export function getTemplatesByMode(mode: ContentMode): Template[] {
+  return templates.filter((t) => t.mode === mode);
 }
 
 export function getTemplateById(id: string): Template | undefined {

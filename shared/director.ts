@@ -4,6 +4,7 @@ import type {
   Answers,
   Asset,
   Bible,
+  ContentMode,
   GuideStep,
   HookStrategyId,
   Pack,
@@ -121,8 +122,10 @@ export const VIDEO_STYLES: Record<VideoStyleId, VideoStylePreset> = {
 export interface HookStrategyPreset {
   id: HookStrategyId;
   name: string;
+  marketingName: string;
   tag: string;
   shortDesc: string;
+  marketingShortDesc: string;
   whyItWorks: string;
   shotOverride: string;
   cameraOverride: string;
@@ -130,6 +133,7 @@ export interface HookStrategyPreset {
   visualHookEn: string;
   descHookId: string;
   spokenHookId: string;
+  spokenHookMarketingId: string;
   sfxOverride: string;
 }
 
@@ -137,8 +141,10 @@ export const HOOK_STRATEGIES: Record<HookStrategyId, HookStrategyPreset> = {
   'rahasia-pov': {
     id: 'rahasia-pov',
     name: 'Curiosity Gap ("99% Belum Sadar")',
+    marketingName: 'POV Rekomendasi ("Jarang yang Tahu")',
     tag: 'Paling Viral',
     shortDesc: 'Memicu rasa penasaran penonton dengan fakta atau sisi tersembunyi dari topikmu.',
+    marketingShortDesc: 'Membuka seperti bocoran rahasia kenapa banyak orang beralih ke produk/solusimu.',
     whyItWorks: 'Otak manusia sulit mengabaikan informasi yang terasa eksklusif atau belum lengkap (curiosity gap).',
     shotOverride: 'intimate creator medium close-up, 35mm prime lens, shallow depth of field',
     cameraOverride: 'engaging push-in as the scene reveals the key visual clue of {product}',
@@ -146,31 +152,37 @@ export const HOOK_STRATEGIES: Record<HookStrategyId, HookStrategyPreset> = {
     visualHookEn:
       'SCROLL-STOPPING 0.0s CURIOSITY HOOK: immediate expressive lean-in toward the camera as visual clues illustrating "{product}" come into sharp focus, creating instant intrigue like sharing an untold insight',
     descHookId:
-      'Detik pertama langsung memancing rasa ingin tahu penonton lewat sisi menarik dari {product} yang jarang disadari orang.',
+      'Detik pertama langsung memancing rasa ingin tahu penonton lewat sisi menarik dari {product}.',
     spokenHookId: 'Jarang banget yang sadar kalau soal {product}, bagian paling menariknya justru ada di sini.',
+    spokenHookMarketingId: 'Jarang banget yang tahu kenapa sekarang banyak orang beralih ke {product} ini.',
     sfxOverride: 'subtle intriguing whoosh and crisp studio focus tone',
   },
   'masalah-relatable': {
     id: 'masalah-relatable',
     name: 'Situasi Relatable ("Pernah Nggak Sih?")',
+    marketingName: 'Pain-Point Pembeli ("Masih Sering Kesel?")',
     tag: 'Tinggi Share',
     shortDesc: 'Membuka dengan situasi sehari-hari yang langsung bikin penonton merasa "wah gue banget".',
-    whyItWorks: 'Konten yang relevan dengan pengalaman pribadi penonton paling sering di-share ke teman.',
+    marketingShortDesc: 'Membuka dengan masalah yang sering bikin calon pembeli pusing sebelum produkmu muncul.',
+    whyItWorks: 'Konten yang relevan dengan pengalaman pribadi atau keluhan penonton menahan perhatian lebih lama.',
     shotOverride: 'expressive medium close-up, 35mm lens, immediate eye-level creator connection',
     cameraOverride: 'natural handheld snap-focus capturing a relatable everyday moment around {product}',
     cameraIdOverride: 'Handheld',
     visualHookEn:
       'SCROLL-STOPPING 0.0s RELATABLE HOOK: authentic everyday slice-of-life moment illustrating the real situation around "{product}" in the very first second, expressive natural reaction that viewers immediately relate to',
     descHookId:
-      'Dibuka dengan situasi keseharian seputar {product} yang sangat dekat dengan pengalaman penonton.',
+      'Dibuka dengan situasi keseharian seputar {product} yang dekat dengan pengalaman penonton.',
     spokenHookId: 'Pernah nggak sih kamu lagi ngadepin urusan {product}, terus bingung sebenernya gimana?',
+    spokenHookMarketingId: 'Masih sering repot gara-gara belum nemu solusi yang beneran {adv1}?',
     sfxOverride: 'crisp everyday foley beat into natural creator room tone',
   },
   'visual-kejutan': {
     id: 'visual-kejutan',
     name: 'Visual Kejutan Detik 0.0 (Pattern Interrupt)',
+    marketingName: 'Close-Up Produk Menggoda Detik 0.0',
     tag: 'Tahan Jempol',
     shortDesc: 'Detik 0.0 langsung dibuka gerakan visual unik & dekat supaya jempol berhenti scroll.',
+    marketingShortDesc: 'Detik 0.0 langsung memamerkan detail tajam & gerakan memukau dari produkmu.',
     whyItWorks: 'Gerakan kontras di 1 detik pertama memutus pola scroll otomatis penonton di feed.',
     shotOverride: 'dynamic close-up perspective, 50mm lens, shallow depth of field',
     cameraOverride: 'rapid punchy push-in decelerating into crisp slow-motion focus',
@@ -180,54 +192,64 @@ export const HOOK_STRATEGIES: Record<HookStrategyId, HookStrategyPreset> = {
     descHookId:
       'Detik pertama langsung menyuguhkan visual dinamis seputar {product} agar penonton otomatis berhenti scroll.',
     spokenHookId: 'Tunggu, jangan di-scroll dulu — lihat apa yang sebenernya terjadi di balik {product} ini.',
+    spokenHookMarketingId: 'Tunggu, lihat dulu detail kualitas {product} ini dari dekat!',
     sfxOverride: 'crisp tactile micro-impact and subtle cinematic whoosh',
   },
   'transformasi-instan': {
     id: 'transformasi-instan',
     name: 'Patahkan Mitos / Sudut Pandang Baru',
-    tag: 'Pancing Komentar',
+    marketingName: 'Transformasi Sebelum vs Sesudah Cepat',
+    tag: 'Kontras Kuat',
     shortDesc: 'Membuka dengan mematahkan anggapan umum supaya penonton penasaran mendengar alasannya.',
-    whyItWorks: 'Pernyataan yang menantang asumsi umum memicu penonton menonton sampai akhir dan berkomentar.',
+    marketingShortDesc: 'Kontras perubahan instan begitu produk/layananmu mulai dipakai di layar.',
+    whyItWorks: 'Kontras kuat membuat otak penonton penasaran menunggu penjelasan sampai akhir.',
     shotOverride: 'confident creator medium shot, 35mm lens, centered framing',
     cameraOverride: 'whip-reveal camera motion snapping into a crisp focused frame',
     cameraIdOverride: 'Whip pan',
     visualHookEn:
       'SCROLL-STOPPING 0.0s CONTRARIAN HOOK: starts for one beat on a conventional ordinary moment, then snaps cleanly into a vibrant fresh visual perspective on "{product}"',
     descHookId:
-      'Membuka bahasan dengan mematahkan anggapan umum tentang {product} sehingga memancing rasa penasaran.',
+      'Membuka dengan kontras perubahan sudut pandang atau hasil nyata seputar {product}.',
     spokenHookId: 'Banyak yang masih salah paham soal {product}, padahal kenyataannya beda jauh.',
+    spokenHookMarketingId: 'Cuma butuh hitungan detik buat lihat bedanya setelah pakai {product} ini.',
     sfxOverride: 'energetic snap transition into clean studio ambience',
   },
   'skala-unik': {
     id: 'skala-unik',
     name: 'Pembuka Sinematik Bikin Melirik',
+    marketingName: 'Hero Shot Sinematik Kelas Brand Besar',
     tag: 'Visual Mahal',
     shortDesc: 'Kamera meluncur dramatis menembus ruang untuk membangun atmosfer cerita yang kuat.',
-    whyItWorks: 'Komposisi sinematik membuat konten terlihat niat, estetik, dan punya watch-time tinggi.',
+    marketingShortDesc: 'Kamera meluncur rendah sinematik ke arah produk sehingga terlihat mewah & kredibel.',
+    whyItWorks: 'Komposisi sinematik membuat video terlihat bernilai tinggi dan meningkatkan kepercayaan.',
     shotOverride: 'dramatic low-angle cinematic perspective, 24mm wide cinema lens',
     cameraOverride: 'sweeping low-altitude glide moving smoothly into the world of {product}',
     cameraIdOverride: 'Dolly-in',
     visualHookEn:
-      'SCROLL-STOPPING 0.0s CINEMATIC HOOK: sweeping cinema camera glides smoothly through the environment into the core scene of "{product}", creating an iconic, immersive storytelling opening',
+      'SCROLL-STOPPING 0.0s CINEMATIC HOOK: sweeping cinema camera glides smoothly through the environment into the core scene of "{product}", creating an iconic, immersive opening',
     descHookId:
-      'Kamera meluncur sinematik membangun atmosfer cerita seputar {product} sejak detik pertama.',
+      'Kamera meluncur sinematik membangun atmosfer ikonik seputar {product} sejak detik pertama.',
     spokenHookId: 'Bayangin gimana jadinya kalau kita lihat {product} langsung dari sudut pandang ini.',
+    spokenHookMarketingId: 'Jangan lewatkan {product} ini kalau kamu mengutamakan yang beneran {adv1}!',
     sfxOverride: 'cinematic smooth air glide and warm atmospheric swell',
   },
   'bukti-langsung': {
     id: 'bukti-langsung',
     name: 'To The Point Tanpa Basa-Basi',
-    tag: 'Tinggi Save',
+    marketingName: 'Demo Bukti Nyata Tanpa Intro',
+    tag: 'To The Point',
     shortDesc: 'Tanpa sapaan bertele-tele, detik pertama langsung masuk ke inti bahasan utama.',
-    whyItWorks: 'Penonton video pendek menyukai kreator yang langsung memberikan value padat sejak kalimat pertama.',
+    marketingShortDesc: 'Tanpa basa-basi, detik pertama langsung mendemonstrasikan keunggulan produk.',
+    whyItWorks: 'Penonton TikTok/Reels menyukai video yang langsung memberi bukti & isi sejak detik pertama.',
     shotOverride: 'crisp 45-degree creator framing, 50mm prime lens',
     cameraOverride: 'steady precision tracking focused tightly on the main subject',
     cameraIdOverride: 'Slow motion',
     visualHookEn:
       'SCROLL-STOPPING 0.0s VALUE-FIRST HOOK: zero-delay visual illustration right from frame one demonstrating {advantages_en} of "{product}" with crisp clarity',
     descHookId:
-      'Tanpa intro panjang, detik pertama langsung masuk ke inti bahasan {product} ({advantages}).',
+      'Tanpa intro panjang, detik pertama langsung masuk ke inti {product} ({advantages}).',
     spokenHookId: 'Tanpa basa-basi, ini poin paling penting soal {product} yang wajib kamu tahu.',
+    spokenHookMarketingId: 'Langsung buktiin sendiri kenapa {product} ini paling diandalkan soal {adv1}.',
     sfxOverride: 'clean modern creator pop and crisp room tone',
   },
 };
@@ -497,7 +519,7 @@ export const CAMERA_PRESETS: CameraPreset[] = [
   { id: 'Statis', label: 'Diam Stabil (Tripod)', en: 'locked-off steady tripod camera' },
 ];
 
-export const ADVANTAGE_SUGGESTIONS = [
+export const CREATOR_ANGLE_SUGGESTIONS = [
   'Fakta jarang diketahui',
   'Relatable sehari-hari',
   'Penjelasan simpel',
@@ -507,18 +529,41 @@ export const ADVANTAGE_SUGGESTIONS = [
   'Langkah demi langkah',
   'Bikin penasaran',
   'Solusi praktis',
-  'Hemat waktu',
   'Logis & mudah paham',
   'Cocok buat pemula',
 ];
 
-export const CTA_SUGGESTIONS = [
+export const MARKETING_ADVANTAGE_SUGGESTIONS = [
+  'Praktis & cepat',
+  'Mudah dipakai',
+  'Hemat biaya',
+  'Hasil instan',
+  'Fitur lengkap',
+  'Kualitas premium',
+  'Terbukti efektif',
+  'Hemat waktu',
+  'Desain modern',
+  'Tahan lama',
+  'Garansi aman',
+  'Harga terjangkau',
+];
+
+export const CREATOR_CTA_SUGGESTIONS = [
   'Menurut kamu gimana? Tulis di kolom komentar',
   'Save video ini biar gampang dicari lagi nanti',
   'Follow buat bahasan seru lainnya setiap hari',
   'Share ke temanmu yang butuh bahasan ini',
-  'Cek info lengkapnya di link bio',
 ];
+
+export const MARKETING_CTA_SUGGESTIONS = [
+  'Cek info & promonya di link bio',
+  'Klik keranjang kuning sekarang mumpung ready',
+  'Coba sekarang, klik link di bio',
+  'Hubungi kami lewat link di bio hari ini',
+];
+
+export const ADVANTAGE_SUGGESTIONS = CREATOR_ANGLE_SUGGESTIONS;
+export const CTA_SUGGESTIONS = CREATOR_CTA_SUGGESTIONS;
 
 const ADV_EN: Record<string, string> = {
   'fakta jarang diketahui': 'surprising lesser-known facts and insights',
@@ -542,6 +587,8 @@ const ADV_EN: Record<string, string> = {
   'hemat waktu': 'time-saving efficiency',
   'desain modern': 'sleek modern design',
   'aman & terpercaya': 'safe, reliable, and trustworthy',
+  'garansi aman': 'backed by reliable warranty and trust',
+  'harga terjangkau': 'accessible great-value pricing',
   'cocok untuk pemula': 'beginner-friendly accessibility',
   gratis: 'free and accessible',
   otomatis: 'smart automated workflow',
@@ -608,6 +655,7 @@ function capFirst(s: string): string {
 
 export function normalizeAnswers(input: Answers): Answers {
   const a: Answers = { ...input };
+  a.contentMode = a.contentMode === 'marketing' ? 'marketing' : 'creator';
   a.product = (a.product || '').trim();
   if (!a.videoStyle || !VIDEO_STYLES[a.videoStyle]) {
     a.videoStyle = 'real-live';
@@ -640,7 +688,10 @@ export function normalizeAnswers(input: Answers): Answers {
     a.cast = 'product';
   }
   if (!a.cta || !a.cta.trim()) {
-    a.cta = 'Menurut kamu gimana? Tulis di kolom komentar';
+    a.cta =
+      a.contentMode === 'marketing'
+        ? 'Cek info & promonya di link bio'
+        : 'Menurut kamu gimana? Tulis di kolom komentar';
   } else {
     a.cta = a.cta.trim();
   }
@@ -735,7 +786,34 @@ export function buildSceneVideoPrompt(
   return cleanSingleLinePrompt(parts.join(' '));
 }
 
-function defaultNarration(role: string, a: Answers, advId: string): string {
+function defaultNarration(role: string, a: Answers, advId: string, mode: ContentMode): string {
+  if (mode === 'marketing') {
+    switch (role) {
+      case 'produk':
+      case 'kemasan':
+      case 'buka':
+      case 'transisi':
+      case 'keluhan':
+      case 'tips':
+        return `Kenalin ${a.product}, solusi yang dirancang supaya jauh lebih praktis dipakai.`;
+      case 'manfaat':
+      case 'pakai':
+      case 'sesudah':
+      case 'isi':
+      case 'keunggulan':
+      case 'jembatan':
+        return `Keunggulan utamanya langsung kerasa: ${advId}.`;
+      case 'detail':
+      case 'rekomendasi':
+      case 'bukti':
+        return `Detail kualitasnya rapi dan siap diandalkan buat kebutuhanmu.`;
+      case 'ajakan':
+        return `${a.cta.replace(/[.!]+$/, '')}!`;
+      default:
+        return '';
+    }
+  }
+
   switch (role) {
     case 'latar':
     case 'miskonsepsi':
@@ -776,6 +854,7 @@ function defaultNarration(role: string, a: Answers, advId: string): string {
 
 function buildAssets(bible: Bible, a: Answers, vibe: VibePreset, vStyle: VideoStylePreset): Asset[] {
   const out: Asset[] = [];
+  const isMarketing = bible.contentMode === 'marketing';
 
   if (bible.characterLock) {
     out.push({
@@ -791,14 +870,22 @@ function buildAssets(bible: Bible, a: Answers, vibe: VibePreset, vStyle: VideoSt
 
   out.push({
     id: 'product',
-    name: 'Gambar Patokan Visual Topik / Latar',
+    name: isMarketing ? 'Gambar Patokan Produk / Layanan' : 'Gambar Patokan Visual Topik / Latar',
     upload: a.hasPhoto,
     purpose: a.hasPhoto
-      ? 'Unggah gambar/foto referensi topikmu ke Google Flow supaya nuansa visualnya dipakai konsisten di setiap klip.'
-      : `Buat 1 gambar patokan visual topik "${bible.product}" bergaya "${vStyle.name}" (gratis 0 credit di Flow) agar elemen visual & suasana konsisten di semua adegan.`,
-    prompt: cleanSingleLinePrompt(
-      `Key visual concept & scene reference illustrating the topic "${bible.product}", rendered in ${vStyle.assetStyleEn}, set in ${vibe.setting}, ${vibe.lighting}, color palette of ${vibe.palette}, coherent props and visual details, no text overlays, no watermark.`
-    ),
+      ? isMarketing
+        ? 'Unggah foto produk/layanan aslimu ke Google Flow supaya bentuk dan warnanya dipakai konsisten di setiap klip.'
+        : 'Unggah gambar referensi topikmu ke Google Flow supaya nuansa visualnya dipakai konsisten di setiap klip.'
+      : isMarketing
+        ? `Buat 1 gambar patokan produk "${bible.product}" bergaya "${vStyle.name}" (gratis 0 credit) supaya wujud produk konsisten di semua adegan.`
+        : `Buat 1 gambar patokan visual topik "${bible.product}" bergaya "${vStyle.name}" (gratis 0 credit) agar suasana & elemen visual konsisten di semua adegan.`,
+    prompt: isMarketing
+      ? cleanSingleLinePrompt(
+          `Hero commercial reference sheet of "${bible.product}", rendered in ${vStyle.assetStyleEn}, centered composition on ${vibe.surface}, ${vibe.lighting}, color palette of ${vibe.palette}, exact consistent shape, colors, and clean details, no text overlays, no watermark.`
+        )
+      : cleanSingleLinePrompt(
+          `Key visual concept & scene reference illustrating the topic "${bible.product}", rendered in ${vStyle.assetStyleEn}, set in ${vibe.setting}, ${vibe.lighting}, color palette of ${vibe.palette}, coherent props and visual details, no text overlays, no watermark.`
+        ),
   });
 
   return out;
@@ -837,13 +924,24 @@ function buildSceneTips(
   return tips;
 }
 
-function buildCaption(a: Answers, advId: string): { caption: string; hashtags: string[] } {
+function buildCaption(
+  a: Answers,
+  advId: string,
+  mode: ContentMode
+): { caption: string; hashtags: string[] } {
   const cleanCta = a.cta.replace(/[.!]+$/, '');
   const extraContext = a.story?.trim() ? ` ${a.story.trim().replace(/[.!]+$/, '')}.` : '';
-  const caption = `Bahas ${a.product} — mulai dari ${advId}.${extraContext} ${cleanCta}!`;
   const slug = a.product.toLowerCase().replace(/[^a-z0-9]/g, '');
   const hashtags: string[] = [];
   if (slug) hashtags.push(`#${slug.slice(0, 24)}`);
+
+  if (mode === 'marketing') {
+    const caption = `Kenalin ${a.product} — solusi dengan ${advId}.${extraContext} ${cleanCta}!`;
+    hashtags.push('#rekomendasi', '#reviewjujur', '#worthit', '#infopromo');
+    return { caption, hashtags };
+  }
+
+  const caption = `Bahas ${a.product} — mulai dari ${advId}.${extraContext} ${cleanCta}!`;
   hashtags.push('#kontenkreator', '#bahasanseru', '#edukasisingkat', '#fypindonesia');
   return { caption, hashtags };
 }
@@ -1016,9 +1114,12 @@ export function buildFlowSteps(
 }
 
 export function generateOfflinePack(template: Template, rawAnswers: Answers): Pack {
-  const a = normalizeAnswers(rawAnswers);
+  const resolvedMode: ContentMode = rawAnswers.contentMode ?? template.mode ?? 'creator';
+  const a = normalizeAnswers({ ...rawAnswers, contentMode: resolvedMode });
   if (!a.product) {
-    throw new Error('Nama produk wajib diisi.');
+    throw new Error(
+      resolvedMode === 'marketing' ? 'Nama produk/layanan wajib diisi.' : 'Topik konten wajib diisi.'
+    );
   }
   if (template.cast === 'person') {
     a.cast = 'person';
@@ -1028,23 +1129,28 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
   }
 
   const vStyle = VIDEO_STYLES[a.videoStyle || 'real-live'];
-  const hookPreset = HOOK_STRATEGIES[a.hookStyle || 'visual-kejutan'];
+  const hookPreset = HOOK_STRATEGIES[a.hookStyle || 'rahasia-pov'];
   const vibe = VIBES[a.vibe];
   const model = MODELS[a.quality];
+  const activeHookTitle =
+    resolvedMode === 'marketing' ? hookPreset.marketingName : hookPreset.name;
 
   let productLock =
     a.productLockCustom?.trim() ||
-    `Core Topic & Visual Motif: every scene visually illustrates the topic "${a.product}" rendered consistently in ${vStyle.name} aesthetic; keep visual props, environment motifs, and world design coherent across all shots`;
+    (resolvedMode === 'marketing'
+      ? `Hero Product / Service Lock: the promoted subject is "${a.product}" rendered consistently in ${vStyle.name} aesthetic; keep its exact geometry, colors, proportions, packaging/interface, and design 100% identical in every shot`
+      : `Core Topic & Visual Motif: every scene visually illustrates the topic "${a.product}" rendered consistently in ${vStyle.name} aesthetic; keep visual props, environment motifs, and world design coherent across all shots`);
   if (a.hasPhoto && !productLock.toLowerCase().includes('reference image')) {
     productLock += ', matching the attached visual reference image faithfully';
   }
 
   const bible: Bible = {
+    contentMode: resolvedMode,
     product: a.product,
     productLock,
     videoStyleName: vStyle.name,
     videoStyleLock: vStyle.mediumLock,
-    hookStrategyName: hookPreset.name,
+    hookStrategyName: activeHookTitle,
     styleName: vibe.name,
     style: vibe.style,
     lighting: vibe.lighting,
@@ -1111,7 +1217,7 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
     let cameraId = isOpeningHook ? hookPreset.cameraIdOverride : r.cameraId;
     let sfx = isOpeningHook ? hookPreset.sfxOverride : r.sfx;
     let description = isOpeningHook
-      ? `[Hook: ${hookPreset.name}] ${applyPlaceholders(hookPreset.descHookId, replacements)}`
+      ? `[Hook: ${activeHookTitle}] ${applyPlaceholders(hookPreset.descHookId, replacements)}`
       : applyPlaceholders(r.descId, replacements);
 
     let actionEn = isOpeningHook
@@ -1125,13 +1231,15 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
     let dialogue: string | undefined;
     if (a.voice !== 'none') {
       if (isOpeningHook) {
-        dialogue =
-          a.customHookLine?.trim() ||
-          applyPlaceholders(hookPreset.spokenHookId, replacements);
+        const hookLineTemplate =
+          resolvedMode === 'marketing'
+            ? hookPreset.spokenHookMarketingId
+            : hookPreset.spokenHookId;
+        dialogue = a.customHookLine?.trim() || applyPlaceholders(hookLineTemplate, replacements);
       } else if (r.dialogue) {
         dialogue = applyPlaceholders(r.dialogue, replacements);
       } else {
-        dialogue = defaultNarration(r.role, a, advId);
+        dialogue = defaultNarration(r.role, a, advId, resolvedMode);
       }
     }
 
@@ -1140,7 +1248,7 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
       id: `sc-${scenes.length + 1}`,
       idx: scenes.length,
       role: r.role,
-      label: isOpeningHook ? `Hook (${hookPreset.name})` : r.label,
+      label: isOpeningHook ? `Hook (${activeHookTitle})` : r.label,
       art: r.art || template.art,
       description,
       actionEn,
@@ -1179,8 +1287,9 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
     clipSeconds: model.clipS,
   };
 
-  const { caption, hashtags } = buildCaption(a, advId);
-  const summary = `${scenes.length} klip · ±${a.durationS} dtk · ${a.aspect} · ${vStyle.name} · Hook ${hookPreset.name}.`;
+  const { caption, hashtags } = buildCaption(a, advId, resolvedMode);
+  const modeLabel = resolvedMode === 'marketing' ? 'Mode Marketing' : 'Mode Konten';
+  const summary = `${modeLabel} · ${scenes.length} klip · ±${a.durationS} dtk · ${a.aspect} · ${vStyle.name}.`;
 
   const basePack: Omit<Pack, 'steps' | 'guideUpdatedAt'> = {
     title: a.product,

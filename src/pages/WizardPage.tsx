@@ -25,11 +25,13 @@ import {
 } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 import {
-  ADVANTAGE_SUGGESTIONS,
   buildCustomCharacterLock,
   CHARACTERS,
-  CTA_SUGGESTIONS,
+  CREATOR_ANGLE_SUGGESTIONS,
+  CREATOR_CTA_SUGGESTIONS,
   HOOK_STRATEGIES,
+  MARKETING_ADVANTAGE_SUGGESTIONS,
+  MARKETING_CTA_SUGGESTIONS,
   MODELS,
   MUSIC_LABELS,
   VIBES,
@@ -39,11 +41,13 @@ import {
   getAllTemplates,
   getPlanForDuration,
   getTemplateById,
+  getTemplatesByMode,
 } from '@shared/templates';
 import type {
   Answers,
   AspectRatio,
   CastChoice,
+  ContentMode,
   DurationChoice,
   HookStrategyId,
   MusicChoice,
@@ -138,23 +142,35 @@ export function WizardPage() {
     [draftId, projects]
   );
 
-  const [step, setStep] = useState<number>(() => (initialTemplateParam ? 2 : 1));
+  const initialTemplateObj = initialTemplateParam
+    ? getTemplateById(initialTemplateParam)
+    : undefined;
+
+  const [step, setStep] = useState<number>(() => (initialTemplateObj ? 2 : 1));
   const [templateId, setTemplateId] = useState<string>(() => {
     if (existingDraft) return existingDraft.templateId;
-    if (initialTemplateParam && getTemplateById(initialTemplateParam)) return initialTemplateParam;
+    if (initialTemplateObj) return initialTemplateObj.id;
     return 'storytelling-konten';
   });
 
   const [answers, setAnswers] = useState<Answers>(() => {
     if (existingDraft) return existingDraft.answers;
+    const startMode: ContentMode =
+      initialTemplateObj?.mode ?? brand.defaultContentMode ?? 'creator';
+    const isMkt = startMode === 'marketing';
     return {
-      product: brand.brandName ? `${brand.brandName} ` : '',
+      contentMode: startMode,
+      product: brand.brandName && isMkt ? `${brand.brandName} ` : '',
       hasPhoto: false,
       productLockCustom: '',
-      advantages: ['Fakta jarang diketahui', 'Penjelasan simpel'],
-      cta: brand.defaultCta || 'Menurut kamu gimana? Tulis di kolom komentar',
+      advantages: isMkt
+        ? ['Praktis & cepat', 'Mudah dipakai']
+        : ['Fakta jarang diketahui', 'Penjelasan simpel'],
+      cta: isMkt
+        ? 'Cek info & promonya di link bio'
+        : brand.defaultCta || 'Menurut kamu gimana? Tulis di kolom komentar',
       story: '',
-      videoStyle: brand.defaultVideoStyle || 'kartun-3d',
+      videoStyle: brand.defaultVideoStyle || (isMkt ? 'real-live' : 'kartun-3d'),
       hookStyle: brand.defaultHookStyle || 'rahasia-pov',
       customHookLine: '',
       vibe: brand.defaultVibe || 'minimalis',
@@ -169,6 +185,29 @@ export function WizardPage() {
       seamlessChain: brand.defaultSeamlessChain ?? false,
     };
   });
+
+  const contentMode: ContentMode = answers.contentMode ?? 'creator';
+  const isMarketing = contentMode === 'marketing';
+  const modeTemplates = useMemo(() => getTemplatesByMode(contentMode), [contentMode]);
+
+  const handleSwitchMode = (nextMode: ContentMode) => {
+    if (nextMode === contentMode) return;
+    const nextList = getTemplatesByMode(nextMode);
+    if (nextList[0]) {
+      setTemplateId(nextList[0].id);
+    }
+    const nextIsMkt = nextMode === 'marketing';
+    setAnswers((prev) => ({
+      ...prev,
+      contentMode: nextMode,
+      advantages: nextIsMkt
+        ? ['Praktis & cepat', 'Mudah dipakai']
+        : ['Fakta jarang diketahui', 'Penjelasan simpel'],
+      cta: nextIsMkt
+        ? 'Cek info & promonya di link bio'
+        : 'Menurut kamu gimana? Tulis di kolom komentar',
+    }));
+  };
 
   const [customAdvInput, setCustomAdvInput] = useState('');
   const [generating, setGenerating] = useState(false);
@@ -310,10 +349,17 @@ export function WizardPage() {
     navigate(`/proyek/${sample.id}`);
   };
 
+  const activeSuggestionPool = isMarketing
+    ? MARKETING_ADVANTAGE_SUGGESTIONS
+    : CREATOR_ANGLE_SUGGESTIONS;
+  const activeCtaSuggestions = isMarketing
+    ? MARKETING_CTA_SUGGESTIONS
+    : CREATOR_CTA_SUGGESTIONS;
+
   const allAdvantageChips = useMemo(() => {
-    const merged = new Set([...ADVANTAGE_SUGGESTIONS, ...answers.advantages]);
+    const merged = new Set([...activeSuggestionPool, ...answers.advantages]);
     return Array.from(merged);
-  }, [answers.advantages]);
+  }, [activeSuggestionPool, answers.advantages]);
 
   const currentVideoStyle = VIDEO_STYLES[answers.videoStyle || 'real-live'];
   const currentHook = HOOK_STRATEGIES[answers.hookStyle || 'visual-kejutan'];
@@ -429,20 +475,39 @@ export function WizardPage() {
 
         {/* ==================== MAIN FOCUS STEP CARD ==================== */}
         <div className="neo-card rounded-2xl p-6">
-          {/* STEP 1: FORMAT KONTEN KREATOR */}
+          {/* STEP 1: PILIH MODE (KONTEN BIASA vs MARKETING) & FORMAT */}
           {step === 1 && (
             <div className="flex flex-col gap-5">
               <div>
                 <h1 className="font-display text-[22px] sm:text-[25px] font-bold text-[var(--text-primary)]">
-                  1. Mau bikin format konten seperti apa?
+                  1. Pilih jenis konten & alur videonya
                 </h1>
                 <p className="mt-1 text-[14px] font-medium text-[var(--text-secondary)]">
-                  Pilih gaya pembawaan konten — mulai dari storytelling, edukasi, opini, sketsa POV, sampai review.
+                  Pilih dulu mau bikin <strong>Konten Biasa (Kreator)</strong> atau <strong>Mode Marketing (Jualan)</strong>.
                 </p>
               </div>
 
+              <SegmentedControl<ContentMode>
+                fullWidth
+                tall
+                value={contentMode}
+                onChange={handleSwitchMode}
+                items={[
+                  {
+                    value: 'creator',
+                    label: 'Konten Biasa (Kreator)',
+                    sub: 'Cerita, edukasi, fakta, opini & POV general',
+                  },
+                  {
+                    value: 'marketing',
+                    label: 'Mode Marketing (Jualan)',
+                    sub: 'Promosi produk, jasa, aplikasi & affiliate',
+                  },
+                ]}
+              />
+
               <div className="grid gap-3 sm:grid-cols-2">
-                {templates.map((tpl) => {
+                {modeTemplates.map((tpl) => {
                   const selected = templateId === tpl.id;
                   const roleLabels = (tpl.plans['20']?.roles ?? [])
                     .map((rKey) => tpl.roles.find((r) => r.role === rKey)?.label)
@@ -595,12 +660,12 @@ export function WizardPage() {
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center justify-between gap-2">
                           <span className="font-display text-[15.5px] font-bold text-[var(--text-primary)]">
-                            {hk.name}
+                            {isMarketing ? hk.marketingName : hk.name}
                           </span>
                           <Tag tone={selected ? 'purple' : 'neutral'}>{hk.tag}</Tag>
                         </div>
                         <p className="mt-1 text-[13.5px] font-semibold text-[var(--text-primary)] leading-snug">
-                          {hk.shortDesc}
+                          {isMarketing ? hk.marketingShortDesc : hk.shortDesc}
                         </p>
                         <p className="mt-1 text-[12px] font-medium text-[var(--text-secondary)]">
                           Alasan berhasil: {hk.whyItWorks}
@@ -626,30 +691,36 @@ export function WizardPage() {
             </div>
           )}
 
-          {/* STEP 4: TOPIK & KARAKTER KREATOR */}
+          {/* STEP 4: TOPIK / PRODUK & KARAKTER */}
           {step === 4 && (
             <div className="flex flex-col gap-5">
               <div>
                 <div className="flex flex-wrap items-center gap-1.5 mb-2">
+                  <Tag tone="purple">
+                    {isMarketing ? 'Mode Marketing (Jualan)' : 'Konten Biasa (Kreator)'}
+                  </Tag>
                   <Tag tone="brand">{currentVideoStyle.name}</Tag>
-                  <Tag tone="purple">Hook: {currentHook.name}</Tag>
                 </div>
                 <h1 className="font-display text-[22px] sm:text-[25px] font-bold text-[var(--text-primary)]">
-                  4. Apa topik bahasan & karakter videonya?
+                  {isMarketing
+                    ? '4. Apa produk / layanan & karakter iklannya?'
+                    : '4. Apa topik bahasan & karakter videonya?'}
                 </h1>
                 <p className="mt-1 text-[13.5px] font-medium text-[var(--text-secondary)]">
-                  Bebas bahas topik apa saja — cerita harian, fakta unik, edukasi, opini, teknologi, maupun ulasan.
+                  {isMarketing
+                    ? 'Masukkan nama produk, aplikasi, atau jasa yang ingin dipromosikan beserta keunggulannya.'
+                    : 'Bebas bahas topik apa saja — cerita harian, fakta unik, edukasi, opini, maupun hiburan.'}
                 </p>
               </div>
 
               {savedProducts.length > 0 && (
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[13px] font-bold text-[var(--text-secondary)]">
-                    Ambil topik / ide tersimpan dari Pustaka (opsional)
+                    Ambil cepat dari Pustaka (opsional)
                   </label>
                   <CustomSelect
                     value=""
-                    placeholder="Pilih topik tersimpan..."
+                    placeholder={isMarketing ? 'Pilih produk tersimpan...' : 'Pilih topik tersimpan...'}
                     options={savedProducts.map((item) => ({
                       value: item.id,
                       label: item.name,
@@ -675,7 +746,9 @@ export function WizardPage() {
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center justify-between">
                   <label className="text-[14px] font-bold text-[var(--text-primary)]">
-                    Topik bahasan / judul ide konten (wajib)
+                    {isMarketing
+                      ? 'Nama produk / layanan / aplikasi (wajib)'
+                      : 'Topik bahasan / judul ide konten (wajib)'}
                   </label>
                   <button
                     type="button"
@@ -683,7 +756,7 @@ export function WizardPage() {
                     className="inline-flex items-center gap-1 text-[12px] font-bold text-[var(--accent-purple)] hover:underline"
                   >
                     <BookmarkPlus size={14} strokeWidth={2.5} />
-                    <span>Simpan Topik</span>
+                    <span>{isMarketing ? 'Simpan Produk' : 'Simpan Topik'}</span>
                   </button>
                 </div>
                 <input
@@ -691,27 +764,39 @@ export function WizardPage() {
                   autoFocus
                   value={answers.product}
                   onChange={(e) => updateAnswer('product', e.target.value)}
-                  placeholder="Contoh: Kenapa Otak Susah Fokus, Fakta Lubang Hitam, Cerita Anak Kos, atau Cara Kerja AI"
+                  placeholder={
+                    isMarketing
+                      ? 'Contoh: Aplikasi Keuangan FokusKu, Earbuds Wireless AeroPro, atau Jasa Desain Website'
+                      : 'Contoh: Kenapa Otak Susah Fokus, Fakta Lubang Hitam, Cerita Anak Kos, atau Cara Kerja AI'
+                  }
                   className="h-12 w-full rounded-xl border-2 border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 text-[15px] font-semibold text-[var(--text-primary)] shadow-[var(--shadow-xs)] placeholder:font-normal placeholder:text-[var(--text-tertiary)] focus:outline-none focus:shadow-[var(--focus-ring)]"
                 />
               </div>
 
               <div className="flex flex-col gap-1.5">
                 <label className="text-[14px] font-bold text-[var(--text-primary)]">
-                  Inti cerita / konteks singkat yang mau disampaikan · opsional
+                  {isMarketing
+                    ? 'Target pembeli / masalah yang diselesaikan · opsional'
+                    : 'Inti cerita / konteks singkat yang mau disampaikan · opsional'}
                 </label>
                 <input
                   type="text"
                   value={answers.story || ''}
                   onChange={(e) => updateAnswer('story', e.target.value)}
-                  placeholder="Contoh: Bahas alasan kenapa notifikasi HP bikin cepat lelah dan tips mengatasinya..."
+                  placeholder={
+                    isMarketing
+                      ? 'Contoh: Membantu pekerja sibuk merapikan catatan keuangan otomatis tanpa ribet...'
+                      : 'Contoh: Bahas alasan kenapa notifikasi HP bikin cepat lelah dan tips mengatasinya...'
+                  }
                   className="h-11 w-full rounded-xl border-2 border-[var(--border-strong)] bg-[var(--bg-surface)] px-3.5 text-[13.5px] font-medium placeholder:text-[var(--text-tertiary)] focus:outline-none focus:shadow-[var(--focus-ring)]"
                 />
               </div>
 
               <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-bold text-[var(--text-primary)]">
-                  Pilih 2–3 nuansa pembawaan / sudut pandang konten
+                  {isMarketing
+                    ? 'Pilih 2–3 keunggulan utama produk / layanan'
+                    : 'Pilih 2–3 nuansa pembawaan / sudut pandang konten'}
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {allAdvantageChips.map((adv) => (
@@ -734,7 +819,11 @@ export function WizardPage() {
                         addCustomAdvantage();
                       }
                     }}
-                    placeholder="Tambah poin bahasan atau angle lain..."
+                    placeholder={
+                      isMarketing
+                        ? 'Tambah keunggulan produk lain...'
+                        : 'Tambah poin bahasan atau angle lain...'
+                    }
                     className="h-10.5 flex-1 rounded-xl border-2 border-[var(--border-strong)] bg-[var(--bg-surface)] px-3.5 text-[13.5px] font-medium focus:outline-none focus:shadow-[var(--focus-ring)]"
                   />
                   <Button
@@ -750,7 +839,9 @@ export function WizardPage() {
 
               <div className="flex flex-col gap-1.5">
                 <label className="text-[14px] font-bold text-[var(--text-primary)]">
-                  Kalimat penutup kreator (pancing komentar / save / share)
+                  {isMarketing
+                    ? 'Kalimat ajakan beli / konversi (CTA)'
+                    : 'Kalimat penutup kreator (pancing komentar / save / share)'}
                 </label>
                 <input
                   type="text"
@@ -759,7 +850,7 @@ export function WizardPage() {
                   className="h-11 w-full rounded-xl border-2 border-[var(--border-strong)] bg-[var(--bg-surface)] px-3.5 text-[14px] font-semibold focus:outline-none focus:shadow-[var(--focus-ring)]"
                 />
                 <div className="flex flex-wrap gap-1.5 pt-1">
-                  {CTA_SUGGESTIONS.map((s) => (
+                  {activeCtaSuggestions.map((s) => (
                     <button
                       key={s}
                       type="button"

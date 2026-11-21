@@ -100,5 +100,12 @@ jobs:
           printf '%s\n' "$SSH_KEY" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-          # Key dibatasi di VPS 3 khusus untuk /opt/studioflow/redeploy.sh
-          ssh -i ~/.ssh/id_ed25519 "root@$SSH_HOST" true
+          # Key dibatasi di VPS 3 khusus untuk /opt/studioflow/redeploy.sh (3x retry tahan jeda jaringan)
+          for attempt in 1 2 3; do
+            if ssh -o ConnectTimeout=15 -o ServerAliveInterval=10 -i ~/.ssh/id_ed25519 "root@$SSH_HOST" true; then
+              exit 0
+            fi
+            echo "SSH attempt $attempt failed, retrying in 5s..."
+            sleep 5
+          done
+          exit 1

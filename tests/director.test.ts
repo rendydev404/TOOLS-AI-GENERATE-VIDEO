@@ -31,13 +31,20 @@ const BASE_ANSWERS: Answers = {
 };
 
 describe('Rangkai Director Engine', () => {
-  it('generates complete offline prompt packs for all 8 templates across 15s, 20s, and 30s', () => {
+  it('generates complete offline prompt packs for all 12 templates (6 Creator + 6 Marketing) across 15s, 20s, and 30s', () => {
     const templates = getAllTemplates();
-    expect(templates.length).toBe(8);
+    expect(templates.length).toBe(12);
+    expect(templates.filter((t) => t.mode === 'creator').length).toBe(6);
+    expect(templates.filter((t) => t.mode === 'marketing').length).toBe(6);
 
     for (const tpl of templates) {
       for (const dur of [15, 20, 30] as const) {
-        const pack = generateOfflinePack(tpl, { ...BASE_ANSWERS, durationS: dur });
+        const pack = generateOfflinePack(tpl, {
+          ...BASE_ANSWERS,
+          contentMode: tpl.mode,
+          durationS: dur,
+        });
+        expect(pack.bible.contentMode).toBe(tpl.mode);
         expect(pack.scenes.length).toBeGreaterThanOrEqual(3);
         expect(pack.steps.length).toBeGreaterThanOrEqual(pack.scenes.length + 2);
         expect(pack.settings.creditsTotal).toBe(pack.scenes.length * 20);
@@ -51,25 +58,36 @@ describe('Rangkai Director Engine', () => {
     }
   });
 
-  it('applies all 8 Video Styles (Minecraft, 3D Cartoon, 2D Anime, Live-Action, etc.) and all 6 Hook Strategies cleanly', () => {
-    const tpl = getTemplateById('iklan-produk')!;
+  it('applies all 8 Video Styles and all 6 Hook Strategies cleanly in both Creator and Marketing modes', () => {
+    const creatorTpl = getTemplateById('storytelling-konten')!;
+    const marketingTpl = getTemplateById('iklan-konversi')!;
 
     for (const styleId of Object.keys(VIDEO_STYLES) as VideoStyleId[]) {
-      const pack = generateOfflinePack(tpl, { ...BASE_ANSWERS, videoStyle: styleId });
+      const pack = generateOfflinePack(creatorTpl, { ...BASE_ANSWERS, videoStyle: styleId });
       expect(pack.bible.videoStyleName).toBe(VIDEO_STYLES[styleId].name);
       expect(pack.scenes[0].prompt).toContain('Visual Medium & Render Style:');
       expect(pack.assets[0].prompt).toContain(VIDEO_STYLES[styleId].assetStyleEn);
     }
 
     for (const hookId of Object.keys(HOOK_STRATEGIES) as HookStrategyId[]) {
-      const pack = generateOfflinePack(tpl, {
+      const creatorPack = generateOfflinePack(creatorTpl, {
         ...BASE_ANSWERS,
+        contentMode: 'creator',
         hookStyle: hookId,
-        voice: 'narasi',
+        voice: 'dialog',
       });
-      expect(pack.bible.hookStrategyName).toBe(HOOK_STRATEGIES[hookId].name);
-      expect(pack.scenes[0].prompt).toContain('SCROLL-STOPPING 0.0s');
-      expect(Boolean(pack.scenes[0].dialogue)).toBe(true);
+      expect(creatorPack.bible.hookStrategyName).toBe(HOOK_STRATEGIES[hookId].name);
+      expect(creatorPack.scenes[0].prompt).toContain('SCROLL-STOPPING 0.0s');
+      expect(Boolean(creatorPack.scenes[0].dialogue)).toBe(true);
+
+      const mktPack = generateOfflinePack(marketingTpl, {
+        ...BASE_ANSWERS,
+        contentMode: 'marketing',
+        hookStyle: hookId,
+        voice: 'dialog',
+      });
+      expect(mktPack.bible.hookStrategyName).toBe(HOOK_STRATEGIES[hookId].marketingName);
+      expect(mktPack.bible.productLock).toContain('Hero Product / Service Lock');
     }
   });
 

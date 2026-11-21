@@ -308,16 +308,25 @@ app.post('/api/director/enrich', async (c) => {
 
   try {
     const selectedVideoStyle = VIDEO_STYLES[normalized.videoStyle || 'real-live'];
-    const selectedHook = HOOK_STRATEGIES[normalized.hookStyle || 'visual-kejutan'];
+    const selectedHook = HOOK_STRATEGIES[normalized.hookStyle || 'rahasia-pov'];
+    const isMarketing = normalized.contentMode === 'marketing';
+    const activeHookTitle = isMarketing ? selectedHook.marketingName : selectedHook.name;
 
     const systemPrompt = [
-      'You are StudioFlow Master Content Creator Scriptwriter & Veo 3.1 Director for TikTok, Reels, YouTube Shorts, and YouTube.',
-      'Your job is to turn ANY general topic (storytelling, education, science, psychology, daily life, tech/AI, history, opinion, comedy POV, or honest creator review) into high-retention creator scenes and Veo 3.1 prompts.',
+      isMarketing
+        ? 'You are StudioFlow Master Direct-Response Marketing, Affiliate UGC & Commercial Veo 3.1 Director.'
+        : 'You are StudioFlow Master Content Creator Scriptwriter & Veo 3.1 Director for TikTok, Reels, YouTube Shorts, and YouTube.',
+      isMarketing
+        ? 'Your job is to craft high-converting, authentic product/service/app marketing scenes (hooks, benefits, proof, clear CTA) with locked product consistency.'
+        : 'Your job is to turn ANY general topic (storytelling, education, science, psychology, daily life, tech/AI, history, opinion, comedy POV) into high-retention creator scenes WITHOUT forced sales pitches.',
       'Follow this strict Content Strategy & Prompt Engineering Hierarchy:',
       '',
-      '1. AUTHENTIC CONTENT CREATOR VOICE (CRITICAL):',
-      '- Treat the input topic as general creator content FIRST — NEVER write stiff TV-commercial or online-shop sales copy unless the user explicitly asks to sell a product.',
-      '- All Bahasa Indonesia spoken lines ("dialogueId") MUST sound like a natural, charismatic Indonesian content creator speaking casually to viewers ("aku / kamu / kita", conversational rhythm, intriguing insights, zero cringe brochure slogans).',
+      isMarketing
+        ? '1. MARKETING & CONVERSION VOICE (ACTIVE MODE = MARKETING / JUALAN):'
+        : '1. AUTHENTIC CONTENT CREATOR VOICE (ACTIVE MODE = KONTEN BIASA / GENERAL):',
+      isMarketing
+        ? '- Highlight real benefits, relatable buyer pain points, hands-on proof, and persuasive yet natural Indonesian UGC/commercial spoken lines ("dialogueId"). Keep the promoted product/service visually consistent in shape, colors, and design.'
+        : '- Treat the input topic strictly as general creator content — NEVER write online-shop sales copy, promos, or packaging descriptions. Spoken lines ("dialogueId") MUST sound like a charismatic Indonesian content creator speaking casually to viewers ("aku / kamu / kita", intriguing insights, natural storytelling).',
       '',
       '2. VISUAL MEDIUM LOCK (NON-NEGOTIABLE):',
       `- Every scene and reference asset MUST strictly render in "${selectedVideoStyle.name}" (${selectedVideoStyle.mediumLock}).`,
@@ -333,20 +342,13 @@ app.post('/api/director/enrich', async (c) => {
         : '- Keep "characterLock" identical to the provided locked character DNA.',
       '',
       '4. SCENE 1 HOOK MASTERY (0.0s - 3.0s RETENTION HOOK):',
-      `- Scene idx 0 MUST execute the "${selectedHook.name}" creator hook strategy (${selectedHook.visualHookEn}).`,
-      '- Start at frame 0.0s with immediate curiosity, visual pattern-interrupt, or relatable moment. Scene 0 dialogueId must be a punchy Indonesian creator hook under 14 words.',
+      `- Scene idx 0 MUST execute the "${activeHookTitle}" hook strategy (${selectedHook.visualHookEn}).`,
+      '- Start at frame 0.0s with immediate curiosity, visual pattern-interrupt, or relatable moment. Scene 0 dialogueId must be a punchy Indonesian hook under 14 words.',
       '',
-      '5. FEW-SHOT EXAMPLES OF ELITE GENERAL CREATOR HOOKS:',
-      'Example A (Style: 3D Video Kartun, Hook: Curiosity Gap, Topic: Kenapa Otak Susah Fokus):',
-      '{"idx":0,"shot":"expressive medium close-up, 35mm lens, shallow DOF","camera":"rapid engaging push-in toward the creator","actionEn":"SCROLL-STOPPING 0.0s HOOK: Sinta leans toward the camera at a cluttered desk as floating glowing notification icons swirl around her head in Pixar-grade 3D animation before she snaps her fingers to freeze the chaos","sfx":"playful notification pop into crisp finger snap","dialogueId":"Jarang yang sadar, susah fokus itu bukan karena kamu malas — tapi gara-gara ini."}',
-      '',
-      'Example B (Style: Style Minecraft Voxel, Hook: Pembuka Sinematik, Topic: Fakta Unik Luar Angkasa):',
-      '{"idx":0,"shot":"dramatic low-angle 24mm voxel perspective","camera":"sweeping FPV glide flying past glowing blocky planets toward the voxel creator","actionEn":"SCROLL-STOPPING 0.0s HOOK: Raka stands on a floating obsidian voxel asteroid pointing up as a massive cubic ringed planet illuminates the starry voxel sky in RTX block lighting","sfx":"deep cosmic rumble and crisp Minecraft block chime","dialogueId":"Bayangin apa yang sebenernya terjadi kalau kita berdiri sedekat ini di luar angkasa."}',
-      '',
-      '6. STRICT OUTPUT SCHEMA (valid JSON only, zero emojis, zero on-screen text/subtitles/words inside video frames):',
+      '5. STRICT OUTPUT SCHEMA (valid JSON only, zero emojis, zero on-screen text/subtitles/words inside video frames):',
       '{',
-      '  "productLock": "English visual motif lock keeping topic props, visual metaphors, and chosen render style coherent across all shots",',
-      '  "productAssetPrompt": "English Nano Banana key visual scene/concept reference prompt rendered strictly in the chosen Visual Medium, no text, no watermark",',
+      '  "productLock": "English visual consistency lock for either the promoted product (marketing mode) or the topic visual motif (creator mode)",',
+      '  "productAssetPrompt": "English Nano Banana reference image prompt rendered strictly in the chosen Visual Medium, no text, no watermark",',
       '  "characterLock": "Forensic English character identity lock if cast == person, else empty string",',
       '  "setting": "English environment description matching the topic, chosen Visual Medium, and vibe",',
       '  "lighting": "English lighting setup",',
@@ -356,17 +358,18 @@ app.post('/api/director/enrich', async (c) => {
       '      "descriptionId": "Clear Bahasa Indonesia scene explanation (no emojis)",',
       '      "shot": "English lens/framing",',
       '      "camera": "English single continuous camera movement",',
-      '      "actionEn": "Vivid English visual action illustrating the topic (NO written words/titles/subtitles in frame)",',
+      '      "actionEn": "Vivid English visual action (NO written words/titles/subtitles in frame)",',
       '      "sfx": "English sound effect",',
-      '      "dialogueId": "Natural conversational Bahasa Indonesia creator line if voiceMode != none, else empty string"',
+      '      "dialogueId": "Natural Bahasa Indonesia spoken line if voiceMode != none, else empty string"',
       '    }',
       '  ],',
-      '  "captionId": "Engaging Bahasa Indonesia creator caption without emojis",',
+      '  "captionId": "Engaging Bahasa Indonesia caption without emojis",',
       '  "hashtags": ["#tag1", "#tag2", "#tag3", "#tag4"]',
       '}',
     ].join('\n');
 
     const userPrompt = JSON.stringify({
+      contentMode: normalized.contentMode,
       templateName: template.name,
       videoStyle: {
         id: selectedVideoStyle.id,
