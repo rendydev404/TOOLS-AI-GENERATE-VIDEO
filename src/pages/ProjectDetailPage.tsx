@@ -17,10 +17,15 @@ import {
 } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 import {
+  buildCustomCharacterLock,
   CAMERA_PRESETS,
+  CHARACTERS,
+  cleanSingleLinePrompt,
   exportPackAsMarkdown,
   exportPackAsText,
   recalculatePack,
+  VIBES,
+  VIDEO_STYLES,
 } from '@shared/director';
 import type { Scene } from '@shared/types';
 import { downloadTextFile, generateVariationSmart } from '@/lib/api';
@@ -34,7 +39,7 @@ import {
   Switch,
   Tag,
 } from '@/components/ui/Primitives';
-import { ConfirmModal } from '@/components/ui/CustomControls';
+import { ConfirmModal, CustomSelect } from '@/components/ui/CustomControls';
 
 type WorkspaceTab = 'panduan' | 'adegan';
 
@@ -62,6 +67,8 @@ export function ProjectDetailPage() {
   const [editingSceneId, setEditingSceneId] = useState<string | null>(null);
   const [varyingSceneId, setVaryingSceneId] = useState<string | null>(null);
   const [deleteSceneTarget, setDeleteSceneTarget] = useState<Scene | null>(null);
+  const [editingCharacterLock, setEditingCharacterLock] = useState(false);
+  const [charDraft, setCharDraft] = useState('');
 
   useEffect(() => {
     if (!project?.pack) return;
@@ -218,6 +225,9 @@ export function ProjectDetailPage() {
                 <Tag tone="brand">{pack.bible.videoStyleName || 'Realistis'}</Tag>
                 {pack.bible.hookStrategyName && (
                   <Tag tone="purple">Hook: {pack.bible.hookStrategyName}</Tag>
+                )}
+                {pack.bible.characterLock && (
+                  <Tag tone="success">Karakter: {pack.bible.characterName || 'Terkunci'}</Tag>
                 )}
                 <Tag>
                   {pack.settings.aspect} · ±{pack.settings.creditsTotal} cr
@@ -462,6 +472,146 @@ export function ProjectDetailPage() {
         {/* ==================== TAB 2: SEMUA PROMPT & EDIT ==================== */}
         {activeTab === 'adegan' && (
           <div className="flex flex-col gap-4">
+            {/* GLOBAL CHARACTER CONSISTENCY LOCK PANEL */}
+            <div className="neo-card rounded-2xl p-4 space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Tag tone="purple">KUNCI KARAKTER DI SEMUA PROMPT</Tag>
+                  <span className="text-[13.5px] font-bold text-[var(--text-primary)]">
+                    {pack.bible.characterLock
+                      ? `${pack.bible.characterName || 'Karakter Utama'} (Aktif di ${pack.scenes.length} adegan)`
+                      : 'Belum ada karakter terkunci (Mode Objek Saja)'}
+                  </span>
+                </div>
+                <Button
+                  variant={editingCharacterLock ? 'purple' : 'secondary'}
+                  size="sm"
+                  icon={<Edit3 size={13} strokeWidth={2.4} />}
+                  onClick={() => {
+                    setCharDraft(pack.bible.characterLock || '');
+                    setEditingCharacterLock((v) => !v);
+                  }}
+                >
+                  {editingCharacterLock
+                    ? 'Tutup'
+                    : pack.bible.characterLock
+                      ? 'Ubah Karakter'
+                      : 'Selipkan Karakter'}
+                </Button>
+              </div>
+
+              {pack.bible.characterLock && !editingCharacterLock && (
+                <p className="rounded-xl border-[1.5px] border-[var(--border-strong)] bg-[var(--bg-subtle)] px-3 py-2 font-mono text-[11.5px] font-medium text-[var(--text-secondary)] leading-relaxed">
+                  {pack.bible.characterLock}
+                </p>
+              )}
+
+              {editingCharacterLock && (
+                <div className="space-y-3 rounded-xl border-2 border-[var(--border-strong)] bg-[var(--bg-subtle)] p-3.5">
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[12.5px] font-bold text-[var(--text-primary)]">
+                      Pilih cepat preset karakter:
+                    </label>
+                    <CustomSelect<string>
+                      value=""
+                      placeholder="Ganti dengan preset karakter..."
+                      options={Object.values(CHARACTERS).map((ch) => ({
+                        value: ch.id,
+                        label: `${ch.name} — ${ch.desc}`,
+                      }))}
+                      onChange={(cid) => {
+                        const preset = CHARACTERS[cid];
+                        if (!preset) return;
+                        const vStyle = VIDEO_STYLES[project.answers.videoStyle || 'real-live'];
+                        setCharDraft(`${preset.lock}, ${vStyle.characterAdapterEn}`);
+                      }}
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[12.5px] font-bold text-[var(--text-primary)]">
+                      Atau tulis ciri karakter (Bahasa Indonesia / Inggris — otomatis diselipkan ke semua adegan):
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={charDraft}
+                      onChange={(e) => setCharDraft(e.target.value)}
+                      placeholder="Contoh: Cowok 24 thn rambut ikal pendek, kacamata bulat tipis, pakai hoodie hitam..."
+                      className="w-full rounded-xl border-2 border-[var(--border-strong)] bg-[var(--bg-surface)] p-3 font-mono text-[12px] font-medium focus:outline-none"
+                    />
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-end gap-2">
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      onClick={() => {
+                        const raw = charDraft.trim();
+                        if (!raw) {
+                          pushToast('Isi deskripsi karakter terlebih dahulu', 'danger');
+                          return;
+                        }
+                        const vStyle = VIDEO_STYLES[project.answers.videoStyle || 'real-live'];
+                        const vibe = VIBES[project.answers.vibe] ?? VIBES.minimalis;
+                        const isAlreadyDetailedEn =
+                          raw.length > 90 && /\b(wearing|hair|face|eyes)\b/i.test(raw);
+                        const built = isAlreadyDetailedEn
+                          ? {
+                              lock: raw,
+                              voiceLock:
+                                pack.bible.characterVoiceLock ||
+                                'consistent natural Indonesian voice timbre',
+                            }
+                          : buildCustomCharacterLock(raw, vStyle);
+
+                        const nextBible = {
+                          ...pack.bible,
+                          characterName: pack.bible.characterName || 'Karakter Utama',
+                          characterLock: built.lock,
+                          characterVoiceLock: built.voiceLock,
+                        };
+
+                        const hasCharAsset = pack.assets.some((a) => a.id === 'character');
+                        const nextAssets = hasCharAsset
+                          ? pack.assets
+                          : [
+                              ...pack.assets,
+                              {
+                                id: 'character' as const,
+                                name: `Gambar Patokan Karakter (${nextBible.characterName})`,
+                                upload: false,
+                                purpose: `Buat 1 potret patokan karakter bergaya "${vStyle.name}" (gratis 0 credit) agar wajah & pakaian 100% sama.`,
+                                prompt: cleanSingleLinePrompt(
+                                  `Clean character model reference portrait of ${built.lock}, rendered in ${vStyle.assetStyleEn}, waist-up front-facing natural pose, solid clean neutral background matching ${vibe.palette}, no text, no watermark.`
+                                ),
+                              },
+                            ];
+
+                        const nextAnswers = { ...project.answers, cast: 'person' as const };
+                        const nextPack = recalculatePack(
+                          { ...pack, bible: nextBible, assets: nextAssets },
+                          nextAnswers
+                        );
+                        upsertProject({
+                          ...project,
+                          answers: nextAnswers,
+                          pack: nextPack,
+                          updatedAt: new Date().toISOString(),
+                        });
+                        setEditingCharacterLock(false);
+                        pushToast(
+                          `Karakter dikunci & diselipkan ke semua ${nextPack.scenes.length} prompt adegan!`,
+                          'success'
+                        );
+                      }}
+                    >
+                      Terapkan ke Semua Prompt
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+
             <div className="neo-card flex flex-wrap items-center justify-between gap-2 rounded-2xl px-4 py-3.5">
               <span className="text-[13px] font-semibold text-[var(--text-primary)]">
                 Salin cepat atau klik <strong>Ubah</strong> untuk edit kamera & durasi.

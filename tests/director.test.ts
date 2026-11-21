@@ -108,6 +108,28 @@ describe('Rangkai Director Engine', () => {
     expect(updated.settings.creditsTotal).toBe(pack.scenes.length * 100);
   });
 
+  it('embeds identical forensic Character DNA lock inside EVERY single scene prompt when character is enabled', () => {
+    for (const tplId of ['iklan-produk', 'ugc-testimoni', 'edukasi-singkat', 'cerita-pendek']) {
+      const tpl = getTemplateById(tplId)!;
+      const pack = generateOfflinePack(tpl, {
+        ...BASE_ANSWERS,
+        videoStyle: 'kartun-3d',
+        cast: 'person',
+        characterCustom: 'cowok 24 thn rambut ikal, kacamata bulat, pakai hoodie hitam',
+        voice: 'dialog',
+      });
+
+      expect(pack.bible.characterLock).toBeTruthy();
+      expect(pack.assets.some((a) => a.id === 'character')).toBe(true);
+
+      for (const sc of pack.scenes) {
+        expect(sc.prompt).toContain('LOCKED CHARACTER IDENTITY');
+        expect(sc.prompt).toContain(pack.bible.characterLock!);
+        expect(sc.prompt).toContain('ZERO CHARACTER DRIFT');
+      }
+    }
+  });
+
   it('exports TXT, Markdown, and Batch CSV accurately', () => {
     const tpl = getTemplateById('iklan-produk')!;
     const pack = generateOfflinePack(tpl, {

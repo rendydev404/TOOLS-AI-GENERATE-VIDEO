@@ -377,38 +377,104 @@ export interface CharacterPreset {
   desc: string;
   art: string;
   lock: string;
+  voiceLock: string;
 }
 
 export const CHARACTERS: Record<string, CharacterPreset> = {
   sinta: {
     id: 'sinta',
     name: 'Sinta',
-    desc: 'Perempuan 20-an, rambut sebahu, sweter krem',
+    desc: 'Perempuan 25 thn, rambut hitam sebahu belah tengah, sweter rajut krem',
     art: 'char-1',
-    lock: 'a friendly Indonesian woman in her mid-20s with warm skin, shoulder-length straight black hair, wearing a neat cream knit sweater',
+    lock: 'Sinta, a 25-year-old Indonesian woman, slender build, oval face, warm golden-tan complexion, expressive dark-brown almond eyes, neat arched dark eyebrows, sleek straight jet-black shoulder-length bob hair with a clean center part tucked behind her left ear, no bangs, no glasses, wearing a solid cream crew-neck knit sweater over a crisp white shirt collar, dark charcoal tailored trousers, and a small silver wristwatch on her left wrist',
+    voiceLock: 'consistent warm friendly 25-year-old female Indonesian voice timbre',
   },
   raka: {
     id: 'raka',
     name: 'Raka',
-    desc: 'Laki-laki 20-an, rambut pendek rapi, jaket kasual biru',
+    desc: 'Laki-laki 27 thn, rambut pendek rapi, jaket kasual biru dongker & kaos putih',
     art: 'char-2',
-    lock: 'a cheerful Indonesian man in his late 20s with short neat black hair, wearing a neat navy casual overshirt over a plain white t-shirt',
+    lock: 'Raka, a 27-year-old Indonesian man, lean athletic build, clean-shaven defined jawline, warm tan skin, short neat tapered black hair parted cleanly on the left, thick neat eyebrows, no glasses, wearing a solid navy-blue casual overshirt unbuttoned over a plain crisp white crew-neck t-shirt, dark slate chinos, and a matte-black watch on his left wrist',
+    voiceLock: 'consistent energetic clear 27-year-old male Indonesian voice timbre',
   },
   laras: {
     id: 'laras',
     name: 'Laras',
-    desc: 'Perempuan 20-an berhijab biru muda, kemeja putih',
+    desc: 'Perempuan 24 thn, hijab biru muda rapi, kemeja putih panjang',
     art: 'char-3',
-    lock: 'a young Indonesian woman in her early 20s wearing a neat light-blue hijab and a clean white shirt, warm friendly smile',
+    lock: 'Laras, a 24-year-old Indonesian woman, gentle oval face, fair-warm complexion, bright dark-brown eyes, no glasses, wearing a neatly draped pastel sky-blue matte chiffon hijab covering her shoulders cleanly, paired with a crisp white long-sleeve button-up tunic shirt and light-beige tailored trousers',
+    voiceLock: 'consistent soft articulate 24-year-old female Indonesian voice timbre',
+  },
+  arjuna: {
+    id: 'arjuna',
+    name: 'Arjuna',
+    desc: 'Kreator muda 22 thn, kacamata bulat tipis, rambut ikal rapi, hoodie hitam',
+    art: 'char-2',
+    lock: 'Arjuna, a 22-year-old Indonesian male creator, slim build, warm tan skin, clean-shaven, neat wavy textured black hair with light forehead fringe, wearing thin round black-rimmed eyeglasses, a solid matte-black pullover hoodie, and dark charcoal cargo pants',
+    voiceLock: 'consistent casual enthusiastic 22-year-old male Indonesian voice timbre',
+  },
+  nadia: {
+    id: 'nadia',
+    name: 'Nadia',
+    desc: 'Profesional 29 thn, kacamata tipis emas, rambut ikat rapi, blazer abu modern',
+    art: 'char-1',
+    lock: 'Nadia, a 29-year-old Indonesian professional woman, defined oval face, warm olive skin, sleek jet-black hair tied in a neat low ponytail, wearing thin gold-rimmed round eyeglasses, a tailored stone-grey blazer over a solid black crew-neck top, and dark trousers',
+    voiceLock: 'consistent confident crisp 29-year-old female Indonesian voice timbre',
   },
   bima: {
     id: 'bima',
     name: 'Bima',
-    desc: 'Laki-laki 40-an, ramah, kemeja batik cokelat',
+    desc: 'Laki-laki 40 thn, kacamata kotak tipis, rambut pendek rapi, kemeja cokelat',
     art: 'char-4',
-    lock: 'a friendly Indonesian man in his 40s with neat short hair, wearing a casual brown batik shirt',
+    lock: 'Bima, a 40-year-old Indonesian man, approachable warm smile, oval clean-shaven face, neatly combed short black hair with subtle silver at the temples, wearing thin black rectangular eyeglasses and a neat modern earth-brown collared casual shirt with dark trousers',
+    voiceLock: 'consistent calm trustworthy 40-year-old male Indonesian voice timbre',
   },
 };
+
+const ID_TRAIT_MAP: Array<[RegExp, string]> = [
+  [/\bcowok\b|\bpria\b|\blaki[- ]?laki\b/gi, 'young Indonesian man'],
+  [/\bcewek\b|\bwanita\b|\bperempuan\b/gi, 'young Indonesian woman'],
+  [/\banak kecil\b|\bocil\b|\banak[- ]?anak\b/gi, ' cheerful 8-year-old Indonesian child'],
+  [/\bbapak[- ]?bapak\b/gi, 'friendly 42-year-old Indonesian man'],
+  [/\bibu[- ]?ibu\b/gi, 'friendly 38-year-old Indonesian woman'],
+  [/\bberhijab\b|\bhijab\b|\bkerudung\b/gi, 'wearing a neat solid-colored hijab'],
+  [/\bkacamata bulat\b/gi, 'wearing thin round eyeglasses'],
+  [/\bkacamata\b|\bberkacamata\b/gi, 'wearing neat thin-framed eyeglasses'],
+  [/\brambut ikal\b|\brambut keriting\b/gi, 'neat wavy curly black hair'],
+  [/\brambut pendek\b/gi, 'short neat black hair'],
+  [/\brambut panjang\b/gi, 'long straight black hair'],
+  [/\brambut sebahu\b/gi, 'shoulder-length straight black hair'],
+  [/\bhoodie hitam\b/gi, 'wearing a solid matte-black pullover hoodie'],
+  [/\bhoodie\b/gi, 'wearing a clean solid pullover hoodie'],
+  [/\bjaket hitam\b/gi, 'wearing a sleek black casual jacket'],
+  [/\bjaket\b/gi, 'wearing a neat casual jacket'],
+  [/\bkaos putih\b/gi, 'wearing a crisp plain white crew-neck t-shirt'],
+  [/\bkaos hitam\b/gi, 'wearing a plain matte-black crew-neck t-shirt'],
+  [/\bkemeja putih\b/gi, 'wearing a crisp white collared shirt'],
+];
+
+export function buildCustomCharacterLock(
+  rawCustom: string,
+  vStyle: VideoStylePreset
+): { lock: string; voiceLock: string } {
+  const clean = rawCustom.trim();
+  let translated = clean;
+  for (const [pattern, replacement] of ID_TRAIT_MAP) {
+    translated = translated.replace(pattern, replacement);
+  }
+  const lower = clean.toLowerCase();
+  const isFemale =
+    /\b(cewek|wanita|perempuan|ibu|hijab|kerudung|woman|girl|female|she)\b/.test(lower);
+  const hasGlasses = /\b(kacamata|glasses|eyeglasses|spectacles)\b/.test(lower);
+  const eyewearAnchor = hasGlasses ? 'keep exact same eyeglasses frame in every shot' : 'no glasses';
+
+  return {
+    lock: `Main Character (${translated}; ${eyewearAnchor}; keep exact same facial bone structure, eye shape, skin tone, hairstyle, and identical clothing colors unchanged across every scene), ${vStyle.characterAdapterEn}`,
+    voiceLock: isFemale
+      ? 'consistent clear natural female Indonesian voice timbre'
+      : 'consistent clear natural male Indonesian voice timbre',
+  };
+}
 
 export interface CameraPreset {
   id: string;
@@ -552,11 +618,14 @@ export function normalizeAnswers(input: Answers): Answers {
   if (!(a.music in MUSIC_EN)) {
     a.music = 'santai';
   }
-  if (a.cast !== 'person') {
-    a.cast = 'product';
-  }
   if (a.voice !== 'dialog' && a.voice !== 'narasi') {
     a.voice = 'none';
+  }
+  if (a.voice === 'dialog') {
+    a.cast = 'person';
+  }
+  if (a.cast !== 'person') {
+    a.cast = 'product';
   }
   if (!a.cta || !a.cta.trim()) {
     a.cta = 'Cek info lengkapnya di link bio';
@@ -587,40 +656,70 @@ export function buildSceneVideoPrompt(
 ): string {
   const parts: string[] = [NEGATIVES_START];
 
-  // Medium / Video Style Lock comes FIRST so Veo 3.1 immediately locks 2D/3D/Minecraft/Live-Action medium
+  // 1. Medium / Video Style Lock comes FIRST so Veo 3.1 immediately locks 2D/3D/Minecraft/Live-Action medium
   parts.push(`Visual Medium & Render Style: ${bible.videoStyleLock}.`);
 
-  if (scene.chainFromPrev) {
+  // 2. Forensic Character DNA Anchor placed at TOP HIGH-ATTENTION ZONE of EVERY SINGLE SCENE PROMPT!
+  if (bible.characterLock) {
     parts.push(
-      'Seamless continuation from the attached Start frame: preserve exact subject position, visual style, lighting continuity, and environment.'
+      `LOCKED CHARACTER IDENTITY (MUST BE THE EXACT SAME PERSON IN EVERY SCENE — IDENTICAL FACE, HAIR, AGE, EYEWEAR, SKIN TONE, AND OUTFIT): ${bible.characterLock}; match the attached Character Reference Ingredient image 1:1.`
     );
   }
 
-  parts.push(`${capFirst(scene.shot)}. ${capFirst(actionEn.replace(/\.+$/, ''))}.`);
+  if (scene.chainFromPrev) {
+    parts.push(
+      'Seamless continuation from the attached Start frame: preserve exact subject position, character face & clothing, visual style, lighting continuity, and environment.'
+    );
+  }
+
+  // 3. Ensure action explicitly binds to the locked character if active so no random person/hands appear
+  let boundAction = actionEn.replace(/\.+$/, '');
+  if (bible.characterLock) {
+    const cName = (bible.characterName || '').toLowerCase();
+    const lowerAct = boundAction.toLowerCase();
+    const mentionsCharacter =
+      (cName && lowerAct.includes(cName)) ||
+      lowerAct.includes('main character') ||
+      lowerAct.includes(bible.characterLock.slice(0, 24).toLowerCase());
+    if (!mentionsCharacter) {
+      boundAction = `Featuring the exact same locked character ${bible.characterName || 'Main Character'} (with identical face, hair, and outfit locked above) in the scene: ${boundAction}`;
+    }
+  }
+
+  parts.push(`${capFirst(scene.shot)}. ${capFirst(boundAction)}.`);
   parts.push(`Environment: ${bible.setting}.`);
   parts.push(`Lighting & Color: ${bible.lighting}; ${bible.style}; color palette of ${bible.palette}.`);
   parts.push(`Camera Choreography: ${scene.camera}, one fluid continuous shot.`);
   parts.push(`${bible.productLock}.`);
-
-  if (bible.characterLock) {
-    parts.push(`Character Lock (keep identical in every shot): ${bible.characterLock}.`);
-  }
 
   const audio: string[] = [];
   if (scene.sfx) audio.push(scene.sfx);
   if (bible.music) audio.push(bible.music);
   if (scene.dialogue) {
     if (voice === 'narasi') {
-      audio.push(`a clear engaging Indonesian voice-over says in Indonesian: "${scene.dialogue}"`);
+      audio.push(
+        `a consistent clear engaging Indonesian narrator voice-over says in Indonesian: "${scene.dialogue}"`
+      );
     } else {
-      audio.push(`the character speaks naturally in casual Indonesian with accurate lip sync: "${scene.dialogue}"`);
+      const voiceAnchor =
+        bible.characterVoiceLock || 'consistent natural Indonesian voice timbre across all clips';
+      audio.push(
+        `the exact same character ${bible.characterName || ''} speaks naturally in casual Indonesian (${voiceAnchor}) with accurate lip sync: "${scene.dialogue}"`
+      );
     }
   }
   if (audio.length > 0) {
     parts.push(`Audio: ${audio.join('; ')}.`);
   }
 
-  parts.push(NEGATIVES_END);
+  if (bible.characterLock) {
+    parts.push(
+      `${NEGATIVES_END} ZERO CHARACTER DRIFT: never change the character's face geometry, hairstyle, glasses/hijab, skin tone, or outfit colors between shots.`
+    );
+  } else {
+    parts.push(NEGATIVES_END);
+  }
+
   return cleanSingleLinePrompt(parts.join(' '));
 }
 
@@ -668,9 +767,9 @@ function buildAssets(bible: Bible, a: Answers, vibe: VibePreset, vStyle: VideoSt
       id: 'character',
       name: `Gambar Patokan Karakter (${bible.characterName || 'Utama'})`,
       upload: false,
-      purpose: `Buat 1 potret karakter bergaya "${vStyle.name}" (gratis 0 credit) agar wajah dan pakaian tidak berubah antar-adegan.`,
+      purpose: `Buat 1 potret patokan karakter "${bible.characterName || 'Utama'}" bergaya "${vStyle.name}" (gratis 0 credit), lalu lampirkan terus sebagai Ingredients di setiap adegan agar wajah & pakaian 100% sama.`,
       prompt: cleanSingleLinePrompt(
-        `Character reference portrait of ${bible.characterLock}, rendered in ${vStyle.assetStyleEn}, waist-up front-facing friendly pose, clean neutral background matching ${vibe.palette}, sharp consistent details, no text, no watermark.`
+        `Clean character model reference portrait of ${bible.characterLock}, rendered in ${vStyle.assetStyleEn}, waist-up front-facing natural pose showing full face, hair, and upper outfit clearly, solid clean neutral background matching ${vibe.palette}, sharp consistent character sheet details, no text, no watermark.`
       ),
     });
   }
@@ -929,14 +1028,19 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
 
   if (a.cast === 'person') {
     if (a.characterCustom?.trim()) {
+      const built = buildCustomCharacterLock(a.characterCustom, vStyle);
       bible.characterName = 'Karakter Utama';
-      bible.characterLock = `${a.characterCustom.trim()}, ${vStyle.characterAdapterEn}`;
+      bible.characterLock = built.lock;
+      bible.characterVoiceLock = built.voiceLock;
     } else if (a.characterId && CHARACTERS[a.characterId]) {
-      bible.characterName = CHARACTERS[a.characterId].name;
-      bible.characterLock = `${CHARACTERS[a.characterId].lock}, ${vStyle.characterAdapterEn}`;
+      const preset = CHARACTERS[a.characterId];
+      bible.characterName = preset.name;
+      bible.characterLock = `${preset.lock}, ${vStyle.characterAdapterEn}`;
+      bible.characterVoiceLock = preset.voiceLock;
     } else {
       bible.characterName = CHARACTERS.sinta.name;
       bible.characterLock = `${CHARACTERS.sinta.lock}, ${vStyle.characterAdapterEn}`;
+      bible.characterVoiceLock = CHARACTERS.sinta.voiceLock;
     }
   }
 
@@ -1002,7 +1106,7 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
           applyPlaceholders(hookPreset.spokenHookId, replacements);
       } else if (r.dialogue) {
         dialogue = applyPlaceholders(r.dialogue, replacements);
-      } else if (a.voice === 'narasi') {
+      } else {
         dialogue = defaultNarration(r.role, a, advId);
       }
     }
@@ -1075,6 +1179,21 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
 
 export function recalculatePack(pack: Pack, answers: Answers): Pack {
   const model = MODELS[answers.quality] ?? MODELS.seimbang;
+  const vStyle = VIDEO_STYLES[answers.videoStyle || 'real-live'];
+  const vibe = VIBES[answers.vibe] ?? VIBES.minimalis;
+
+  const updatedAssets = pack.assets.map((asset) => {
+    if (asset.id === 'character' && pack.bible.characterLock) {
+      return {
+        ...asset,
+        prompt: cleanSingleLinePrompt(
+          `Clean character model reference portrait of ${pack.bible.characterLock}, rendered in ${vStyle.assetStyleEn}, waist-up front-facing natural pose showing full face, hair, and upper outfit clearly, solid clean neutral background matching ${vibe.palette}, sharp consistent character sheet details, no text, no watermark.`
+        ),
+      };
+    }
+    return asset;
+  });
+
   const normalizedScenes = pack.scenes.map((sc, idx) => {
     const chainFromPrev = idx === 0 ? false : sc.chainFromPrev;
     const mode: Scene['mode'] = chainFromPrev ? 'frames' : 'ingredients';
@@ -1105,6 +1224,7 @@ export function recalculatePack(pack: Pack, answers: Answers): Pack {
 
   const basePack: Omit<Pack, 'steps' | 'guideUpdatedAt'> = {
     ...pack,
+    assets: updatedAssets,
     summary,
     settings,
     scenes: normalizedScenes,

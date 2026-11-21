@@ -211,6 +211,7 @@ function getClientIp(reqHeaders: Headers): string {
 interface LlmDirectorPayload {
   productLock?: string;
   productAssetPrompt?: string;
+  characterLock?: string;
   setting?: string;
   lighting?: string;
   scenes?: Array<{
@@ -317,7 +318,16 @@ app.post('/api/director/enrich', async (c) => {
       `- Every scene and reference asset MUST strictly render in "${selectedVideoStyle.name}" (${selectedVideoStyle.mediumLock}).`,
       '- If the style is Minecraft/Voxel, everything is built of 3D pixel-art cubic blocks. If 2D Anime, cel-shaded hand-drawn 2D sakuga. If 3D Cartoon, Pixar-grade stylized 3D CGI. If Real Live-Action, authentic cinema lens physics.',
       '',
-      '2. SCENE 1 HOOK MASTERY (0.0s - 3.0s SCROLL-STOPPER):',
+      '2. CHARACTER IDENTITY LOCK (NON-NEGOTIABLE WHEN cast == "person"):',
+      basePack.bible.characterLock
+        ? `- A locked main character is active: "${basePack.bible.characterName}" -> ${basePack.bible.characterLock}.`
+        : '- No human character is active (cast == "product"); focus strictly on the object/product.',
+      '- When a locked character is active, EVERY scene actionEn MUST feature this EXACT SAME character (same name, face, hair, eyewear/hijab, and exact outfit). NEVER introduce random strangers or alter clothing across scenes.',
+      normalized.characterCustom?.trim()
+        ? `- Refine the user's custom character description ("${normalized.characterCustom.trim()}") into a forensic English "characterLock" specifying exact age, Indonesian/heritage look, face geometry, hair style/parting, glasses/no-glasses, top & bottom clothing colors, rendered in ${selectedVideoStyle.characterAdapterEn}.`
+        : '- Keep "characterLock" identical to the provided locked character DNA.',
+      '',
+      '3. SCENE 1 HOOK MASTERY (0.0s - 3.0s SCROLL-STOPPER):',
       `- Scene idx 0 MUST execute the "${selectedHook.name}" hook strategy (${selectedHook.visualHookEn}).`,
       '- Never start Scene 0 with a slow static wide shot. Start at frame 0.0s with immediate kinetic action, visual tension, POV intrigue, or tactile close-up impact that stops viewers from scrolling.',
       '- If spoken dialogue/VO is enabled, Scene 0 dialogueId must be a punchy, curiosity-inducing Indonesian hook under 12 words.',
@@ -333,6 +343,7 @@ app.post('/api/director/enrich', async (c) => {
       '{',
       '  "productLock": "English visual lock sentence keeping exact product shape, colors, and chosen render style identical across all shots",',
       '  "productAssetPrompt": "English Nano Banana reference image prompt rendered strictly in the chosen Visual Medium, no text, no watermark",',
+      '  "characterLock": "Forensic English character identity lock if cast == person, else empty string",',
       '  "setting": "English environment description matching the chosen Visual Medium and vibe",',
       '  "lighting": "English lighting setup",',
       '  "scenes": [',
@@ -371,6 +382,9 @@ app.post('/api/director/enrich', async (c) => {
       cta: normalized.cta,
       vibe: normalized.vibe,
       cast: normalized.cast,
+      characterName: basePack.bible.characterName || '',
+      characterLock: basePack.bible.characterLock || '',
+      customCharacterInput: normalized.characterCustom || '',
       voiceMode: normalized.voice,
       aspectRatio: normalized.aspect,
       sceneStructure: basePack.scenes.map((s) => ({
@@ -395,9 +409,15 @@ app.post('/api/director/enrich', async (c) => {
       productLock += ', matching the attached product reference image exactly';
     }
 
+    const resolvedCharLock =
+      normalized.cast === 'person' && normalized.characterCustom?.trim() && parsed.characterLock
+        ? cleanSingleLinePrompt(stripEmojis(parsed.characterLock))
+        : basePack.bible.characterLock;
+
     const bible: Pack['bible'] = {
       ...basePack.bible,
       productLock,
+      characterLock: resolvedCharLock,
       setting: parsed.setting ? cleanSingleLinePrompt(stripEmojis(parsed.setting)) : basePack.bible.setting,
       lighting: parsed.lighting ? cleanSingleLinePrompt(stripEmojis(parsed.lighting)) : basePack.bible.lighting,
       source: 'llm',
@@ -408,6 +428,14 @@ app.post('/api/director/enrich', async (c) => {
         return {
           ...asset,
           prompt: cleanSingleLinePrompt(stripEmojis(parsed.productAssetPrompt)),
+        };
+      }
+      if (asset.id === 'character' && bible.characterLock) {
+        return {
+          ...asset,
+          prompt: cleanSingleLinePrompt(
+            `Clean character model reference portrait of ${bible.characterLock}, rendered in ${selectedVideoStyle.assetStyleEn}, waist-up front-facing natural pose showing full face, hair, and upper outfit clearly, solid clean neutral background, sharp consistent character sheet details, no text, no watermark.`
+          ),
         };
       }
       return asset;

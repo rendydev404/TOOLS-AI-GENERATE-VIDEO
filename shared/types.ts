@@ -52,6 +52,7 @@ export interface Bible {
   productLock: string;
   characterName?: string;
   characterLock?: string;
+  characterVoiceLock?: string;
   videoStyleName: string;
   videoStyleLock: string;
   hookStrategyName: string;

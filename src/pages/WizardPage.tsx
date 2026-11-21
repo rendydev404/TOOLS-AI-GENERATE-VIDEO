@@ -26,6 +26,7 @@ import {
 import { useApp } from '@/context/AppContext';
 import {
   ADVANTAGE_SUGGESTIONS,
+  buildCustomCharacterLock,
   CHARACTERS,
   CTA_SUGGESTIONS,
   HOOK_STRATEGIES,
@@ -69,7 +70,7 @@ const GUIDED_STEPS = [
   { num: 1, label: 'Tujuan' },
   { num: 2, label: 'Style Video' },
   { num: 3, label: 'Hook Pembuka' },
-  { num: 4, label: 'Topik / Produk' },
+  { num: 4, label: 'Topik & Karakter' },
   { num: 5, label: 'Ukuran & Buat' },
 ];
 
@@ -156,12 +157,12 @@ export function WizardPage() {
       videoStyle: brand.defaultVideoStyle || 'real-live',
       hookStyle: brand.defaultHookStyle || 'visual-kejutan',
       customHookLine: '',
-      vibe: brand.defaultVibe || 'hangat',
+      vibe: brand.defaultVibe || 'minimalis',
       music: brand.defaultMusic || 'santai',
-      cast: 'product',
+      cast: 'person',
       characterId: 'sinta',
       characterCustom: '',
-      voice: 'none',
+      voice: 'dialog',
       durationS: 20,
       aspect: brand.defaultAspect || '9:16',
       quality: brand.defaultQuality || 'seimbang',
@@ -189,6 +190,11 @@ export function WizardPage() {
 
   const savedProducts = useMemo(
     () => library.filter((x) => x.kind === 'product'),
+    [library]
+  );
+
+  const savedCharacters = useMemo(
+    () => library.filter((x) => x.kind === 'character'),
     [library]
   );
 
@@ -773,6 +779,143 @@ export function WizardPage() {
                   ]}
                 />
               </div>
+
+              {/* LOCKED CHARACTER CONSISTENCY SECTION */}
+              <div className="flex flex-col gap-3 rounded-xl border-2 border-[var(--border-strong)] bg-[var(--bg-subtle)] p-4">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <label className="text-[14px] font-bold text-[var(--text-primary)]">
+                    Karakter utama di video (kunci konsistensi tiap adegan)
+                  </label>
+                  <Tag tone="purple">Wajib Konsisten</Tag>
+                </div>
+
+                <SegmentedControl<CastChoice>
+                  fullWidth
+                  tall
+                  value={answers.cast}
+                  onChange={(val) => {
+                    if (activeTemplate.cast === 'person' && val === 'product') {
+                      pushToast('Tujuan video ini mewajibkan karakter/presenter', 'info');
+                      return;
+                    }
+                    setAnswers((prev) => ({
+                      ...prev,
+                      cast: val,
+                      voice: val === 'product' && prev.voice === 'dialog' ? 'narasi' : prev.voice,
+                    }));
+                  }}
+                  items={[
+                    {
+                      value: 'person',
+                      label: 'Pakai Karakter Konsisten',
+                      sub: 'Diselipkan otomatis di tiap prompt',
+                    },
+                    {
+                      value: 'product',
+                      label: 'Tanpa Karakter',
+                      sub: 'Fokus objek / visual saja',
+                    },
+                  ]}
+                />
+
+                {answers.cast === 'person' && (
+                  <div className="flex flex-col gap-2.5 pt-1">
+                    <CustomSelect<string>
+                      value={
+                        answers.characterId === 'custom'
+                          ? 'custom'
+                          : answers.characterId || 'sinta'
+                      }
+                      onChange={(val) => {
+                        if (val === 'custom') {
+                          setAnswers((prev) => ({
+                            ...prev,
+                            characterId: 'custom',
+                          }));
+                          return;
+                        }
+                        const fromLib = savedCharacters.find((c) => c.id === val);
+                        if (fromLib) {
+                          setAnswers((prev) => ({
+                            ...prev,
+                            characterId: val,
+                            characterCustom: fromLib.lockText,
+                          }));
+                        } else {
+                          setAnswers((prev) => ({
+                            ...prev,
+                            characterId: val,
+                            characterCustom: '',
+                          }));
+                        }
+                      }}
+                      options={[
+                        ...Object.values(CHARACTERS).map((ch) => ({
+                          value: ch.id,
+                          label: `${ch.name} — ${ch.desc}`,
+                        })),
+                        ...savedCharacters
+                          .filter((c) => c.id !== 'lib-char-sinta')
+                          .map((c) => ({
+                            value: c.id,
+                            label: `[Pustaka] ${c.name} — ${c.subtitle}`,
+                          })),
+                        {
+                          value: 'custom',
+                          label: 'Tulis Ciri Karakter Sendiri (Custom)...',
+                        },
+                      ]}
+                    />
+
+                    {answers.characterId === 'custom' && (
+                      <div className="flex flex-col gap-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[12.5px] font-bold text-[var(--text-primary)]">
+                            Tulis detail wajah, rambut, kacamata/hijab & warna baju:
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (!answers.characterCustom?.trim()) {
+                                pushToast('Tulis ciri karakter terlebih dahulu', 'danger');
+                                return;
+                              }
+                              const built = buildCustomCharacterLock(
+                                answers.characterCustom,
+                                currentVideoStyle
+                              );
+                              upsertLibraryItem({
+                                id: `lib-char-${Date.now().toString(36)}`,
+                                kind: 'character',
+                                name: answers.characterCustom.trim().slice(0, 28),
+                                subtitle: answers.characterCustom.trim(),
+                                lockText: built.lock,
+                                art: 'char-1',
+                                createdAt: new Date().toISOString(),
+                              });
+                            }}
+                            className="inline-flex items-center gap-1 text-[12px] font-bold text-[var(--accent-purple)] hover:underline"
+                          >
+                            <BookmarkPlus size={13} strokeWidth={2.5} />
+                            <span>Simpan Karakter</span>
+                          </button>
+                        </div>
+                        <input
+                          type="text"
+                          value={answers.characterCustom || ''}
+                          onChange={(e) => updateAnswer('characterCustom', e.target.value)}
+                          placeholder="Contoh: Cowok 24 thn rambut ikal pendek, kacamata bulat tipis, pakai hoodie hitam"
+                          className="h-11 w-full rounded-xl border-2 border-[var(--border-strong)] bg-[var(--bg-surface)] px-3.5 text-[13.5px] font-medium focus:outline-none focus:shadow-[var(--focus-ring)]"
+                        />
+                      </div>
+                    )}
+
+                    <p className="text-[12px] font-semibold text-[var(--text-secondary)] leading-snug">
+                      DNA visual karakter ini (wajah, rambut, aksesoris, warna pakaian & suara) otomatis dikunci dan diselipkan di bagian atas setiap prompt Adegan 1 sampai akhir.
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           )}
 
@@ -859,18 +1002,24 @@ export function WizardPage() {
                 </div>
               </div>
 
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className="grid gap-3 sm:grid-cols-3">
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[13.5px] font-bold text-[var(--text-primary)]">
                     Suara bicara Bahasa Indonesia
                   </label>
                   <CustomSelect<VoiceChoice>
                     value={answers.voice}
-                    onChange={(val) => updateAnswer('voice', val)}
+                    onChange={(val) => {
+                      setAnswers((prev) => ({
+                        ...prev,
+                        voice: val,
+                        cast: val === 'dialog' ? 'person' : prev.cast,
+                      }));
+                    }}
                     options={[
-                      { value: 'none', label: 'Tanpa Suara Bicara' },
+                      { value: 'dialog', label: 'Karakter Bicara (Lip-Sync)' },
                       { value: 'narasi', label: 'Suara Narator (Voice-Over)' },
-                      { value: 'dialog', label: 'Karakter / Presenter Bicara' },
+                      { value: 'none', label: 'Tanpa Suara Bicara' },
                     ]}
                   />
                 </div>
@@ -888,28 +1037,6 @@ export function WizardPage() {
                     }))}
                   />
                 </div>
-              </div>
-
-              <div className="grid gap-3 sm:grid-cols-2">
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[13.5px] font-bold text-[var(--text-primary)]">
-                    Pemeran di layar
-                  </label>
-                  <CustomSelect<CastChoice>
-                    value={answers.cast}
-                    onChange={(val) => {
-                      if (activeTemplate.cast === 'person' && val === 'product') {
-                        pushToast('Alur video ini membutuhkan presenter/karakter', 'info');
-                        return;
-                      }
-                      updateAnswer('cast', val);
-                    }}
-                    options={[
-                      { value: 'product', label: 'Fokus Objek / Produk Saja' },
-                      { value: 'person', label: 'Tampilkan Karakter / Presenter' },
-                    ]}
-                  />
-                </div>
 
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[13.5px] font-bold text-[var(--text-primary)]">
@@ -925,22 +1052,6 @@ export function WizardPage() {
                   />
                 </div>
               </div>
-
-              {answers.cast === 'person' && (
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[13.5px] font-bold text-[var(--text-primary)]">
-                    Pilih karakter tetap
-                  </label>
-                  <CustomSelect<string>
-                    value={answers.characterId || 'sinta'}
-                    onChange={(val) => updateAnswer('characterId', val)}
-                    options={Object.values(CHARACTERS).map((ch) => ({
-                      value: ch.id,
-                      label: `${ch.name} — ${ch.desc}`,
-                    }))}
-                  />
-                </div>
-              )}
 
               {/* Neo-Brutalist Summary Callout with Purple Accent */}
               <div className="rounded-xl border-2 border-[var(--border-strong)] bg-[var(--accent-purple-soft)] p-4 space-y-1 text-[13.5px]">
