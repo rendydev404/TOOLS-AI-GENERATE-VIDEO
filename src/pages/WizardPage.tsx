@@ -61,7 +61,7 @@ import type {
   VideoStyleId,
   VoiceChoice,
 } from '@shared/types';
-import { generatePackSmart } from '@/lib/api';
+import { generatePackSmart, resolveAssetUrl } from '@/lib/api';
 import { AppShell } from '@/components/layout/AppShell';
 import {
   Button,
@@ -250,7 +250,7 @@ export function WizardPage() {
     const timer = window.setTimeout(() => {
       VIDEO_STYLE_ORDER.forEach((id) => {
         const img = new window.Image();
-        img.src = VIDEO_STYLES[id].previewImage;
+        img.src = resolveAssetUrl(VIDEO_STYLES[id].previewImage);
       });
     }, 150);
     return () => window.clearTimeout(timer);
@@ -675,7 +675,7 @@ export function WizardPage() {
                       {/* 16:9 Sun Visual Preview */}
                       <div className="relative aspect-[16/9] w-full overflow-hidden border-b-2 border-[#111111] bg-[#111111]">
                         <img
-                          src={st.previewImage}
+                          src={resolveAssetUrl(st.previewImage)}
                           alt={`Preview style ${st.name} dengan objek Matahari`}
                           width={800}
                           height={450}
@@ -1391,7 +1391,7 @@ export function WizardPage() {
         >
           <div className="overflow-hidden rounded-xl border-2 border-[#111111] bg-[#111111] shadow-[4px_4px_0_var(--border-strong)]">
             <img
-              src={VIDEO_STYLES[previewStyleModal].previewImage}
+              src={resolveAssetUrl(VIDEO_STYLES[previewStyleModal].previewImage)}
               alt={`Preview ukuran penuh ${VIDEO_STYLES[previewStyleModal].name}`}
               width={800}
               height={450}

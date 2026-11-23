@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 import path from 'node:path';
 
 export default defineConfig({
+  base: process.env.VITE_BASE_PATH || '/',
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
@@ -12,7 +13,7 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: 'dist/client',
+    outDir: process.env.VITE_OUT_DIR || 'dist/client',
     emptyOutDir: true,
     target: 'es2022',
     rollupOptions: {

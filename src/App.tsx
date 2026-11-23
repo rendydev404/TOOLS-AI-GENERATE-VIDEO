@@ -59,9 +59,11 @@ function PageFallback() {
   );
 }
 
+const ROUTER_BASENAME = (import.meta.env.BASE_URL || '/').replace(/\/+$/, '') || undefined;
+
 export function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={ROUTER_BASENAME}>
       <AppProvider>
         <GlobalShortcuts />
         <Suspense fallback={<PageFallback />}>

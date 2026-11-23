@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
+  ArrowLeft,
   Bookmark,
   Clapperboard,
   ExternalLink,
@@ -9,6 +10,7 @@ import {
   Table2,
 } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
+import { IS_MEMBER_EMBED } from '@/lib/api';
 import { ToastViewport } from '@/components/ui/Primitives';
 import { StudioFlowLogo } from '@/components/ui/StudioFlowLogos';
 
@@ -105,8 +107,8 @@ export function AppShell({
             })}
           </nav>
 
-          {/* Bottom Direct Flow Button */}
-          <div className="mt-auto pt-4 border-t-2 border-[var(--border-strong)]">
+          {/* Bottom Direct Flow & Member Area Buttons */}
+          <div className="mt-auto space-y-2 pt-4 border-t-2 border-[var(--border-strong)]">
             <a
               href="https://flow.google.com/?hl=en"
               target="_blank"
@@ -116,6 +118,15 @@ export function AppShell({
               <span>Buka Google Flow</span>
               <ExternalLink size={15} strokeWidth={2.4} />
             </a>
+            {IS_MEMBER_EMBED && (
+              <a
+                href="/member"
+                className="flex h-10 w-full items-center gap-2 rounded-xl border-2 border-transparent px-3.5 text-[13px] font-bold text-[var(--text-secondary)] transition-colors hover:border-[var(--border-strong)] hover:bg-[var(--bg-subtle)] hover:text-[var(--text-primary)]"
+              >
+                <ArrowLeft size={15} strokeWidth={2.4} />
+                <span>Kembali ke Member Area</span>
+              </a>
+            )}
           </div>
         </div>
       </aside>
@@ -124,10 +135,21 @@ export function AppShell({
       <div className="flex min-w-0 flex-1 flex-col md:pl-[244px]">
         {/* Mobile Top Header */}
         <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b-2 border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 md:hidden">
-          <Link to="/" className="flex items-center gap-2.5">
-            <StudioFlowLogo size={28} />
-            <span className="font-display text-[16px] font-bold tracking-tight">StudioFlow</span>
-          </Link>
+          <div className="flex items-center gap-2">
+            {IS_MEMBER_EMBED && (
+              <a
+                href="/member"
+                aria-label="Kembali ke Member Area"
+                className="flex h-8 w-8 items-center justify-center rounded-lg border-2 border-[var(--border-strong)] bg-[var(--bg-subtle)] text-[var(--text-primary)]"
+              >
+                <ArrowLeft size={15} strokeWidth={2.5} />
+              </a>
+            )}
+            <Link to="/" className="flex items-center gap-2.5">
+              <StudioFlowLogo size={28} />
+              <span className="font-display text-[16px] font-bold tracking-tight">StudioFlow</span>
+            </Link>
+          </div>
 
           <div className="flex items-center gap-2">
             {actions}

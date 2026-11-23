@@ -31,7 +31,7 @@ import type {
   SellingStyle,
   VideoStyleId,
 } from '@shared/types';
-import { downloadTextFile } from '@/lib/api';
+import { downloadTextFile, resolveAssetUrl } from '@/lib/api';
 import { AppShell } from '@/components/layout/AppShell';
 import { Button, SegmentedControl, Tag } from '@/components/ui/Primitives';
 import { CustomSelect } from '@/components/ui/CustomControls';
@@ -433,7 +433,7 @@ export function BatchPage() {
             </label>
             <div className="flex items-center gap-2">
               <img
-                src={VIDEO_STYLES[videoStyle].previewImage}
+                src={resolveAssetUrl(VIDEO_STYLES[videoStyle].previewImage)}
                 alt={VIDEO_STYLES[videoStyle].name}
                 width={80}
                 height={45}

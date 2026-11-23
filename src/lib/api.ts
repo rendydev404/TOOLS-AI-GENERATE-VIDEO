@@ -2,6 +2,18 @@ import { createOfflineSceneVariation, generateOfflinePack } from '@shared/direct
 import { getTemplateById } from '@shared/templates';
 import type { Answers, Pack, Scene } from '@shared/types';
 
+export const API_BASE = (import.meta.env.VITE_API_BASE || '/api').replace(/\/+$/, '');
+export const APP_BASE = import.meta.env.BASE_URL || '/';
+export const IS_MEMBER_EMBED = APP_BASE.startsWith('/member/');
+
+export function resolveAssetUrl(assetPath: string): string {
+  if (!assetPath || /^https?:\/\//i.test(assetPath) || assetPath.startsWith('data:') || assetPath.startsWith('blob:')) {
+    return assetPath;
+  }
+  const cleanBase = APP_BASE.endsWith('/') ? APP_BASE : `${APP_BASE}/`;
+  return `${cleanBase}${assetPath.replace(/^\/+/, '')}`;
+}
+
 export interface ServerHealth {
   ok: boolean;
   version: string;
@@ -12,7 +24,10 @@ export interface ServerHealth {
 
 export async function fetchServerHealth(): Promise<ServerHealth> {
   try {
-    const res = await fetch('/api/health', { method: 'GET' });
+    const res = await fetch(`${API_BASE}/health`, { method: 'GET', credentials: 'same-origin' });
+    if (res.status === 401 && IS_MEMBER_EMBED) {
+      window.location.href = '/member/masuk';
+    }
     if (!res.ok) throw new Error('Health not ok');
     return (await res.json()) as ServerHealth;
   } catch {
@@ -40,8 +55,9 @@ export async function generatePackSmart(
   }
 
   try {
-    const res = await fetch('/api/director/enrich', {
+    const res = await fetch(`${API_BASE}/director/enrich`, {
       method: 'POST',
+      credentials: 'same-origin',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ templateId, answers }),
     });
@@ -70,8 +86,9 @@ export async function generateVariationSmart(
     return { scene: fallback, source: 'offline' };
   }
   try {
-    const res = await fetch('/api/director/variation', {
+    const res = await fetch(`${API_BASE}/director/variation`, {
       method: 'POST',
+      credentials: 'same-origin',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ scene, bible, answers, seed }),
     });
