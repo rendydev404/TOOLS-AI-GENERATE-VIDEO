@@ -6,7 +6,7 @@ export type VibeId = 'hangat' | 'mewah' | 'ceria' | 'sinematik' | 'minimalis' | 
 export type MusicChoice = 'santai' | 'upbeat' | 'akustik' | 'none';
 export type CastChoice = 'product' | 'person';
 export type VoiceChoice = 'none' | 'dialog' | 'narasi';
-export type DurationChoice = 15 | 20 | 30;
+export type DurationChoice = 15 | 20 | 30 | 60;
 
 export type VideoStyleId =
   | 'real-live'

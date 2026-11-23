@@ -32,7 +32,7 @@ const BASE_ANSWERS: Answers = {
 };
 
 describe('Rangkai Director Engine', () => {
-  it('generates complete offline prompt packs for all 14 templates (6 Creator + 4 Soft Selling + 4 Hard Selling) across 15s, 20s, and 30s', () => {
+  it('generates complete offline prompt packs for all 14 templates (6 Creator + 4 Soft Selling + 4 Hard Selling) across 15s, 20s, 30s, and 60s', () => {
     const templates = getAllTemplates();
     expect(templates.length).toBe(14);
     expect(templates.filter((t) => t.mode === 'creator').length).toBe(6);
@@ -40,7 +40,7 @@ describe('Rangkai Director Engine', () => {
     expect(templates.filter((t) => t.mode === 'marketing' && t.sellingStyle === 'hard').length).toBe(4);
 
     for (const tpl of templates) {
-      for (const dur of [15, 20, 30] as const) {
+      for (const dur of [15, 20, 30, 60] as const) {
         const pack = generateOfflinePack(tpl, {
           ...BASE_ANSWERS,
           contentMode: tpl.mode,
@@ -50,6 +50,11 @@ describe('Rangkai Director Engine', () => {
         expect(pack.bible.contentMode).toBe(tpl.mode);
         expect(pack.bible.sellingStyle).toBe(tpl.sellingStyle);
         expect(pack.scenes.length).toBeGreaterThanOrEqual(3);
+        if (dur === 60) {
+          expect(pack.scenes.length).toBe(8);
+          expect(pack.scenes.reduce((acc, s) => acc + s.durationS, 0)).toBe(60);
+          expect(pack.settings.durationS).toBe(60);
+        }
         expect(pack.steps.length).toBeGreaterThanOrEqual(pack.scenes.length + 2);
         expect(pack.settings.creditsTotal).toBe(pack.scenes.length * 20);
 

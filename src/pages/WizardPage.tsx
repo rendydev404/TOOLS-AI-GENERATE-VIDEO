@@ -1218,9 +1218,9 @@ export function WizardPage() {
                   tall
                   value={answers.durationS}
                   onChange={(val) => updateAnswer('durationS', val)}
-                  items={([15, 20, 30] as DurationChoice[]).map((d) => ({
+                  items={([15, 20, 30, 60] as DurationChoice[]).map((d) => ({
                     value: d,
-                    label: `${d} detik`,
+                    label: d === 60 ? '1 menit' : `${d} detik`,
                     sub: `${getPlanForDuration(activeTemplate, d).roles.length} klip adegan`,
                   }))}
                 />
@@ -1317,7 +1317,8 @@ export function WizardPage() {
                 </div>
                 <div className="font-medium text-[var(--text-primary)]">
                   Style: <strong>{currentVideoStyle.name}</strong> · Hook:{' '}
-                  <strong>{currentHook.name}</strong> · {plan.roles.length} klip ({answers.durationS}s ·{' '}
+                  <strong>{currentHook.name}</strong> · {plan.roles.length} klip (
+                  {answers.durationS === 60 ? '1 menit' : `${answers.durationS}s`} ·{' '}
                   {answers.aspect}) · Estimasi <strong>±{estimatedCredits} credit Flow</strong>
                 </div>
               </div>

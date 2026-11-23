@@ -717,7 +717,7 @@ export function normalizeAnswers(input: Answers): Answers {
   if (!a.hookStyle || !HOOK_STRATEGIES[a.hookStyle]) {
     a.hookStyle = 'rahasia-pov';
   }
-  if (a.durationS !== 15 && a.durationS !== 20 && a.durationS !== 30) {
+  if (a.durationS !== 15 && a.durationS !== 20 && a.durationS !== 30 && a.durationS !== 60) {
     a.durationS = 20;
   }
   if (a.aspect !== '16:9') {
@@ -1367,7 +1367,8 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
         ? 'Hard Selling'
         : 'Soft Selling'
       : 'Konten Kreator';
-  const summary = `${modeLabel} · ${scenes.length} klip · ±${a.durationS} dtk · ${a.aspect} · ${vStyle.name}.`;
+  const durationLabel = a.durationS === 60 ? '1 menit' : `±${a.durationS} dtk`;
+  const summary = `${modeLabel} · ${scenes.length} klip · ${durationLabel} · ${a.aspect} · ${vStyle.name}.`;
 
   const basePack: Omit<Pack, 'steps' | 'guideUpdatedAt'> = {
     title: a.product,
@@ -1431,7 +1432,8 @@ export function recalculatePack(pack: Pack, answers: Answers): Pack {
     durationS: totalDuration,
   };
 
-  const summary = `${normalizedScenes.length} klip · ±${totalDuration} dtk · ${settings.aspect} · ${pack.bible.videoStyleName}.`;
+  const durationLabel = totalDuration === 60 ? '1 menit' : `±${totalDuration} dtk`;
+  const summary = `${normalizedScenes.length} klip · ${durationLabel} · ${settings.aspect} · ${pack.bible.videoStyleName}.`;
 
   const basePack: Omit<Pack, 'steps' | 'guideUpdatedAt'> = {
     ...pack,

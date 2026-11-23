@@ -39,7 +39,7 @@ export function getTemplateRole(template: Template, roleName: string): TemplateR
 }
 
 export function getPlanForDuration(template: Template, durationS: number): TemplatePlan {
-  for (const d of [durationS, 20, 15, 30]) {
+  for (const d of [durationS, 20, 15, 30, 60]) {
     const plan = template.plans[String(d)];
     if (plan) return plan;
   }

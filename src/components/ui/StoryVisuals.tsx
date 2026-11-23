@@ -6,7 +6,7 @@ export function TemplateSequenceStrip({
   compact = false,
 }: {
   template: Template;
-  durationKey?: '15' | '20' | '30';
+  durationKey?: '15' | '20' | '30' | '60';
   compact?: boolean;
 }) {
   const plan = template.plans[durationKey] ?? template.plans['20'];
@@ -21,7 +21,9 @@ export function TemplateSequenceStrip({
     >
       <div className="mb-2 flex items-center justify-between font-mono text-[10.5px] font-bold uppercase tracking-wider text-[var(--text-secondary)]">
         <span>URUTAN ADEGAN</span>
-        <span className="tnum">{roles.length} KLIP · {durationKey} DTK</span>
+        <span className="tnum">
+          {roles.length} KLIP · {durationKey === '60' ? '1 MENIT' : `${durationKey} DTK`}
+        </span>
       </div>
 
       <div className="flex items-stretch gap-1.5">
@@ -101,7 +103,10 @@ export function VibePalettePreview({ vibeId }: { vibeId: VibeId }) {
 }
 
 export function formatTimecodeRange(startSec: number, durSec: number): string {
-  const pad = (n: number) => String(n).padStart(2, '0');
-  const endSec = startSec + durSec;
-  return `00:${pad(startSec)} - 00:${pad(endSec)}`;
+  const fmt = (totalSec: number) => {
+    const mins = Math.floor(totalSec / 60);
+    const secs = totalSec % 60;
+    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  };
+  return `${fmt(startSec)} - ${fmt(startSec + durSec)}`;
 }

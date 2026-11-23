@@ -59,6 +59,42 @@
         "sfx": "warm clear room tone"
       },
       {
+        "role": "pendalaman",
+        "label": "Pendalaman Cerita",
+        "art": "tpl-story",
+        "descId": "{character_id} menggali lebih jauh detail kecil yang jarang disadari dari {product}.",
+        "action": "{character} leans forward thoughtfully in {setting}, using natural storytelling hand gestures to unpack deeper background details about {product}",
+        "shot": "medium shot, 35mm cinema lens",
+        "camera": "slow smooth lateral tracking",
+        "cameraId": "Tracking",
+        "dialogue": "Yang jarang orang tahu, di balik cerita {product} ini ada detail yang sebenernya paling menentukan.",
+        "sfx": "subtle warm room ambience"
+      },
+      {
+        "role": "bukti_cerita",
+        "label": "Detail Momen",
+        "art": "produk",
+        "descId": "Visualisasi momen penting yang memperkuat alur cerita {product}.",
+        "action": "cinematic illustrative shot in {setting} focusing on {character} reacting genuinely as key visual cues of {product} and {advantages_en} come into sharp focus",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "slow deliberate push-in",
+        "cameraId": "Push-in",
+        "dialogue": "Begitu momen ini kejadian, baru kelihatan jelas kenapa {adv1} itu ngaruh banget.",
+        "sfx": "crisp atmospheric transition tone"
+      },
+      {
+        "role": "refleksi",
+        "label": "Pelajaran Utama",
+        "art": "manfaat",
+        "descId": "{character_id} merangkum sudut pandang baru yang bisa dibawa pulang penonton dari {product}.",
+        "action": "{character} speaks warmly and reflectively to the camera in {setting}, relaxed posture with soft cinematic lighting highlighting sincere expression",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "gentle steady hold",
+        "cameraId": "Statis",
+        "dialogue": "Jadi pelajaran pentingnya, setiap kali kita ketemu hal soal {product}, jangan cuma lihat permukaannya aja.",
+        "sfx": "soft calm ambient room tone"
+      },
+      {
         "role": "penutup",
         "label": "Pesan & Diskusi",
         "art": "ajakan",
@@ -72,9 +108,70 @@
       }
     ],
     "plans": {
-      "15": { "roles": ["pembuka", "konflik", "penutup"], "durations": [5, 6, 4] },
-      "20": { "roles": ["pembuka", "latar", "konflik", "penutup"], "durations": [5, 5, 6, 4] },
-      "30": { "roles": ["pembuka", "latar", "konflik", "puncak", "penutup"], "durations": [6, 6, 7, 6, 5] }
+      "15": {
+        "roles": [
+          "pembuka",
+          "konflik",
+          "penutup"
+        ],
+        "durations": [
+          5,
+          6,
+          4
+        ]
+      },
+      "20": {
+        "roles": [
+          "pembuka",
+          "latar",
+          "konflik",
+          "penutup"
+        ],
+        "durations": [
+          5,
+          5,
+          6,
+          4
+        ]
+      },
+      "30": {
+        "roles": [
+          "pembuka",
+          "latar",
+          "konflik",
+          "puncak",
+          "penutup"
+        ],
+        "durations": [
+          6,
+          6,
+          7,
+          6,
+          5
+        ]
+      },
+      "60": {
+        "roles": [
+          "pembuka",
+          "latar",
+          "pendalaman",
+          "konflik",
+          "bukti_cerita",
+          "puncak",
+          "refleksi",
+          "penutup"
+        ],
+        "durations": [
+          6,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          6
+        ]
+      }
     }
   },
   {
@@ -137,6 +234,42 @@
         "sfx": "natural ambient sound"
       },
       {
+        "role": "alasan",
+        "label": "Kenapa Terjadi",
+        "art": "produk",
+        "descId": "{character_id} menjelaskan akar penyebab di balik fenomena {product} dengan bahasa sederhana.",
+        "action": "{character} explains calmly in {setting}, gesturing clearly to break down the underlying cause behind {product}",
+        "shot": "medium shot, 35mm lens",
+        "camera": "smooth slight push-in",
+        "cameraId": "Push-in",
+        "dialogue": "Kenapa hal ini sering banget kejadian? Soalnya banyak yang belum paham mekanisme dasarnya.",
+        "sfx": "clean studio room tone"
+      },
+      {
+        "role": "langkah",
+        "label": "Cara Praktik",
+        "art": "manfaat",
+        "descId": "{character_id} memaparkan langkah praktis menerapkan pemahaman {product} sehari-hari.",
+        "action": "{character} counts off simple actionable steps with natural hand motions in {setting}, illustrating {advantages_en} for {product}",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "gentle lateral slide",
+        "cameraId": "Slide",
+        "dialogue": "Cara paling gampangnya, mulai aja dari langkah kecil yang fokus ke {adv1}.",
+        "sfx": "crisp clean ambient tone"
+      },
+      {
+        "role": "kesimpulan",
+        "label": "Poin Kunci",
+        "art": "tpl-story",
+        "descId": "{character_id} merangkum inti edukasi {product} agar mudah diingat penonton.",
+        "action": "{character} nods confidently toward the camera in {setting}, summarizing the core takeaway of {product} with calm authority",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "subtle dolly-out",
+        "cameraId": "Dolly-out",
+        "dialogue": "Intinya, kalau kamu pegang prinsip {adv_all} ini, hasilnya bakal jauh lebih konsisten.",
+        "sfx": "warm quiet room ambience"
+      },
+      {
         "role": "ajakan",
         "label": "Rangkuman & Save",
         "art": "ajakan",
@@ -150,9 +283,70 @@
       }
     ],
     "plans": {
-      "15": { "roles": ["fakta", "inti", "ajakan"], "durations": [5, 6, 4] },
-      "20": { "roles": ["fakta", "miskonsepsi", "inti", "ajakan"], "durations": [5, 5, 6, 4] },
-      "30": { "roles": ["fakta", "miskonsepsi", "inti", "contoh", "ajakan"], "durations": [6, 6, 7, 6, 5] }
+      "15": {
+        "roles": [
+          "fakta",
+          "inti",
+          "ajakan"
+        ],
+        "durations": [
+          5,
+          6,
+          4
+        ]
+      },
+      "20": {
+        "roles": [
+          "fakta",
+          "miskonsepsi",
+          "inti",
+          "ajakan"
+        ],
+        "durations": [
+          5,
+          5,
+          6,
+          4
+        ]
+      },
+      "30": {
+        "roles": [
+          "fakta",
+          "miskonsepsi",
+          "inti",
+          "contoh",
+          "ajakan"
+        ],
+        "durations": [
+          6,
+          6,
+          7,
+          6,
+          5
+        ]
+      },
+      "60": {
+        "roles": [
+          "fakta",
+          "miskonsepsi",
+          "alasan",
+          "inti",
+          "langkah",
+          "contoh",
+          "kesimpulan",
+          "ajakan"
+        ],
+        "durations": [
+          6,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          6
+        ]
+      }
     }
   },
   {
@@ -215,6 +409,42 @@
         "sfx": "clean room ambience"
       },
       {
+        "role": "akar",
+        "label": "Akar Masalah",
+        "art": "produk",
+        "descId": "{character_id} membedah penyebab utama kenapa topik {product} terus jadi perdebatan.",
+        "action": "{character} speaks analytically in {setting}, gesturing expressively to dissect the root cause behind {product}",
+        "shot": "medium shot, 35mm lens",
+        "camera": "smooth lateral slide",
+        "cameraId": "Slide",
+        "dialogue": "Kalau kita tarik ke belakang, sumber masalahnya sebenarnya bukan di permukaan, tapi di cara kita melihat {product}.",
+        "sfx": "clean indoor room tone"
+      },
+      {
+        "role": "perbandingan",
+        "label": "Dua Sisi Berbeda",
+        "art": "hook",
+        "descId": "{character_id} membandingkan cara lama vs sudut pandang baru soal {product}.",
+        "action": "{character} contrasts two sides using balanced open-hand gestures in {setting}, illustrating {advantages_en} clearly",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "gentle tracking pan",
+        "cameraId": "Tracking",
+        "dialogue": "Bandingin deh antara ikut-ikutan tren doang sama yang beneran paham sisi {adv1}.",
+        "sfx": "subtle crisp room ambience"
+      },
+      {
+        "role": "sikap",
+        "label": "Langkah Bijak",
+        "art": "tpl-story",
+        "descId": "{character_id} membagikan sikap paling realistis menghadapi {product}.",
+        "action": "{character} looks directly into the lens with composed confidence in {setting}, offering a grounded takeaway on {product}",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "slow engaging push-in",
+        "cameraId": "Push-in",
+        "dialogue": "Makanya buat aku, sikap paling masuk akal sekarang adalah fokus ke hal yang beneran kasih dampak nyata.",
+        "sfx": "warm natural room tone"
+      },
+      {
         "role": "diskusi",
         "label": "Pancing Komentar",
         "art": "ajakan",
@@ -228,9 +458,70 @@
       }
     ],
     "plans": {
-      "15": { "roles": ["opini", "perspektif", "diskusi"], "durations": [5, 6, 4] },
-      "20": { "roles": ["opini", "realita", "perspektif", "diskusi"], "durations": [5, 5, 6, 4] },
-      "30": { "roles": ["opini", "realita", "perspektif", "dampak", "diskusi"], "durations": [6, 6, 7, 6, 5] }
+      "15": {
+        "roles": [
+          "opini",
+          "perspektif",
+          "diskusi"
+        ],
+        "durations": [
+          5,
+          6,
+          4
+        ]
+      },
+      "20": {
+        "roles": [
+          "opini",
+          "realita",
+          "perspektif",
+          "diskusi"
+        ],
+        "durations": [
+          5,
+          5,
+          6,
+          4
+        ]
+      },
+      "30": {
+        "roles": [
+          "opini",
+          "realita",
+          "perspektif",
+          "dampak",
+          "diskusi"
+        ],
+        "durations": [
+          6,
+          6,
+          7,
+          6,
+          5
+        ]
+      },
+      "60": {
+        "roles": [
+          "opini",
+          "realita",
+          "akar",
+          "perspektif",
+          "perbandingan",
+          "dampak",
+          "sikap",
+          "diskusi"
+        ],
+        "durations": [
+          6,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          6
+        ]
+      }
     }
   },
   {
@@ -293,6 +584,42 @@
         "sfx": "pleasant everyday ambience"
       },
       {
+        "role": "kejadian",
+        "label": "Momen Puncak",
+        "art": "hook",
+        "descId": "Situasi tak terduga yang makin bikin penonton senyum-senyum sendiri soal {product}.",
+        "action": "{character} reacts in comedic disbelief in {setting} during an everyday relatable escalation around {product}",
+        "shot": "medium shot, 35mm handheld lens",
+        "camera": "organic handheld follow",
+        "cameraId": "Handheld",
+        "dialogue": "Baru juga mau tenang sebentar, eh kejadian klasik soal {product} ini langsung muncul lagi.",
+        "sfx": "natural everyday room ambience"
+      },
+      {
+        "role": "reaksi",
+        "label": "Reaksi Spontan",
+        "art": "tpl-ugc",
+        "descId": "Ekspresi jujur {character_id} yang persis seperti isi hati penonton.",
+        "action": "{character} glances directly at the camera in {setting} with a relatable deadpan expression and subtle shoulder shrug",
+        "shot": "close-up, 50mm lens",
+        "camera": "quick subtle push-in",
+        "cameraId": "Push-in",
+        "dialogue": "Di titik ini rasanya pengen ketawa aja, karena hampir semua orang pasti pernah ngalamin hal yang sama.",
+        "sfx": "light natural sigh and ambience"
+      },
+      {
+        "role": "pelajaran",
+        "label": "Hikmah Santai",
+        "art": "manfaat",
+        "descId": "{character_id} mengambil sisi positif dari pengalaman {product} dengan gaya santai.",
+        "action": "{character} relaxes with a warm amused smile in {setting}, gesturing casually to wrap up the relatable story of {product}",
+        "shot": "medium close-up, 35mm lens",
+        "camera": "steady relaxed hold",
+        "cameraId": "Statis",
+        "dialogue": "Untungnya setelah tahu triknya yang {adv1}, sekarang jauh lebih santai ngejalaninnya.",
+        "sfx": "warm everyday ambience"
+      },
+      {
         "role": "outro",
         "label": "Outro Relatable",
         "art": "ajakan",
@@ -306,9 +633,70 @@
       }
     ],
     "plans": {
-      "15": { "roles": ["momen", "realita", "outro"], "durations": [5, 6, 4] },
-      "20": { "roles": ["momen", "ekspektasi", "realita", "outro"], "durations": [5, 5, 6, 4] },
-      "30": { "roles": ["momen", "ekspektasi", "realita", "solusi", "outro"], "durations": [6, 6, 7, 6, 5] }
+      "15": {
+        "roles": [
+          "momen",
+          "realita",
+          "outro"
+        ],
+        "durations": [
+          5,
+          6,
+          4
+        ]
+      },
+      "20": {
+        "roles": [
+          "momen",
+          "ekspektasi",
+          "realita",
+          "outro"
+        ],
+        "durations": [
+          5,
+          5,
+          6,
+          4
+        ]
+      },
+      "30": {
+        "roles": [
+          "momen",
+          "ekspektasi",
+          "realita",
+          "solusi",
+          "outro"
+        ],
+        "durations": [
+          6,
+          6,
+          7,
+          6,
+          5
+        ]
+      },
+      "60": {
+        "roles": [
+          "momen",
+          "ekspektasi",
+          "kejadian",
+          "realita",
+          "reaksi",
+          "solusi",
+          "pelajaran",
+          "outro"
+        ],
+        "durations": [
+          6,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          6
+        ]
+      }
     }
   },
   {
@@ -371,6 +759,42 @@
         "sfx": "uplifting light room ambience"
       },
       {
+        "role": "poin3",
+        "label": "Poin Ketiga",
+        "art": "produk",
+        "descId": "{character_id} memaparkan poin ketiga yang sering jadi pembeda utama di {product}.",
+        "action": "{character} gestures clearly for the third step in {setting}, showing energetic focus while explaining {product}",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "smooth lateral slide",
+        "cameraId": "Slide",
+        "dialogue": "Lanjut ke poin ketiga, ini bagian yang paling sering dilupain padahal efeknya besar banget.",
+        "sfx": "clean crisp room tone"
+      },
+      {
+        "role": "poin4",
+        "label": "Poin Keempat",
+        "art": "manfaat",
+        "descId": "{character_id} menjelaskan poin keempat agar penerapan {product} makin optimal.",
+        "action": "{character} demonstrates the fourth practical tip in {setting}, highlighting {advantages_en} with clear confident posture",
+        "shot": "medium shot, 35mm lens",
+        "camera": "gentle tracking shot",
+        "cameraId": "Tracking",
+        "dialogue": "Keempat, pastiin kamu juga jaga konsistensinya biar manfaat {adv1} kerasa maksimal.",
+        "sfx": "subtle studio room tone"
+      },
+      {
+        "role": "bonus",
+        "label": "Tips Bonus",
+        "art": "hook",
+        "descId": "{character_id} menyelipkan satu tips tambahan bernilai tinggi seputar {product}.",
+        "action": "{character} leans slightly closer to the lens in {setting} with an encouraging smile, sharing an extra bonus insight about {product}",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "slow engaging push-in",
+        "cameraId": "Push-in",
+        "dialogue": "Dan bonus terakhir, coba langsung praktekin satu aja dulu hari ini biar nggak cuma jadi teori.",
+        "sfx": "light crisp ambient tone"
+      },
+      {
         "role": "simpan",
         "label": "Ajakan Simpan",
         "art": "ajakan",
@@ -384,9 +808,70 @@
       }
     ],
     "plans": {
-      "15": { "roles": ["janji", "poin2", "simpan"], "durations": [5, 6, 4] },
-      "20": { "roles": ["janji", "poin1", "poin2", "simpan"], "durations": [5, 5, 6, 4] },
-      "30": { "roles": ["janji", "poin1", "poin2", "hasil", "simpan"], "durations": [5, 6, 7, 6, 6] }
+      "15": {
+        "roles": [
+          "janji",
+          "poin2",
+          "simpan"
+        ],
+        "durations": [
+          5,
+          6,
+          4
+        ]
+      },
+      "20": {
+        "roles": [
+          "janji",
+          "poin1",
+          "poin2",
+          "simpan"
+        ],
+        "durations": [
+          5,
+          5,
+          6,
+          4
+        ]
+      },
+      "30": {
+        "roles": [
+          "janji",
+          "poin1",
+          "poin2",
+          "hasil",
+          "simpan"
+        ],
+        "durations": [
+          5,
+          6,
+          7,
+          6,
+          6
+        ]
+      },
+      "60": {
+        "roles": [
+          "janji",
+          "poin1",
+          "poin2",
+          "poin3",
+          "poin4",
+          "bonus",
+          "hasil",
+          "simpan"
+        ],
+        "durations": [
+          6,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          6
+        ]
+      }
     }
   },
   {
@@ -449,6 +934,42 @@
         "sfx": "warm resonant cinematic swell"
       },
       {
+        "role": "transisi_ruang",
+        "label": "Eksplorasi Sudut",
+        "art": "produk",
+        "descId": "Kamera menyusuri sudut baru yang memperkaya skala dan dimensi visual {product}.",
+        "action": "sweeping cinematic shot gliding through {setting}, revealing a fresh architectural angle and depth of {product}",
+        "shot": "wide cinematic shot, 24mm prime lens",
+        "camera": "smooth lateral glide",
+        "cameraId": "Slide",
+        "dialogue": "Dari sudut yang lebih luas, komposisi dan suasananya terasa makin hidup.",
+        "sfx": "expansive atmospheric ambient wash"
+      },
+      {
+        "role": "tekstur",
+        "label": "Detail Tekstur",
+        "art": "manfaat",
+        "descId": "Sorotan makro dramatis pada tekstur, cahaya, dan elemen kecil {product}.",
+        "action": "ultra-crisp macro close-up capturing intricate surface textures, light reflections, and fine details of {product} in {setting}",
+        "shot": "macro close-up, 85mm prime lens",
+        "camera": "ultra-slow macro push-in",
+        "cameraId": "Push-in",
+        "dialogue": "Setiap tekstur dan pantulan cahayanya membawa karakter {adv1} yang kuat.",
+        "sfx": "subtle tactile cinematic foley"
+      },
+      {
+        "role": "harmoni",
+        "label": "Atmosfer Utuh",
+        "art": "tpl-story",
+        "descId": "Komposisi utuh yang menyatukan pencahayaan, gerak, dan mood akhir {product}.",
+        "action": "majestic balanced wide-to-medium shot in {setting} unifying light, motion, and atmosphere around {product} and {advantages_en}",
+        "shot": "cinematic medium-wide shot, 35mm lens",
+        "camera": "slow graceful orbit",
+        "cameraId": "Orbit",
+        "dialogue": "Semuanya menyatu jadi satu pengalaman visual yang tenang tapi membekas.",
+        "sfx": "rich cinematic ambient swell"
+      },
+      {
         "role": "ajakan",
         "label": "Closing Frame",
         "art": "ajakan",
@@ -462,9 +983,70 @@
       }
     ],
     "plans": {
-      "15": { "roles": ["hook", "manfaat", "ajakan"], "durations": [4, 6, 5] },
-      "20": { "roles": ["hook", "suasana", "manfaat", "ajakan"], "durations": [4, 6, 6, 4] },
-      "30": { "roles": ["hook", "suasana", "manfaat", "detail", "ajakan"], "durations": [5, 6, 7, 6, 6] }
+      "15": {
+        "roles": [
+          "hook",
+          "manfaat",
+          "ajakan"
+        ],
+        "durations": [
+          4,
+          6,
+          5
+        ]
+      },
+      "20": {
+        "roles": [
+          "hook",
+          "suasana",
+          "manfaat",
+          "ajakan"
+        ],
+        "durations": [
+          4,
+          6,
+          6,
+          4
+        ]
+      },
+      "30": {
+        "roles": [
+          "hook",
+          "suasana",
+          "manfaat",
+          "detail",
+          "ajakan"
+        ],
+        "durations": [
+          5,
+          6,
+          7,
+          6,
+          6
+        ]
+      },
+      "60": {
+        "roles": [
+          "hook",
+          "suasana",
+          "transisi_ruang",
+          "manfaat",
+          "tekstur",
+          "detail",
+          "harmoni",
+          "ajakan"
+        ],
+        "durations": [
+          6,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          6
+        ]
+      }
     }
   },
   {
@@ -528,6 +1110,42 @@
         "sfx": "subtle crisp detail foley"
       },
       {
+        "role": "masalah_target",
+        "label": "Masalah Penonton",
+        "art": "hook",
+        "descId": "{character_id} menyinggung masalah nyata yang langsung bisa diselesaikan oleh {product}.",
+        "action": "{character} addresses the camera empathetically in {setting}, highlighting the everyday pain point that {product} is built to solve",
+        "shot": "medium close-up, 35mm lens",
+        "camera": "gentle push-in",
+        "cameraId": "Push-in",
+        "dialogue": "Masih sering ribet sama masalah yang sama tiap hari? Sekarang udah ada solusi yang jauh lebih praktis.",
+        "sfx": "crisp clean commercial room tone"
+      },
+      {
+        "role": "demo_pakai",
+        "label": "Demo Langsung",
+        "art": "produk",
+        "descId": "Demonstrasi langsung cara kerja {product} dalam penggunaan nyata.",
+        "action": "{character} actively demonstrates {product} in real use inside {setting}, clearly showing smooth performance and {advantages_en}",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "smooth tracking shot",
+        "cameraId": "Tracking",
+        "dialogue": "Lihat sendiri cara pakainya yang simpel banget dan hasilnya langsung kelihatan.",
+        "sfx": "crisp realistic product foley"
+      },
+      {
+        "role": "jaminan",
+        "label": "Alasan Pilih Ini",
+        "art": "manfaat",
+        "descId": "{character_id} menegaskan nilai terbaik kenapa {product} layak dipilih sekarang.",
+        "action": "{character} holds {product} confidently in {setting} with crisp studio lighting, emphasizing reliability and {advantages_en}",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "steady confident hold",
+        "cameraId": "Statis",
+        "dialogue": "Dengan kualitas {adv_all} kayak gini, ini jelas pilihan paling aman dan sepadan buat kamu.",
+        "sfx": "clean bright commercial ambience"
+      },
+      {
         "role": "ajakan",
         "label": "CTA Penjualan",
         "art": "ajakan",
@@ -541,9 +1159,70 @@
       }
     ],
     "plans": {
-      "15": { "roles": ["hook", "manfaat", "ajakan"], "durations": [4, 6, 5] },
-      "20": { "roles": ["hook", "produk", "manfaat", "ajakan"], "durations": [4, 6, 6, 4] },
-      "30": { "roles": ["hook", "produk", "manfaat", "detail", "ajakan"], "durations": [5, 6, 7, 6, 6] }
+      "15": {
+        "roles": [
+          "hook",
+          "manfaat",
+          "ajakan"
+        ],
+        "durations": [
+          4,
+          6,
+          5
+        ]
+      },
+      "20": {
+        "roles": [
+          "hook",
+          "produk",
+          "manfaat",
+          "ajakan"
+        ],
+        "durations": [
+          4,
+          6,
+          6,
+          4
+        ]
+      },
+      "30": {
+        "roles": [
+          "hook",
+          "produk",
+          "manfaat",
+          "detail",
+          "ajakan"
+        ],
+        "durations": [
+          5,
+          6,
+          7,
+          6,
+          6
+        ]
+      },
+      "60": {
+        "roles": [
+          "hook",
+          "masalah_target",
+          "produk",
+          "demo_pakai",
+          "manfaat",
+          "detail",
+          "jaminan",
+          "ajakan"
+        ],
+        "durations": [
+          6,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          6
+        ]
+      }
     }
   },
   {
@@ -607,6 +1286,42 @@
         "sfx": "pleasant room ambience"
       },
       {
+        "role": "unbox_singkat",
+        "label": "Pertama Coba",
+        "art": "produk",
+        "descId": "{character_id} memperlihatkan kesan pertama saat memegang dan mencoba {product}.",
+        "action": "{character} holds {product} closer to the smartphone camera in {setting}, showing authentic first-impression excitement",
+        "shot": "natural handheld close-up, 28mm smartphone lens",
+        "camera": "organic handheld framing",
+        "cameraId": "Handheld",
+        "dialogue": "Pas pertama kali pegang {product} ini aja, kesan pertamanya udah langsung rapi dan niat banget.",
+        "sfx": "natural unboxing rustle and room tone"
+      },
+      {
+        "role": "hasil_nyata",
+        "label": "Hasil Setelah Pakai",
+        "art": "manfaat",
+        "descId": "{character_id} menunjukkan hasil jujur setelah rutin memakai {product}.",
+        "action": "{character} smiles genuinely into the camera in {setting} while showing the visible result of using {product} with {advantages_en}",
+        "shot": "selfie medium close-up, smartphone lens",
+        "camera": "natural selfie hold",
+        "cameraId": "Selfie",
+        "dialogue": "Dan ini hasil jujurnya setelah aku pakai sendiri — beneran kerasa {adv_all}.",
+        "sfx": "authentic home ambience"
+      },
+      {
+        "role": "cocok_untuk",
+        "label": "Siapa yang Cocok",
+        "art": "tpl-story",
+        "descId": "{character_id} menjelaskan siapa saja yang paling cocok pakai {product}.",
+        "action": "{character} chats casually to the camera in {setting} holding {product}, pointing gently as if recommending to a close friend",
+        "shot": "medium close-up, smartphone lens",
+        "camera": "subtle handheld movement",
+        "cameraId": "Handheld",
+        "dialogue": "Kalau kamu tipe yang cari solusi simpel tapi tetap maksimal, ini cocok banget sih buat kamu.",
+        "sfx": "clean casual room tone"
+      },
+      {
         "role": "ajakan",
         "label": "Arahkan ke Keranjang / Bio",
         "art": "ajakan",
@@ -620,9 +1335,70 @@
       }
     ],
     "plans": {
-      "15": { "roles": ["kesan", "pakai", "ajakan"], "durations": [5, 6, 4] },
-      "20": { "roles": ["kesan", "keluhan", "pakai", "ajakan"], "durations": [5, 5, 6, 4] },
-      "30": { "roles": ["kesan", "keluhan", "pakai", "rekomendasi", "ajakan"], "durations": [6, 6, 7, 6, 5] }
+      "15": {
+        "roles": [
+          "kesan",
+          "pakai",
+          "ajakan"
+        ],
+        "durations": [
+          5,
+          6,
+          4
+        ]
+      },
+      "20": {
+        "roles": [
+          "kesan",
+          "keluhan",
+          "pakai",
+          "ajakan"
+        ],
+        "durations": [
+          5,
+          5,
+          6,
+          4
+        ]
+      },
+      "30": {
+        "roles": [
+          "kesan",
+          "keluhan",
+          "pakai",
+          "rekomendasi",
+          "ajakan"
+        ],
+        "durations": [
+          6,
+          6,
+          7,
+          6,
+          5
+        ]
+      },
+      "60": {
+        "roles": [
+          "kesan",
+          "keluhan",
+          "unbox_singkat",
+          "pakai",
+          "hasil_nyata",
+          "cocok_untuk",
+          "rekomendasi",
+          "ajakan"
+        ],
+        "durations": [
+          6,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          6
+        ]
+      }
     }
   },
   {
@@ -686,6 +1462,42 @@
         "sfx": "subtle crisp foley"
       },
       {
+        "role": "dampak_masalah",
+        "label": "Efek Masalah",
+        "art": "hook",
+        "descId": "Menunjukkan betapa mengganggunya kondisi lama sebelum mengenal {product}.",
+        "action": "{character} looks visibly tired of the messy old routine in {setting}, highlighting the frustration before {product}",
+        "shot": "medium close-up, 35mm lens",
+        "camera": "slow push-in",
+        "cameraId": "Push-in",
+        "dialogue": "Kalau dibiarin terus, kondisi kayak gini bikin boros waktu dan nggak nyaman banget.",
+        "sfx": "muted dull ambient tone"
+      },
+      {
+        "role": "proses_pakai",
+        "label": "Proses Pemakaian",
+        "art": "produk",
+        "descId": "Momen langkah demi langkah {character_id} memakai {product} dengan mudah.",
+        "action": "{character} applies or uses {product} smoothly in {setting}, capturing clean effortless motion and instant improvement",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "smooth tracking shot",
+        "cameraId": "Tracking",
+        "dialogue": "Cukup pakai {product} kayak gini aja, prosesnya cepat banget tanpa ribet.",
+        "sfx": "crisp satisfying action foley"
+      },
+      {
+        "role": "perbandingan_akhir",
+        "label": "Bandingkan Langsung",
+        "art": "manfaat",
+        "descId": "Menegaskan kontras jelas antara kondisi sebelum dan sesudah memakai {product}.",
+        "action": "{character} proudly presents the clean transformed result alongside {product} in bright {setting}, clearly showing {advantages_en}",
+        "shot": "medium shot, 50mm lens",
+        "camera": "gentle lateral slide",
+        "cameraId": "Slide",
+        "dialogue": "Kelihatan jelas banget kan bedanya dibanding tadi? Jauh lebih rapi dan {adv1}.",
+        "sfx": "bright crisp ambient tone"
+      },
+      {
         "role": "ajakan",
         "label": "Ajakan Beli",
         "art": "ajakan",
@@ -699,9 +1511,70 @@
       }
     ],
     "plans": {
-      "15": { "roles": ["sebelum", "transisi", "sesudah"], "durations": [5, 4, 6] },
-      "20": { "roles": ["sebelum", "transisi", "sesudah", "ajakan"], "durations": [5, 4, 6, 5] },
-      "30": { "roles": ["sebelum", "transisi", "sesudah", "detail", "ajakan"], "durations": [6, 5, 7, 6, 6] }
+      "15": {
+        "roles": [
+          "sebelum",
+          "transisi",
+          "sesudah"
+        ],
+        "durations": [
+          5,
+          4,
+          6
+        ]
+      },
+      "20": {
+        "roles": [
+          "sebelum",
+          "transisi",
+          "sesudah",
+          "ajakan"
+        ],
+        "durations": [
+          5,
+          4,
+          6,
+          5
+        ]
+      },
+      "30": {
+        "roles": [
+          "sebelum",
+          "transisi",
+          "sesudah",
+          "detail",
+          "ajakan"
+        ],
+        "durations": [
+          6,
+          5,
+          7,
+          6,
+          6
+        ]
+      },
+      "60": {
+        "roles": [
+          "sebelum",
+          "dampak_masalah",
+          "transisi",
+          "proses_pakai",
+          "sesudah",
+          "detail",
+          "perbandingan_akhir",
+          "ajakan"
+        ],
+        "durations": [
+          6,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          6
+        ]
+      }
     }
   },
   {
@@ -765,6 +1638,42 @@
         "sfx": "subtle crisp foley"
       },
       {
+        "role": "kelengkapan",
+        "label": "Kelengkapan Isi",
+        "art": "produk",
+        "descId": "Menampilkan seluruh isi paket {product} tertata rapi di atas {surface}.",
+        "action": "neat overhead-to-45-degree shot of {product} and all its neatly arranged components resting cleanly on {surface} in {setting}",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "smooth lateral slide",
+        "cameraId": "Slide",
+        "dialogue": "Di dalam paketnya semua tertata rapi dan lengkap, siap langsung dipakai.",
+        "sfx": "clean crisp tactile placement sounds"
+      },
+      {
+        "role": "coba_fungsi",
+        "label": "Tes Fungsi Utama",
+        "art": "manfaat",
+        "descId": "Uji coba langsung fungsi unggulan {product} dengan gerak halus dan jelas.",
+        "action": "clean hands demonstrate the primary function of {product} on {surface} in {setting}, clearly showcasing {advantages_en}",
+        "shot": "close-up, 50mm lens",
+        "camera": "gentle tracking focus",
+        "cameraId": "Tracking",
+        "dialogue": "Begitu langsung dites fungsinya, performanya halus dan kerasa banget {adv1}.",
+        "sfx": "crisp mechanical or tactile product foley"
+      },
+      {
+        "role": "tampilan_utuh",
+        "label": "Tampilan Keseluruhan",
+        "art": "tpl-story",
+        "descId": "Sorotan menyeluruh siluet dan estetika {product} dari sudut terbaik.",
+        "action": "polished hero orbit around {product} standing cleanly on {surface} in {setting} with refined rim lighting",
+        "shot": "medium close-up, 85mm lens",
+        "camera": "smooth slow orbit",
+        "cameraId": "Orbit",
+        "dialogue": "Secara keseluruhan, tampilan dan kualitas bangunannya beneran memuaskan dari segala sisi.",
+        "sfx": "clean refined studio ambience"
+      },
+      {
         "role": "ajakan",
         "label": "CTA Produk",
         "art": "ajakan",
@@ -778,9 +1687,70 @@
       }
     ],
     "plans": {
-      "15": { "roles": ["kemasan", "isi", "ajakan"], "durations": [5, 6, 4] },
-      "20": { "roles": ["kemasan", "buka", "isi", "ajakan"], "durations": [4, 6, 6, 4] },
-      "30": { "roles": ["kemasan", "buka", "isi", "detail", "ajakan"], "durations": [5, 6, 7, 6, 6] }
+      "15": {
+        "roles": [
+          "kemasan",
+          "isi",
+          "ajakan"
+        ],
+        "durations": [
+          5,
+          6,
+          4
+        ]
+      },
+      "20": {
+        "roles": [
+          "kemasan",
+          "buka",
+          "isi",
+          "ajakan"
+        ],
+        "durations": [
+          4,
+          6,
+          6,
+          4
+        ]
+      },
+      "30": {
+        "roles": [
+          "kemasan",
+          "buka",
+          "isi",
+          "detail",
+          "ajakan"
+        ],
+        "durations": [
+          5,
+          6,
+          7,
+          6,
+          6
+        ]
+      },
+      "60": {
+        "roles": [
+          "kemasan",
+          "buka",
+          "kelengkapan",
+          "isi",
+          "coba_fungsi",
+          "detail",
+          "tampilan_utuh",
+          "ajakan"
+        ],
+        "durations": [
+          6,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          6
+        ]
+      }
     }
   },
   {
@@ -832,6 +1802,54 @@
         "sfx": "upbeat subtle room energy"
       },
       {
+        "role": "masalah_hemat",
+        "label": "Kenapa Sekarang",
+        "art": "hook",
+        "descId": "{character_id} menjelaskan kenapa momen promo {product} ini sayang banget dilewatkan.",
+        "action": "{character} speaks energetically to the camera in {setting}, gesturing enthusiastically about the limited-time value of {product}",
+        "shot": "medium close-up, 35mm lens",
+        "camera": "quick smooth push-in",
+        "cameraId": "Push-in",
+        "dialogue": "Biasanya harga normalnya jauh lebih tinggi, makanya momen kali ini beneran sayang kalau dilewatin.",
+        "sfx": "upbeat crisp studio ambience"
+      },
+      {
+        "role": "demo_cepat",
+        "label": "Cara Kerjanya",
+        "art": "produk",
+        "descId": "Demo singkat dan meyakinkan tentang bagaimana {product} langsung memberi manfaat.",
+        "action": "{character} demonstrates {product} briskly and cleanly in {setting}, highlighting {advantages_en} in action",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "dynamic tracking shot",
+        "cameraId": "Tracking",
+        "dialogue": "Lihat deh cara pakainya yang super praktis dan langsung kasih hasil {adv1}.",
+        "sfx": "crisp snappy product foley"
+      },
+      {
+        "role": "detail_bonus",
+        "label": "Detail Keuntungan",
+        "art": "manfaat",
+        "descId": "Close-up kualitas {product} dan nilai tambah yang langsung didapat pembeli.",
+        "action": "crisp close-up showcase of {product} in {setting} with gleaming highlights, emphasizing premium value and {advantages_en}",
+        "shot": "close-up, 50mm lens",
+        "camera": "smooth lateral slide",
+        "cameraId": "Slide",
+        "dialogue": "Semua keunggulan {adv_all} ini udah langsung kamu dapetin dalam satu paket.",
+        "sfx": "bright clean commercial tone"
+      },
+      {
+        "role": "urgensi",
+        "label": "Penawaran Terbatas",
+        "art": "jar",
+        "descId": "{character_id} mengingatkan stok dan penawaran {product} yang terbatas.",
+        "action": "{character} holds {product} clearly toward the camera in {setting} with an urgent friendly smile",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "gentle push-in",
+        "cameraId": "Push-in",
+        "dialogue": "Stok promonya terbatas banget, jadi mending langsung amankan sekarang sebelum kehabisan.",
+        "sfx": "energetic crisp ambient bed"
+      },
+      {
         "role": "ajakan",
         "label": "CTA Urgensi",
         "art": "ajakan",
@@ -845,9 +1863,68 @@
       }
     ],
     "plans": {
-      "15": { "roles": ["gebrak", "keunggulan", "ajakan"], "durations": [5, 5, 5] },
-      "20": { "roles": ["gebrak", "keunggulan", "bukti", "ajakan"], "durations": [4, 6, 5, 5] },
-      "30": { "roles": ["gebrak", "keunggulan", "bukti", "ajakan"], "durations": [7, 8, 8, 7] }
+      "15": {
+        "roles": [
+          "gebrak",
+          "keunggulan",
+          "ajakan"
+        ],
+        "durations": [
+          5,
+          5,
+          5
+        ]
+      },
+      "20": {
+        "roles": [
+          "gebrak",
+          "keunggulan",
+          "bukti",
+          "ajakan"
+        ],
+        "durations": [
+          4,
+          6,
+          5,
+          5
+        ]
+      },
+      "30": {
+        "roles": [
+          "gebrak",
+          "keunggulan",
+          "bukti",
+          "ajakan"
+        ],
+        "durations": [
+          7,
+          8,
+          8,
+          7
+        ]
+      },
+      "60": {
+        "roles": [
+          "gebrak",
+          "masalah_hemat",
+          "keunggulan",
+          "demo_cepat",
+          "detail_bonus",
+          "bukti",
+          "urgensi",
+          "ajakan"
+        ],
+        "durations": [
+          6,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          6
+        ]
+      }
     }
   },
   {
@@ -911,6 +1988,42 @@
         "sfx": "soft pleasant detail sound"
       },
       {
+        "role": "kesalahan",
+        "label": "Kebiasaan Keliru",
+        "art": "hook",
+        "descId": "{character_id} membahas kebiasaan kecil yang tanpa sadar sering bikin masalah makin ribet.",
+        "action": "{character} chats warmly to the camera in {setting}, gently pointing out a common everyday mistake without sounding salesy",
+        "shot": "medium shot, 35mm lens",
+        "camera": "organic handheld framing",
+        "cameraId": "Handheld",
+        "dialogue": "Tanpa sadar, kebiasaan kecil yang kelihatannya sepele justru sering jadi penyebab utamanya.",
+        "sfx": "soft natural room ambience"
+      },
+      {
+        "role": "prinsip",
+        "label": "Prinsip Sederhana",
+        "art": "tpl-story",
+        "descId": "{character_id} membagikan prinsip sederhana yang bikin rutinitas jauh lebih ringan.",
+        "action": "{character} explains a calm practical principle in {setting}, using relaxed expressive hand gestures",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "smooth lateral slide",
+        "cameraId": "Slide",
+        "dialogue": "Kuncinya ternyata cuma satu: pilih cara yang simpel, konsisten, dan nggak bikin capek.",
+        "sfx": "quiet warm room tone"
+      },
+      {
+        "role": "pengalaman",
+        "label": "Efek di Keseharian",
+        "art": "manfaat",
+        "descId": "{character_id} menceritakan perubahan positif setelah rutin menerapkan tips dan memakai {product}.",
+        "action": "{character} smiles calmly in {setting} with {product} visible naturally nearby, radiating ease and {advantages_en}",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "gentle dolly-out",
+        "cameraId": "Dolly-out",
+        "dialogue": "Sejak rutin nerapin cara ini dibantu {product}, keseharianku jadi jauh lebih tenang dan {adv1}.",
+        "sfx": "warm peaceful room ambience"
+      },
+      {
         "role": "ajakan",
         "label": "Rekomendasi Halus",
         "art": "ajakan",
@@ -924,9 +2037,70 @@
       }
     ],
     "plans": {
-      "15": { "roles": ["masalah", "jembatan", "ajakan"], "durations": [5, 6, 4] },
-      "20": { "roles": ["masalah", "tips", "jembatan", "ajakan"], "durations": [5, 5, 6, 4] },
-      "30": { "roles": ["masalah", "tips", "jembatan", "bukti", "ajakan"], "durations": [6, 6, 7, 5, 6] }
+      "15": {
+        "roles": [
+          "masalah",
+          "jembatan",
+          "ajakan"
+        ],
+        "durations": [
+          5,
+          6,
+          4
+        ]
+      },
+      "20": {
+        "roles": [
+          "masalah",
+          "tips",
+          "jembatan",
+          "ajakan"
+        ],
+        "durations": [
+          5,
+          5,
+          6,
+          4
+        ]
+      },
+      "30": {
+        "roles": [
+          "masalah",
+          "tips",
+          "jembatan",
+          "bukti",
+          "ajakan"
+        ],
+        "durations": [
+          6,
+          6,
+          7,
+          5,
+          6
+        ]
+      },
+      "60": {
+        "roles": [
+          "masalah",
+          "kesalahan",
+          "tips",
+          "prinsip",
+          "jembatan",
+          "bukti",
+          "pengalaman",
+          "ajakan"
+        ],
+        "durations": [
+          6,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          6
+        ]
+      }
     }
   },
   {
@@ -990,6 +2164,42 @@
         "sfx": "pleasant calm ambience"
       },
       {
+        "role": "coba_cara",
+        "label": "Usaha Sebelumnya",
+        "art": "tpl-ugc",
+        "descId": "{character_id} cerita sempat mencoba berbagai cara sebelumnya tapi belum cocok.",
+        "action": "{character} recalls past trial-and-error moments naturally in {setting} with relatable candid expressions",
+        "shot": "medium shot, 35mm lens",
+        "camera": "gentle handheld follow",
+        "cameraId": "Handheld",
+        "dialogue": "Sebelumnya aku udah sempat coba macem-macem cara, tapi rasanya selalu ada aja yang kurang pas.",
+        "sfx": "natural everyday room ambience"
+      },
+      {
+        "role": "proses_ubah",
+        "label": "Mulai Berubah",
+        "art": "produk",
+        "descId": "Momen awal {character_id} mulai merasakan perbedaan setelah memakai {product}.",
+        "action": "{character} uses {product} calmly in {setting}, showing a genuine subtle smile as {advantages_en} starts working naturally",
+        "shot": "medium close-up, 50mm lens",
+        "camera": "slow smooth push-in",
+        "cameraId": "Push-in",
+        "dialogue": "Dari hari pertama coba {product} ini, aku langsung ngeh kalau rasanya beda banget dan {adv1}.",
+        "sfx": "soft natural foley and ambience"
+      },
+      {
+        "role": "kebiasaan_baru",
+        "label": "Rutinitas Sekarang",
+        "art": "manfaat",
+        "descId": "{character_id} menikmati rutinitas barunya yang jauh lebih nyaman.",
+        "action": "{character} moves comfortably through their daily routine in {setting} with {product} neatly part of the scene",
+        "shot": "medium shot, 50mm lens",
+        "camera": "gentle tracking movement",
+        "cameraId": "Tracking",
+        "dialogue": "Sekarang malah udah jadi bagian wajib di rutinitas harian karena beneran {adv_all}.",
+        "sfx": "warm calm lifestyle ambience"
+      },
+      {
         "role": "ajakan",
         "label": "Sharing Santai",
         "art": "ajakan",
@@ -1003,9 +2213,70 @@
       }
     ],
     "plans": {
-      "15": { "roles": ["cerita", "temuan", "ajakan"], "durations": [5, 6, 4] },
-      "20": { "roles": ["cerita", "kendala", "temuan", "ajakan"], "durations": [5, 5, 6, 4] },
-      "30": { "roles": ["cerita", "kendala", "temuan", "lega", "ajakan"], "durations": [6, 6, 7, 6, 5] }
+      "15": {
+        "roles": [
+          "cerita",
+          "temuan",
+          "ajakan"
+        ],
+        "durations": [
+          5,
+          6,
+          4
+        ]
+      },
+      "20": {
+        "roles": [
+          "cerita",
+          "kendala",
+          "temuan",
+          "ajakan"
+        ],
+        "durations": [
+          5,
+          5,
+          6,
+          4
+        ]
+      },
+      "30": {
+        "roles": [
+          "cerita",
+          "kendala",
+          "temuan",
+          "lega",
+          "ajakan"
+        ],
+        "durations": [
+          6,
+          6,
+          7,
+          6,
+          5
+        ]
+      },
+      "60": {
+        "roles": [
+          "cerita",
+          "kendala",
+          "coba_cara",
+          "temuan",
+          "proses_ubah",
+          "lega",
+          "kebiasaan_baru",
+          "ajakan"
+        ],
+        "durations": [
+          6,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          6
+        ]
+      }
     }
   },
   {
@@ -1069,6 +2340,42 @@
         "sfx": "pleasant room tone"
       },
       {
+        "role": "panik",
+        "label": "Momen Buntu",
+        "art": "hook",
+        "descId": "Situasi makin lucu dan relatable saat {character_id} bingung mau berbuat apa.",
+        "action": "{character} pauses dramatically in {setting} with a funny relatable overwhelmed expression looking around for a quick fix",
+        "shot": "medium close-up, 35mm handheld lens",
+        "camera": "organic handheld zoom-in",
+        "cameraId": "Handheld",
+        "dialogue": "Di momen kayak gini rasanya otak langsung nge-blank, pengen semuanya beres dalam sekejap.",
+        "sfx": "natural everyday ambient sound"
+      },
+      {
+        "role": "ide_muncul",
+        "label": "Keingat Solusi",
+        "art": "tpl-story",
+        "descId": "Ekspresi lega {character_id} saat teringat punya {product} di dekatnya.",
+        "action": "{character} lights up with a sudden eureka smile in {setting}, turning smoothly to reach for {product}",
+        "shot": "medium close-up, 35mm lens",
+        "camera": "smooth slight push-in",
+        "cameraId": "Push-in",
+        "dialogue": "Eh tunggu dulu, baru inget kan aku udah sedia {product} buat jaga-jaga momen kayak gini.",
+        "sfx": "light crisp ambient beat"
+      },
+      {
+        "role": "reaksi_teman",
+        "label": "Suasana Makin Enak",
+        "art": "manfaat",
+        "descId": "{character_id} menikmati suasana santai setelah semuanya beres berkat {product}.",
+        "action": "{character} leans back happily in {setting} with {product} resting nearby, enjoying the calm result of {advantages_en}",
+        "shot": "medium shot, 50mm lens",
+        "camera": "gentle lateral slide",
+        "cameraId": "Slide",
+        "dialogue": "Asli deh, punya solusi yang {adv_all} kayak gini bikin hari jauh lebih aman dari drama.",
+        "sfx": "warm pleasant lifestyle ambience"
+      },
+      {
         "role": "ajakan",
         "label": "Outro Santai",
         "art": "ajakan",
@@ -1082,9 +2389,70 @@
       }
     ],
     "plans": {
-      "15": { "roles": ["pov", "penyelamat", "ajakan"], "durations": [5, 6, 4] },
-      "20": { "roles": ["pov", "drama", "penyelamat", "ajakan"], "durations": [5, 5, 6, 4] },
-      "30": { "roles": ["pov", "drama", "penyelamat", "beres", "ajakan"], "durations": [6, 6, 7, 6, 5] }
+      "15": {
+        "roles": [
+          "pov",
+          "penyelamat",
+          "ajakan"
+        ],
+        "durations": [
+          5,
+          6,
+          4
+        ]
+      },
+      "20": {
+        "roles": [
+          "pov",
+          "drama",
+          "penyelamat",
+          "ajakan"
+        ],
+        "durations": [
+          5,
+          5,
+          6,
+          4
+        ]
+      },
+      "30": {
+        "roles": [
+          "pov",
+          "drama",
+          "penyelamat",
+          "beres",
+          "ajakan"
+        ],
+        "durations": [
+          6,
+          6,
+          7,
+          6,
+          5
+        ]
+      },
+      "60": {
+        "roles": [
+          "pov",
+          "drama",
+          "panik",
+          "ide_muncul",
+          "penyelamat",
+          "beres",
+          "reaksi_teman",
+          "ajakan"
+        ],
+        "durations": [
+          6,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          6
+        ]
+      }
     }
   }
 ]

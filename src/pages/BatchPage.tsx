@@ -481,8 +481,10 @@ export function BatchPage() {
                 { value: '15|9:16', label: '15 dtk · 9:16 Tegak' },
                 { value: '20|9:16', label: '20 dtk · 9:16 Tegak' },
                 { value: '30|9:16', label: '30 dtk · 9:16 Tegak' },
+                { value: '60|9:16', label: '1 menit (60 dtk) · 9:16 Tegak' },
                 { value: '20|16:9', label: '20 dtk · 16:9 Mendatar' },
                 { value: '30|16:9', label: '30 dtk · 16:9 Mendatar' },
+                { value: '60|16:9', label: '1 menit (60 dtk) · 16:9 Mendatar' },
               ]}
             />
           </div>
