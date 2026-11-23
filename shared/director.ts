@@ -177,9 +177,12 @@ export const HOOK_STRATEGIES: Record<HookStrategyId, HookStrategyPreset> = {
       'SCROLL-STOPPING 0.0s CURIOSITY HOOK: immediate expressive lean-in toward the camera as visual clues illustrating "{product}" come into sharp focus, creating instant intrigue like sharing an untold insight',
     descHookId:
       'Detik pertama langsung memancing rasa ingin tahu penonton lewat sisi menarik dari {product}.',
-    spokenHookId: 'Jarang banget yang sadar kalau soal {product}, bagian paling menariknya justru ada di sini.',
-    spokenHookSoftId: 'Jarang yang nyangka kalau kebiasaan kecil ini ternyata bikin urusan harian jauh lebih gampang.',
-    spokenHookMarketingId: 'Wajib tahu {product} ini kalau kamu mau solusi yang beneran {adv1} sekarang juga!',
+    spokenHookId:
+      'Jarang banget yang sadar kalau soal {product}, bagian paling pentingnya justru sering terlewat. Makanya simak sebentar, karena detail kecil ini bakal ubah cara pandangmu.',
+    spokenHookSoftId:
+      'Jarang yang nyangka kalau kebiasaan kecil sehari-hari ini ternyata bikin semuanya jauh lebih gampang. Awalnya aku juga ragu, sampai akhirnya nemuin pola simpelnya sendiri.',
+    spokenHookMarketingId:
+      'Wajib tahu soal {product} ini kalau kamu lagi cari solusi yang beneran {adv1}. Biar nggak salah pilih lagi, lihat langsung kenapa banyak orang pindah ke sini.',
     sfxOverride: 'subtle intriguing whoosh and crisp studio focus tone',
   },
   'masalah-relatable': {
@@ -199,9 +202,12 @@ export const HOOK_STRATEGIES: Record<HookStrategyId, HookStrategyPreset> = {
       'SCROLL-STOPPING 0.0s RELATABLE HOOK: authentic everyday slice-of-life moment illustrating the real situation around "{product}" in the very first second, expressive natural reaction that viewers immediately relate to',
     descHookId:
       'Dibuka dengan situasi keseharian seputar {product} yang dekat dengan pengalaman penonton.',
-    spokenHookId: 'Pernah nggak sih kamu lagi ngadepin urusan {product}, terus bingung sebenernya gimana?',
-    spokenHookSoftId: 'Pernah nggak sih ngerasa capek sendiri tiap kali harus beresin urusan ini berulang-ulang?',
-    spokenHookMarketingId: 'Stop buang waktu pakai cara lama — ganti ke {product} yang jauh lebih {adv1}!',
+    spokenHookId:
+      'Pernah nggak sih kamu lagi ngadepin urusan {product}, terus bingung kenapa hasilnya selalu mentok? Tenang, kamu nggak sendirian, dan ternyata penyebab utamanya simpel banget.',
+    spokenHookSoftId:
+      'Pernah nggak sih ngerasa capek sendiri tiap kali harus beresin urusan harian yang itu-itu terus? Dulu aku juga sering stres di situ, sebelum tahu trik simpelnya.',
+    spokenHookMarketingId:
+      'Stop buang waktu pakai cara lama yang bikin ribet tiap hari. Saatnya kenalan sama {product} yang bikin urusanmu jauh lebih cepat dan {adv1}.',
     sfxOverride: 'crisp everyday foley beat into natural creator room tone',
   },
   'visual-kejutan': {
@@ -221,9 +227,12 @@ export const HOOK_STRATEGIES: Record<HookStrategyId, HookStrategyPreset> = {
       'SCROLL-STOPPING 0.0s PATTERN-INTERRUPT HOOK: immediate kinetic visual motion right in front of the lens illustrating "{product}" with dramatic light and crisp detail in the first second before settling cleanly into focus',
     descHookId:
       'Detik pertama langsung menyuguhkan visual dinamis seputar {product} agar penonton otomatis berhenti scroll.',
-    spokenHookId: 'Tunggu, jangan di-scroll dulu — lihat apa yang sebenernya terjadi di balik {product} ini.',
-    spokenHookSoftId: 'Tunggu sebentar, kadang hal sesimpel ini yang justru paling ngubah mood seharian.',
-    spokenHookMarketingId: 'Lihat langsung detail kualitas {product} ini dari dekat — beneran {adv1}!',
+    spokenHookId:
+      'Tunggu, jangan di-scroll dulu, coba perhatiin apa yang sebenernya terjadi di balik {product} ini. Begitu lihat detailnya dari dekat, kamu pasti langsung kaget sendiri.',
+    spokenHookSoftId:
+      'Tunggu sebentar, kadang justru hal kecil yang kelihatannya sederhana ini yang paling ngubah mood seharian. Lihat deh gimana suasana langsung terasa beda dari awal.',
+    spokenHookMarketingId:
+      'Lihat langsung detail kualitas {product} ini dari dekat, beneran kelihatan {adv1} sejak pandangan pertama. Ini alasan kenapa stoknya selalu cepat habis dicari orang.',
     sfxOverride: 'crisp tactile micro-impact and subtle cinematic whoosh',
   },
   'transformasi-instan': {
@@ -243,9 +252,12 @@ export const HOOK_STRATEGIES: Record<HookStrategyId, HookStrategyPreset> = {
       'SCROLL-STOPPING 0.0s CONTRARIAN HOOK: starts for one beat on a conventional ordinary moment, then snaps cleanly into a vibrant fresh visual perspective on "{product}"',
     descHookId:
       'Membuka dengan kontras perubahan sudut pandang atau hasil nyata seputar {product}.',
-    spokenHookId: 'Banyak yang masih salah paham soal {product}, padahal kenyataannya beda jauh.',
-    spokenHookSoftId: 'Ternyata selama ini kita sering salah langkah waktu ngatur urusan sehari-hari kayak gini.',
-    spokenHookMarketingId: 'Cuma butuh hitungan detik buat buktiin bedanya setelah pakai {product} ini!',
+    spokenHookId:
+      'Banyak orang masih salah paham soal {product}, padahal kenyataan di lapangannya beda jauh banget. Kalau kamu tahu sisi aslinya, kamu nggak bakal kejebak pola lama lagi.',
+    spokenHookSoftId:
+      'Ternyata selama ini kita sering salah langkah waktu ngatur rutinitas sehari-hari kayak gini. Begitu ganti pendekatannya sedikit aja, bedanya langsung kerasa jauh lebih ringan.',
+    spokenHookMarketingId:
+      'Cuma butuh hitungan detik buat lihat bedanya sebelum dan sesudah pakai {product} ini. Hasilnya langsung rapi, terasa {adv1}, dan jauh lebih hemat tenaga.',
     sfxOverride: 'energetic snap transition into clean studio ambience',
   },
   'skala-unik': {
@@ -265,9 +277,12 @@ export const HOOK_STRATEGIES: Record<HookStrategyId, HookStrategyPreset> = {
       'SCROLL-STOPPING 0.0s CINEMATIC HOOK: sweeping cinema camera glides smoothly through the environment into the core scene of "{product}", creating an iconic, immersive opening',
     descHookId:
       'Kamera meluncur sinematik membangun atmosfer ikonik seputar {product} sejak detik pertama.',
-    spokenHookId: 'Bayangin gimana jadinya kalau kita lihat {product} langsung dari sudut pandang ini.',
-    spokenHookSoftId: 'Ada satu momen tenang yang akhirnya bikin aku sadar pentingnya punya ritme yang pas.',
-    spokenHookMarketingId: 'Jangan lewatkan penawaran {product} ini kalau kamu cari kualitas yang {adv1}!',
+    spokenHookId:
+      'Bayangin gimana jadinya kalau kita melihat {product} dari sudut pandang yang jauh lebih dekat dan utuh. Di balik suasananya, ada cerita menarik yang jarang dibahas.',
+    spokenHookSoftId:
+      'Ada satu momen tenang di tengah hari yang akhirnya bikin aku sadar pentingnya punya ritme yang pas. Semua berawal dari perubahan kecil yang terasa sederhana banget.',
+    spokenHookMarketingId:
+      'Kenalan lebih dekat sama {product}, dirancang khusus buat kamu yang mengutamakan kualitas {adv1}. Setiap detailnya dibuat rapi supaya pengalaman pakainya terasa berkelas.',
     sfxOverride: 'cinematic smooth air glide and warm atmospheric swell',
   },
   'bukti-langsung': {
@@ -287,9 +302,12 @@ export const HOOK_STRATEGIES: Record<HookStrategyId, HookStrategyPreset> = {
       'SCROLL-STOPPING 0.0s VALUE-FIRST HOOK: zero-delay visual illustration right from frame one demonstrating {advantages_en} of "{product}" with crisp clarity',
     descHookId:
       'Tanpa intro panjang, detik pertama langsung masuk ke inti {product} ({advantages}).',
-    spokenHookId: 'Tanpa basa-basi, ini poin paling penting soal {product} yang wajib kamu tahu.',
-    spokenHookSoftId: 'Satu tips simpel buat kamu yang pengen semuanya beres lebih cepat hari ini.',
-    spokenHookMarketingId: 'Langsung buktiin sendiri kenapa {product} jadi pilihan nomor satu soal {adv1}!',
+    spokenHookId:
+      'Tanpa basa-basi, ini poin paling penting soal {product} yang wajib kamu pahami sekarang juga. Begitu tahu intinya, kamu langsung paham kenapa ini sering dibahas.',
+    spokenHookSoftId:
+      'Langsung ke intinya, ada satu tips praktis buat kamu yang pengen urusan harian beres lebih cepat. Caranya gampang banget dan bisa langsung kamu coba hari ini.',
+    spokenHookMarketingId:
+      'Tanpa intro panjang, langsung buktiin sendiri kenapa {product} jadi andalan utama soal {adv1}. Dari tampilan sampai performanya, semua dibuat buat hasil yang nyata.',
     sfxOverride: 'clean modern creator pop and crisp room tone',
   },
 };
@@ -769,13 +787,58 @@ export function cleanSingleLinePrompt(prompt: string): string {
   return prompt.replace(/\s*\n+\s*/g, ' ').replace(/\s{2,}/g, ' ').trim();
 }
 
+export interface ScenePacingContext {
+  sceneIdx: number;
+  totalScenes: number;
+  prevLabel?: string;
+  nextLabel?: string;
+}
+
+function buildPacingAndToneDirectives(ctx?: ScenePacingContext): {
+  visualPacing: string;
+  vocalTone: string;
+} {
+  const idx = ctx?.sceneIdx ?? 0;
+  const total = Math.max(ctx?.totalScenes ?? 1, 1);
+  const isFirst = idx === 0;
+  const isLast = total > 1 && idx >= total - 1;
+  const prevNote = ctx?.prevLabel ? ` from previous beat "${ctx.prevLabel}"` : '';
+  const nextNote = ctx?.nextLabel ? ` into next beat "${ctx.nextLabel}"` : '';
+
+  if (isFirst) {
+    return {
+      visualPacing: `8-Second Clip Pacing (Scene 1 of ${total}, Opening Hook): 0.0s-2.5s immediate scroll-stopping entry with crisp eye contact and expressive gesture; 2.5s-6.5s rich substantive visual development maintaining lively motion; 6.5s-8.0s smooth forward-leaning beat transition${nextNote} with live expressive gaze and no abrupt freeze.`,
+      vocalTone: `8-second spoken cadence (starts cleanly at 0.3s, steady articulate conversational pace filling 0.3s-7.4s with zero dead air, finishes the final word cleanly by 7.5s with 0.5s natural breath tail so nothing is ever cut off at 8.0s); OPENING TONE: bright, energetic, curiosity-sparking hook voice from the first syllable; CLOSING TONE: warm forward-leaning bridging intonation${nextNote} so the clip stays open and pulls naturally into Scene 2 without sounding finished`,
+    };
+  }
+
+  if (isLast) {
+    return {
+      visualPacing: `8-Second Clip Pacing (Scene ${idx + 1} of ${total}, Final Closing): 0.0s-2.0s seamless visual continuation${prevNote} with warm settled confidence; 2.0s-6.8s clear decisive payoff gesture reinforcing the takeaway and call-to-action; 6.8s-8.0s natural warm smile and gentle nod hold so the video ends gracefully.`,
+      vocalTone: `8-second spoken cadence (starts cleanly at 0.3s, steady warm conversational pace filling 0.3s-7.3s without rushing, lands the final word cleanly by 7.4s with 0.6s relaxed quiet room tail until 8.0s); OPENING TONE: seamless confident continuation${prevNote} carrying the exact same voice pitch and warmth with zero restart greeting; CLOSING TONE: clear, warm, resolved downward closing cadence on the final phrase so the ending feels complete and satisfying`,
+    };
+  }
+
+  return {
+    visualPacing: `8-Second Clip Pacing (Scene ${idx + 1} of ${total}, Continuous Story Beat): 0.0s-2.0s seamless visual entry continuing naturally${prevNote} with matching energy and posture; 2.0s-6.5s substantive expressive explanation and concrete visual demonstration filling the frame with purposeful movement; 6.5s-8.0s smooth anticipatory beat handoff${nextNote} keeping eye contact and motion fluid.`,
+    vocalTone: `8-second spoken cadence (starts cleanly at 0.3s, steady rich conversational Indonesian pace filling 0.3s-7.4s with zero awkward silence, finishes the last word cleanly by 7.5s with 0.5s natural breath room so no syllable is clipped at 8.0s); OPENING TONE: seamless mid-story continuation${prevNote} matching the exact prior voice timbre, pitch, and flow with zero restart greeting; CLOSING TONE: open connective cadence${nextNote} that hands off smoothly to the next clip without dropping dead or sounding final`,
+  };
+}
+
 export function buildSceneVideoPrompt(
   bible: Bible,
-  scene: Pick<Scene, 'shot' | 'camera' | 'dialogue' | 'sfx' | 'chainFromPrev'>,
+  scene: Pick<Scene, 'shot' | 'camera' | 'dialogue' | 'sfx' | 'chainFromPrev'> & { idx?: number },
   actionEn: string,
-  voice: Answers['voice']
+  voice: Answers['voice'],
+  pacingCtx?: ScenePacingContext
 ): string {
   const parts: string[] = [NEGATIVES_START];
+  const resolvedPacingCtx: ScenePacingContext | undefined =
+    pacingCtx ??
+    (typeof scene.idx === 'number'
+      ? { sceneIdx: scene.idx, totalScenes: Math.max(scene.idx + 2, 3) }
+      : undefined);
+  const { visualPacing, vocalTone } = buildPacingAndToneDirectives(resolvedPacingCtx);
 
   // 1. Medium / Video Style Lock comes FIRST so Veo 3.1 immediately locks 2D/3D/Minecraft/Live-Action medium
   parts.push(`Visual Medium & Render Style: ${bible.videoStyleLock}.`);
@@ -808,9 +871,10 @@ export function buildSceneVideoPrompt(
   }
 
   parts.push(`${capFirst(scene.shot)}. ${capFirst(boundAction)}.`);
+  parts.push(visualPacing);
   parts.push(`Environment: ${bible.setting}.`);
   parts.push(`Lighting & Color: ${bible.lighting}; ${bible.style}; color palette of ${bible.palette}.`);
-  parts.push(`Camera Choreography: ${scene.camera}, one fluid continuous shot.`);
+  parts.push(`Camera Choreography: ${scene.camera}, one fluid continuous 8-second shot.`);
   parts.push(`${bible.productLock}.`);
 
   const audio: string[] = [];
@@ -819,13 +883,13 @@ export function buildSceneVideoPrompt(
   if (scene.dialogue) {
     if (voice === 'narasi') {
       audio.push(
-        `a consistent clear engaging Indonesian narrator voice-over says in Indonesian: "${scene.dialogue}"`
+        `a consistent clear engaging Indonesian narrator voice-over (${vocalTone}) says in natural Bahasa Indonesia: "${scene.dialogue}"`
       );
     } else {
       const voiceAnchor =
         bible.characterVoiceLock || 'consistent natural Indonesian voice timbre across all clips';
       audio.push(
-        `the exact same character ${bible.characterName || ''} speaks naturally in casual Indonesian (${voiceAnchor}) with accurate lip sync: "${scene.dialogue}"`
+        `the exact same character ${bible.characterName || ''} speaks naturally in fluent Bahasa Indonesia (${voiceAnchor}; ${vocalTone}) with accurate lip sync and matching facial expressions: "${scene.dialogue}"`
       );
     }
   }
@@ -845,6 +909,7 @@ export function buildSceneVideoPrompt(
 }
 
 function defaultNarration(role: string, a: Answers, advId: string, mode: ContentMode): string {
+  const cleanCta = a.cta.replace(/[.!]+$/, '');
   if (mode === 'marketing') {
     switch (role) {
       case 'produk':
@@ -853,22 +918,22 @@ function defaultNarration(role: string, a: Answers, advId: string, mode: Content
       case 'transisi':
       case 'keluhan':
       case 'tips':
-        return `Kenalin ${a.product}, solusi yang dirancang supaya jauh lebih praktis dipakai.`;
+        return `Nah, kenalan langsung sama ${a.product}, solusi yang dirancang rapi supaya aktivitas harianmu jauh lebih praktis. Begitu dipakai pertama kali, bedanya langsung kerasa nyata.`;
       case 'manfaat':
       case 'pakai':
       case 'sesudah':
       case 'isi':
       case 'keunggulan':
       case 'jembatan':
-        return `Keunggulan utamanya langsung kerasa: ${advId}.`;
+        return `Keunggulan utamanya langsung kelihatan jelas karena ${a.product} ini ${advId}. Makanya banyak orang yang begitu coba sekali langsung betah pakai terus setiap hari.`;
       case 'detail':
       case 'rekomendasi':
       case 'bukti':
-        return `Detail kualitasnya rapi dan siap diandalkan buat kebutuhanmu.`;
+        return `Kalau diperhatiin dari dekat, detail kualitas ${a.product} ini beneran rapi dan konsisten. Nggak heran ini jadi pilihan paling aman buat kebutuhanmu sekarang.`;
       case 'ajakan':
-        return `${a.cta.replace(/[.!]+$/, '')}!`;
+        return `Jadi daripada terus pakai cara lama yang bikin ribet, mending langsung rasain sendiri bedanya ${a.product} sekarang juga. ${cleanCta}!`;
       default:
-        return '';
+        return `Menariknya lagi, ${a.product} hadir membawa kualitas ${advId} yang bikin urusan sehari-hari jauh lebih tenang dan tertata.`;
     }
   }
 
@@ -882,7 +947,7 @@ function defaultNarration(role: string, a: Answers, advId: string, mode: Content
     case 'produk':
     case 'suasana':
     case 'transisi':
-      return `Kalau kita perhatiin lebih dekat, bahasan soal ${a.product} ini punya sisi menarik yang jarang kelihatan.`;
+      return `Nah, kalau kita perhatiin lebih dekat, bahasan soal ${a.product} ini punya sisi penting yang sering banget dilewatin orang. Padahal dari sinilah semua alurnya bermula.`;
     case 'konflik':
     case 'inti':
     case 'perspektif':
@@ -890,7 +955,7 @@ function defaultNarration(role: string, a: Answers, advId: string, mode: Content
     case 'uji':
     case 'manfaat':
     case 'sesudah':
-      return `Intinya ada di ${advId} yang bikin semuanya jauh lebih gampang dipahami.`;
+      return `Intinya justru ada di bagian ${advId} yang bikin semuanya langsung masuk akal. Begitu kamu paham pola utamanya, cara melihat ${a.product} bakal terasa jauh lebih jernih.`;
     case 'puncak':
     case 'contoh':
     case 'dampak':
@@ -898,15 +963,15 @@ function defaultNarration(role: string, a: Answers, advId: string, mode: Content
     case 'hasil':
     case 'nilai':
     case 'detail':
-      return `Begitu ngerti pola utamanya, cara pandang kita soal ${a.product} langsung berubah.`;
+      return `Begitu pola soal ${a.product} ini kamu terapin langsung di keseharian, perubahannya langsung kerasa signifikan. Hal kecil yang konsisten ternyata dampaknya jauh lebih besar.`;
     case 'penutup':
     case 'diskusi':
     case 'outro':
     case 'simpan':
     case 'ajakan':
-      return `${a.cta.replace(/[.!]+$/, '')}!`;
+      return `Nah, itu dia gambaran utuh soal ${a.product} yang semoga bisa langsung kasih sudut pandang baru buat kamu hari ini. ${cleanCta}!`;
     default:
-      return '';
+      return `Terus kalau kita telusuri lebih jauh, topik ${a.product} ini selalu menarik karena menyentuh sisi ${advId} yang dekat dengan keseharian kita.`;
   }
 }
 
@@ -1339,13 +1404,22 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
       sfx,
     };
 
-    scBase.prompt = buildSceneVideoPrompt(bible, scBase, scBase.actionEn, a.voice);
     scBase.tips = buildSceneTips(scBase, a);
     scenes.push(scBase);
   });
 
   if (scenes.length === 0) {
     throw new Error('Template belum memiliki susunan scene untuk durasi ini.');
+  }
+
+  for (let i = 0; i < scenes.length; i++) {
+    const sc = scenes[i];
+    sc.prompt = buildSceneVideoPrompt(bible, sc, sc.actionEn, a.voice, {
+      sceneIdx: i,
+      totalScenes: scenes.length,
+      prevLabel: i > 0 ? scenes[i - 1].label : undefined,
+      nextLabel: i < scenes.length - 1 ? scenes[i + 1].label : undefined,
+    });
   }
 
   const assets = buildAssets(bible, a, vibe, vStyle);
@@ -1416,7 +1490,12 @@ export function recalculatePack(pack: Pack, answers: Answers): Pack {
       mode,
       credits: model.credits,
     };
-    updated.prompt = buildSceneVideoPrompt(pack.bible, updated, updated.actionEn, answers.voice);
+    updated.prompt = buildSceneVideoPrompt(pack.bible, updated, updated.actionEn, answers.voice, {
+      sceneIdx: idx,
+      totalScenes: pack.scenes.length,
+      prevLabel: idx > 0 ? pack.scenes[idx - 1].label : undefined,
+      nextLabel: idx < pack.scenes.length - 1 ? pack.scenes[idx + 1].label : undefined,
+    });
     updated.tips = buildSceneTips(updated, answers);
     return updated;
   });
@@ -1702,7 +1781,8 @@ export function createOfflineSceneVariation(
   scene: Scene,
   bible: Bible,
   answers: Answers,
-  seed: number
+  seed: number,
+  pacingCtx?: ScenePacingContext
 ): Scene {
   const v = VARIATION_ANGLES[Math.abs(seed) % VARIATION_ANGLES.length];
   const baseVariation = scene.actionEn.split(' [angle variation:')[0];
@@ -1712,7 +1792,7 @@ export function createOfflineSceneVariation(
     shot: v.shot,
     actionEn: nextAction,
   };
-  updated.prompt = buildSceneVideoPrompt(bible, updated, updated.actionEn, answers.voice);
+  updated.prompt = buildSceneVideoPrompt(bible, updated, updated.actionEn, answers.voice, pacingCtx);
   return updated;
 }
 

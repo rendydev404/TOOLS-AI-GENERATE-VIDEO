@@ -357,9 +357,16 @@ app.post('/api/director/enrich', async (c) => {
         ? `- Refine the user's custom character description ("${normalized.characterCustom.trim()}") into a forensic English "characterLock" specifying exact age, Indonesian/heritage look, face geometry, hair style/parting, glasses/no-glasses, top & bottom clothing colors, rendered in ${selectedVideoStyle.characterAdapterEn}.`
         : '- Keep "characterLock" identical to the provided locked character DNA.',
       '',
-      '4. SCENE 1 HOOK MASTERY (0.0s - 3.0s RETENTION HOOK):',
-      `- Scene idx 0 MUST execute the "${activeHookTitle}" hook strategy (${selectedHook.visualHookEn}).`,
-      '- Start at frame 0.0s with immediate curiosity, visual pattern-interrupt, or relatable moment. Scene 0 dialogueId must be a punchy Indonesian hook under 14 words.',
+      '4. GOOGLE FLOW 8-SECOND CLIP DENSITY, CONTEXTUAL CONTINUITY & TONE PACING (CRITICAL):',
+      '- Every generated clip in Google Flow Veo 3.1 is a FULL 8-SECOND VIDEO (0.0s - 8.0s). Short 8-12 word sentences leave awkward silence or cause Veo to hallucinate gibberish!',
+      '- When voiceMode != "none", EVERY scene "dialogueId" MUST be substantive, information-rich Bahasa Indonesia calibrated strictly for ~7.0 seconds of natural speech: target 20 to 26 Indonesian words (typically 2 tight, punchy, informative sentences per scene — NEVER a sparse 1-line filler or bare 5-word CTA!).',
+      '- STAY 100% ON-CONTEXT & ZERO REPETITION: Pack every scene with real, concrete insight, steps, examples, mechanisms, or product proof directly grounded in the user\'s "product", "advantages", and "storyNote". Never repeat the same point across two scenes; every scene MUST advance the story by one distinct step.',
+      '- SEAMLESS SCENE-TO-SCENE FLOW: Write all scenes as ONE continuous script divided into 8-second chapters. Middle scenes (idx >= 1) MUST NEVER restart with greetings ("Halo", "Hai guys") — instead start with natural conversational Indonesian connectors ("Nah, ...", "Masalahnya, ...", "Kenapa bisa gitu? ...", "Menariknya lagi, ...", "Dari situ baru kerasa ...", "Terus kalau dilihat ...") that directly pick up the thought from the previous scene and lead smoothly into the next scene!',
+      '- OPENING & CLOSING TONE PER 8-SECOND SCENE (MUST FIT 0.3s - 7.5s CLEANLY):',
+      `  * Scene idx 0 (Opening Hook — "${activeHookTitle}"): Execute ${selectedHook.visualHookEn}. Open 0.0s-3.0s with an immediate scroll-stopping hook sentence, immediately followed (3.0s-7.4s) by a second curiosity-deepening bridging sentence (total 20-25 words) whose ending pulls smoothly into Scene 1 without sounding finished.`,
+      '  * Middle Scenes (0 < idx < last): Open smoothly continuing the exact energy and train of thought of the prior scene, deliver rich concrete substance in the middle, and finish the second sentence with a natural forward-leaning handoff toward the next scene (total 20-26 words).',
+      '  * Final Scene (idx == last): Open smoothly continuing from the previous scene, deliver a satisfying takeaway/payoff tying back to the topic/product, and land the user\'s "cta" naturally with a warm, decisive, complete closing cadence (total 20-25 words — NEVER just a bare CTA phrase).',
+      '- 8-SECOND VISUAL PROGRESSION IN "actionEn": Structure every scene\'s "actionEn" so the visual motion stays alive across all 8 seconds (opening beat 0-2.5s -> core expressive gesture/demonstration 2.5-6.5s -> smooth visual settle/transition beat 6.5-8.0s) with ZERO on-screen text or static freeze.',
       '',
       '5. STRICT OUTPUT SCHEMA (valid JSON only, zero emojis, zero on-screen text/subtitles/words inside video frames):',
       '{',
@@ -374,9 +381,9 @@ app.post('/api/director/enrich', async (c) => {
       '      "descriptionId": "Clear Bahasa Indonesia scene explanation (no emojis)",',
       '      "shot": "English lens/framing",',
       '      "camera": "English single continuous camera movement",',
-      '      "actionEn": "Vivid English visual action (NO written words/titles/subtitles in frame)",',
+      '      "actionEn": "Vivid 8-second English visual action with opening-middle-closing motion progression (NO written words/titles/subtitles in frame)",',
       '      "sfx": "English sound effect",',
-      '      "dialogueId": "Natural Bahasa Indonesia spoken line if voiceMode != none, else empty string"',
+      '      "dialogueId": "Rich 20-26 word (2-sentence) connected Bahasa Indonesia spoken script calibrated for an 8-second clip if voiceMode != none, else empty string"',
       '    }',
       '  ],',
       '  "captionId": "Engaging Bahasa Indonesia caption without emojis",',
@@ -384,10 +391,14 @@ app.post('/api/director/enrich', async (c) => {
       '}',
     ].join('\n');
 
+    const totalScenes = basePack.scenes.length;
     const userPrompt = JSON.stringify({
       contentMode: normalized.contentMode,
       sellingStyle: normalized.sellingStyle || null,
       templateName: template.name,
+      clipLengthSeconds: 8,
+      totalScenes,
+      targetDialogueWordsPerScene: normalized.voice === 'none' ? 0 : '20-26 Indonesian words (2 tight connected sentences filling ~7.0s inside each 8s Veo clip)',
       videoStyle: {
         id: selectedVideoStyle.id,
         name: selectedVideoStyle.name,
@@ -411,10 +422,13 @@ app.post('/api/director/enrich', async (c) => {
       customCharacterInput: normalized.characterCustom || '',
       voiceMode: normalized.voice,
       aspectRatio: normalized.aspect,
-      sceneStructure: basePack.scenes.map((s) => ({
+      sceneStructure: basePack.scenes.map((s, idx) => ({
         idx: s.idx,
+        position: idx === 0 ? 'OPENING_HOOK' : idx === totalScenes - 1 ? 'FINAL_CLOSING' : 'MIDDLE_CONTINUATION',
         role: s.role,
         label: s.label,
+        prevBeat: idx > 0 ? basePack.scenes[idx - 1].label : null,
+        nextBeat: idx < totalScenes - 1 ? basePack.scenes[idx + 1].label : null,
         durationS: s.durationS,
         fallbackActionEn: s.actionEn,
       })),
@@ -465,9 +479,19 @@ app.post('/api/director/enrich', async (c) => {
       return asset;
     });
 
-    const scenes: Scene[] = basePack.scenes.map((sc) => {
+    const scenes: Scene[] = basePack.scenes.map((sc, idx) => {
       const match = parsed.scenes?.find((x) => x.idx === sc.idx);
-      if (!match) return sc;
+      const pacingCtx = {
+        sceneIdx: idx,
+        totalScenes: basePack.scenes.length,
+        prevLabel: idx > 0 ? basePack.scenes[idx - 1].label : undefined,
+        nextLabel: idx < basePack.scenes.length - 1 ? basePack.scenes[idx + 1].label : undefined,
+      };
+      if (!match) {
+        const rebuilt: Scene = { ...sc };
+        rebuilt.prompt = buildSceneVideoPrompt(bible, rebuilt, rebuilt.actionEn, normalized.voice, pacingCtx);
+        return rebuilt;
+      }
       const actionEn = match.actionEn ? cleanSingleLinePrompt(stripEmojis(match.actionEn)) : sc.actionEn;
       const description = match.descriptionId ? stripEmojis(match.descriptionId) : sc.description;
       const shot = match.shot ? cleanSingleLinePrompt(stripEmojis(match.shot)) : sc.shot;
@@ -479,7 +503,7 @@ app.post('/api/director/enrich', async (c) => {
           : sc.dialogue;
 
       const updated: Scene = { ...sc, description, shot, camera, actionEn, sfx, dialogue };
-      updated.prompt = buildSceneVideoPrompt(bible, updated, updated.actionEn, normalized.voice);
+      updated.prompt = buildSceneVideoPrompt(bible, updated, updated.actionEn, normalized.voice, pacingCtx);
       return updated;
     });
 
@@ -544,12 +568,14 @@ app.post('/api/director/variation', async (c) => {
 
   try {
     const sys =
-      'Output ONLY valid JSON (no markdown commentary): {"shot":"camera lens & framing in English","camera":"camera movement in English","actionEn":"fresh alternative physical action in English for Veo 3.1 without any on-screen text","descriptionId":"short Bahasa Indonesia description without emojis"}';
+      'Output ONLY valid JSON (no markdown commentary): {"shot":"camera lens & framing in English","camera":"single continuous 8-second camera movement in English","actionEn":"fresh alternative 8-second physical action in English for Veo 3.1 with clear opening (0-2.5s), middle (2.5-6.5s), and closing beat settle (6.5-8s) without any on-screen text","descriptionId":"clear Bahasa Indonesia description without emojis"}';
     const usr = JSON.stringify({
       product: normalized.product,
       role: body.scene.label,
+      dialogueContext: body.scene.dialogue || '',
       currentDescription: body.scene.description,
       currentAction: body.scene.actionEn,
+      clipLengthSeconds: 8,
     });
     const raw = await callHermes9Router(sys, usr);
     const parsed = extractJsonObject<{

@@ -19,7 +19,7 @@
         "shot": "cinematic medium close-up, 35mm lens, shallow depth of field",
         "camera": "slow engaging push-in",
         "cameraId": "Push-in",
-        "dialogue": "Pernah kepikiran nggak, kenapa {product} bisa punya sisi menarik kayak gini?",
+        "dialogue": "Pernah kepikiran nggak, kenapa {product} bisa punya sisi cerita yang jauh lebih menarik dari kelihatannya? Sini kita bedah pelan-pelan biar kamu lihat gambaran aslinya.",
         "sfx": "subtle intriguing atmospheric room tone"
       },
       {
@@ -31,7 +31,7 @@
         "shot": "medium shot, 35mm cinema lens",
         "camera": "gentle tracking shot following the creator",
         "cameraId": "Tracking",
-        "dialogue": "Awalnya banyak yang ngira ini cuma hal biasa, apalagi kalau belum ngelihat bagian {adv1}.",
+        "dialogue": "Nah, awalnya banyak orang ngira {product} ini cuma hal biasa yang lewat begitu saja. Padahal kalau belum lihat bagian {adv1}, kita sering salah menangkap konteksnya.",
         "sfx": "soft natural environment ambience"
       },
       {
@@ -43,7 +43,7 @@
         "shot": "expressive close-up, 50mm lens",
         "camera": "smooth lateral slide into close focus",
         "cameraId": "Slide",
-        "dialogue": "Tapi begitu kita bedah lebih dalam, justru di sinilah letak {adv_all} yang bikin beda.",
+        "dialogue": "Tapi begitu kita bedah lebih dalam, di sinilah titik balik sebenarnya mulai kelihatan jelas. Sisi {adv_all} inilah yang bikin {product} terasa beda dari anggapan umum.",
         "sfx": "subtle dramatic beat transition and crisp ambience"
       },
       {
@@ -55,7 +55,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "slow reveal dolly-out",
         "cameraId": "Dolly-out",
-        "dialogue": "Dari sini kita jadi paham kenapa topik {product} ini selalu seru buat dibahas.",
+        "dialogue": "Dari rangkaian tadi kita jadi paham kenapa topik {product} selalu seru buat dibahas sampai tuntas. Setiap bagiannya ternyata saling menguatkan dan mudah diingat.",
         "sfx": "warm clear room tone"
       },
       {
@@ -67,7 +67,7 @@
         "shot": "medium shot, 35mm cinema lens",
         "camera": "slow smooth lateral tracking",
         "cameraId": "Tracking",
-        "dialogue": "Yang jarang orang tahu, di balik cerita {product} ini ada detail yang sebenernya paling menentukan.",
+        "dialogue": "Menariknya lagi, di balik cerita {product} ini ada detail kecil yang jarang disadari orang. Justru detail sederhana itulah yang diam-diam paling menentukan arah ceritanya.",
         "sfx": "subtle warm room ambience"
       },
       {
@@ -79,7 +79,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "slow deliberate push-in",
         "cameraId": "Push-in",
-        "dialogue": "Begitu momen ini kejadian, baru kelihatan jelas kenapa {adv1} itu ngaruh banget.",
+        "dialogue": "Begitu momen kunci ini kejadian, semuanya langsung nyambung jadi satu gambaran yang utuh. Baru kelihatan jelas kenapa faktor {adv1} itu pengaruhnya besar banget.",
         "sfx": "crisp atmospheric transition tone"
       },
       {
@@ -91,7 +91,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "gentle steady hold",
         "cameraId": "Statis",
-        "dialogue": "Jadi pelajaran pentingnya, setiap kali kita ketemu hal soal {product}, jangan cuma lihat permukaannya aja.",
+        "dialogue": "Jadi pelajaran pentingnya, setiap kali kita ketemu hal soal {product}, jangan berhenti di permukaannya saja. Selalu ada sudut pandang baru kalau kita mau menggali lebih dalam.",
         "sfx": "soft calm ambient room tone"
       },
       {
@@ -103,7 +103,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "steady natural hold",
         "cameraId": "Statis",
-        "dialogue": "{cta}!",
+        "dialogue": "Nah, itu tadi cerita utuh soal {product} yang semoga bisa kasih inspirasi dan sudut pandang segar buat kamu hari ini. {cta}!",
         "sfx": "soft pleasant outro ambience"
       }
     ],
@@ -194,7 +194,7 @@
         "shot": "medium close-up, 35mm lens, shallow depth of field",
         "camera": "gentle push-in",
         "cameraId": "Push-in",
-        "dialogue": "Banyak orang sering kelewat satu hal penting waktu bahas soal {product}.",
+        "dialogue": "Banyak orang sering kelewat satu hal penting setiap kali membahas soal {product}. Padahal kalau kamu paham poin dasarnya dari sekarang, hasilnya bakal jauh berbeda.",
         "sfx": "clean studio creator room tone"
       },
       {
@@ -206,7 +206,7 @@
         "shot": "medium shot, 35mm lens",
         "camera": "subtle handheld creator framing",
         "cameraId": "Handheld",
-        "dialogue": "Kebanyakan orang ngira ini ribet, padahal kuncinya ada di {adv1}.",
+        "dialogue": "Masalahnya, kebanyakan orang langsung ngira {product} itu rumit dan butuh cara yang panjang. Padahal kunci paling efektifnya justru ada di bagian {adv1}.",
         "sfx": "quiet clean room tone"
       },
       {
@@ -218,7 +218,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "smooth slight lateral pan",
         "cameraId": "Slide",
-        "dialogue": "Kalau kita pahamin konsepnya secara {adv_all}, semuanya langsung masuk akal.",
+        "dialogue": "Nah, kalau kita pahami konsepnya secara {adv_all}, seluruh alurnya langsung terasa jauh lebih masuk akal. Kamu jadi tahu persis mana bagian yang paling perlu diprioritaskan.",
         "sfx": "subtle crisp foley and clean room tone"
       },
       {
@@ -230,7 +230,7 @@
         "shot": "medium shot, 50mm lens",
         "camera": "gentle tracking movement",
         "cameraId": "Tracking",
-        "dialogue": "Contohnya pas diterapin sehari-hari, dampaknya langsung kerasa jauh lebih jelas.",
+        "dialogue": "Contoh nyatanya waktu kamu terapkan langsung di aktivitas harian, dampaknya langsung terasa jauh lebih rapi. Perubahan kecil yang terarah ternyata bikin progres jauh lebih cepat.",
         "sfx": "natural ambient sound"
       },
       {
@@ -242,7 +242,7 @@
         "shot": "medium shot, 35mm lens",
         "camera": "smooth slight push-in",
         "cameraId": "Push-in",
-        "dialogue": "Kenapa hal ini sering banget kejadian? Soalnya banyak yang belum paham mekanisme dasarnya.",
+        "dialogue": "Kenapa kesalahan yang sama ini terus terulang? Soalnya banyak yang langsung lompat ke hasil akhir tanpa benar-benar memahami mekanisme dasar di balik {product}.",
         "sfx": "clean studio room tone"
       },
       {
@@ -254,7 +254,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "gentle lateral slide",
         "cameraId": "Slide",
-        "dialogue": "Cara paling gampangnya, mulai aja dari langkah kecil yang fokus ke {adv1}.",
+        "dialogue": "Cara paling gampangnya, mulai saja dari satu langkah kecil yang fokus langsung ke {adv1}. Jalankan pelan-pelan secara rutin supaya polanya cepat menempel di keseharianmu.",
         "sfx": "crisp clean ambient tone"
       },
       {
@@ -266,7 +266,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "subtle dolly-out",
         "cameraId": "Dolly-out",
-        "dialogue": "Intinya, kalau kamu pegang prinsip {adv_all} ini, hasilnya bakal jauh lebih konsisten.",
+        "dialogue": "Intinya, selama kamu pegang prinsip {adv_all} ini dengan konsisten, hasil dari {product} bakal jauh lebih stabil. Nggak perlu cara rumit untuk dapat dampak besar.",
         "sfx": "warm quiet room ambience"
       },
       {
@@ -278,7 +278,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "steady locked-off shot",
         "cameraId": "Statis",
-        "dialogue": "Semoga bermanfaat ya — {cta}!",
+        "dialogue": "Semoga penjelasan singkat soal {product} ini langsung bisa kamu praktikkan dan bermanfaat buat aktivitasmu hari ini. {cta}!",
         "sfx": "clean warm room ambience"
       }
     ],
@@ -369,7 +369,7 @@
         "shot": "tight medium close-up, 50mm lens, shallow depth of field",
         "camera": "slow deliberate push-in",
         "cameraId": "Push-in",
-        "dialogue": "Jujur ya, cara kebanyakan orang ngelihat {product} sekarang tuh perlu kita lurusin.",
+        "dialogue": "Jujur ya, cara kebanyakan orang memandang {product} belakangan ini menurutku perlu mulai kita luruskan bareng. Ada satu sisi penting yang hampir selalu luput dibahas.",
         "sfx": "clean intimate podcast-style room tone"
       },
       {
@@ -381,7 +381,7 @@
         "shot": "medium shot, 35mm lens",
         "camera": "subtle handheld movement",
         "cameraId": "Handheld",
-        "dialogue": "Selama ini orang cuma fokus di permukaannya aja, tanpa ngelihat sisi {adv1}.",
+        "dialogue": "Realitanya sekarang, banyak orang cuma ikut ramai di permukaannya saja tanpa benar-benar memahami {adv1}. Akibatnya, keputusan yang diambil sering cuma ikut tren sesaat.",
         "sfx": "natural indoor ambience"
       },
       {
@@ -393,7 +393,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "smooth slow orbit",
         "cameraId": "Orbit",
-        "dialogue": "Coba kita lihat dari kacamata berbeda: kuncinya tuh justru di {adv_all}.",
+        "dialogue": "Coba deh kita geser sudut pandangnya sedikit dan lihat dari sisi {adv_all}. Begitu kacamata kita berubah, hal yang tadinya terlihat rumit justru jadi sangat jelas.",
         "sfx": "quiet focused studio ambience"
       },
       {
@@ -405,7 +405,7 @@
         "shot": "medium close-up, 35mm lens",
         "camera": "gentle dolly-in",
         "cameraId": "Dolly-in",
-        "dialogue": "Begitu ngerti pola ini, cara kita nyikapin {product} bakal jauh lebih bijak.",
+        "dialogue": "Begitu kita paham pola utamanya, cara kita menyikapi {product} bakal jauh lebih tenang dan bijak. Kita nggak gampang panik atau salah langkah di tengah jalan.",
         "sfx": "clean room ambience"
       },
       {
@@ -417,7 +417,7 @@
         "shot": "medium shot, 35mm lens",
         "camera": "smooth lateral slide",
         "cameraId": "Slide",
-        "dialogue": "Kalau kita tarik ke belakang, sumber masalahnya sebenarnya bukan di permukaan, tapi di cara kita melihat {product}.",
+        "dialogue": "Kalau kita tarik mundur ke belakang, akar masalahnya sebenarnya bukan di luar, tapi di cara kita menilai {product}. Pola pikir lama bikin kita sulit melihat peluang baru.",
         "sfx": "clean indoor room tone"
       },
       {
@@ -429,7 +429,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "gentle tracking pan",
         "cameraId": "Tracking",
-        "dialogue": "Bandingin deh antara ikut-ikutan tren doang sama yang beneran paham sisi {adv1}.",
+        "dialogue": "Bandingkan saja antara yang cuma ikut-ikutan arus dengan yang benar-benar mendalami {adv1}. Perbedaan kualitas hasil dan ketenangan saat menjalaninya kelihatan kontras banget.",
         "sfx": "subtle crisp room ambience"
       },
       {
@@ -441,7 +441,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "slow engaging push-in",
         "cameraId": "Push-in",
-        "dialogue": "Makanya buat aku, sikap paling masuk akal sekarang adalah fokus ke hal yang beneran kasih dampak nyata.",
+        "dialogue": "Makanya buat aku pribadi, sikap paling realistis sekarang adalah fokus ke hal yang benar-benar memberi dampak nyata. Lebih baik pelan tapi tepat sasaran dan berkelanjutan.",
         "sfx": "warm natural room tone"
       },
       {
@@ -453,7 +453,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "steady hold",
         "cameraId": "Statis",
-        "dialogue": "Kalau menurut kamu sendiri gimana? {cta}!",
+        "dialogue": "Nah, itu sudut pandangku soal {product} yang mungkin bisa jadi bahan obrolan seru buat kita bareng-bareng. Kalau menurut kamu sendiri gimana? {cta}!",
         "sfx": "soft room tone"
       }
     ],
@@ -544,7 +544,7 @@
         "shot": "handheld POV medium close-up, 28mm wide natural lens",
         "camera": "quick natural handheld snap",
         "cameraId": "Handheld",
-        "dialogue": "POV: ketika kamu lagi berhadapan langsung sama urusan {product}!",
+        "dialogue": "POV ketika kamu lagi berhadapan langsung sama urusan {product} yang rasanya selalu datang di waktu paling nggak terduga. Siap-siap, pasti kamu pernah di posisi ini.",
         "sfx": "crisp everyday life foley and natural room sound"
       },
       {
@@ -556,7 +556,7 @@
         "shot": "medium shot, 35mm lens",
         "camera": "smooth tracking follow",
         "cameraId": "Tracking",
-        "dialogue": "Di kepala sih awalnya kelihatan gampang banget, tinggal jalanin yang {adv1}.",
+        "dialogue": "Di kepala sih awalnya semua kelihatan mulus dan gampang banget, tinggal jalankan saja bagian {adv1}. Rasanya bakal beres cepat tanpa hambatan sedikit pun.",
         "sfx": "light upbeat room ambience"
       },
       {
@@ -568,7 +568,7 @@
         "shot": "expressive close-up, 35mm lens",
         "camera": "energetic push-in on facial reaction",
         "cameraId": "Push-in",
-        "dialogue": "Eh ternyata pas dijalanin beneran, bagian {adv_all} ini yang paling kerasa!",
+        "dialogue": "Ternyata pas dijalani beneran di lapangan, justru sisi {adv_all} inilah yang paling terasa tantangannya. Jauh banget bedanya dibanding bayangan manis di awal tadi.",
         "sfx": "playful subtle comedic beat and natural room tone"
       },
       {
@@ -580,7 +580,7 @@
         "shot": "medium close-up, 35mm lens",
         "camera": "gentle handheld sway",
         "cameraId": "Handheld",
-        "dialogue": "Untungnya begitu tahu celahnya, semuanya jadi jauh lebih santai.",
+        "dialogue": "Untungnya setelah pelan-pelan nemu celah yang pas buat menghadapi {product}, suasana langsung balik terkendali. Ternyata kuncinya cuma nggak panik dan tahu ritmenya.",
         "sfx": "pleasant everyday ambience"
       },
       {
@@ -592,7 +592,7 @@
         "shot": "medium shot, 35mm handheld lens",
         "camera": "organic handheld follow",
         "cameraId": "Handheld",
-        "dialogue": "Baru juga mau tenang sebentar, eh kejadian klasik soal {product} ini langsung muncul lagi.",
+        "dialogue": "Eh, baru juga mau tarik napas tenang sebentar, kejadian klasik soal {product} langsung muncul lagi di depan mata. Skenarionya benar-benar di luar rencana awal.",
         "sfx": "natural everyday room ambience"
       },
       {
@@ -604,7 +604,7 @@
         "shot": "close-up, 50mm lens",
         "camera": "quick subtle push-in",
         "cameraId": "Push-in",
-        "dialogue": "Di titik ini rasanya pengen ketawa aja, karena hampir semua orang pasti pernah ngalamin hal yang sama.",
+        "dialogue": "Di titik kayak gini rasanya cuma bisa senyum pasrah sambil ketawa kecil sendiri. Soalnya hampir semua orang di sekitar kita pasti pernah mengalami drama yang sama persis.",
         "sfx": "light natural sigh and ambience"
       },
       {
@@ -616,7 +616,7 @@
         "shot": "medium close-up, 35mm lens",
         "camera": "steady relaxed hold",
         "cameraId": "Statis",
-        "dialogue": "Untungnya setelah tahu triknya yang {adv1}, sekarang jauh lebih santai ngejalaninnya.",
+        "dialogue": "Dari kejadian ini aku jadi belajar, begitu pegang trik yang {adv1}, semuanya jadi jauh lebih santai dijalani. Nggak perlu lagi drama berulang setiap ketemu situasi ini.",
         "sfx": "warm everyday ambience"
       },
       {
@@ -628,7 +628,7 @@
         "shot": "selfie-style medium close-up",
         "camera": "steady handheld",
         "cameraId": "Selfie",
-        "dialogue": "Siapa yang sering ngalamin kayak gini juga? {cta}!",
+        "dialogue": "Jujur deh, siapa di sini yang sering banget mengalami momen soal {product} kayak barusan juga? Jangan senyum-senyum sendiri, {cta}!",
         "sfx": "natural room ambience"
       }
     ],
@@ -719,7 +719,7 @@
         "shot": "medium close-up, 35mm lens",
         "camera": "crisp push-in",
         "cameraId": "Push-in",
-        "dialogue": "Ini poin-poin paling penting soal {product} biar kamu nggak buang waktu.",
+        "dialogue": "Ini dia urutan poin paling penting soal {product} yang wajib kamu tahu supaya nggak lagi buang waktu. Simak berurutan ya, karena setiap langkahnya saling menyambung.",
         "sfx": "crisp modern creator whoosh and clean studio tone"
       },
       {
@@ -731,7 +731,7 @@
         "shot": "medium shot, 50mm lens",
         "camera": "smooth lateral slide",
         "cameraId": "Slide",
-        "dialogue": "Pertama, mulai dari bagian yang paling mendasar yaitu {adv1}.",
+        "dialogue": "Pertama, mulai dulu dari pondasi paling dasar yang langsung menyentuh bagian {adv1}. Jangan langsung loncat jauh, karena langkah awal ini yang menentukan hasil akhirnya.",
         "sfx": "subtle clean pop and studio ambience"
       },
       {
@@ -743,7 +743,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "gentle tracking shot",
         "cameraId": "Tracking",
-        "dialogue": "Kedua, pastiin semuanya tetap {adv_all} supaya hasilnya konsisten.",
+        "dialogue": "Kedua, pastikan prosesnya selalu menjaga prinsip {adv_all} supaya kualitasnya tetap stabil dari awal sampai akhir. Di tahap ini konsistensi jauh lebih penting daripada buru-buru.",
         "sfx": "clean tactile foley"
       },
       {
@@ -755,7 +755,7 @@
         "shot": "medium close-up, 35mm lens",
         "camera": "slow dolly-out",
         "cameraId": "Dolly-out",
-        "dialogue": "Kalau urutannya udah bener kayak gini, prosesnya jadi jauh lebih gampang.",
+        "dialogue": "Kalau semua urutannya sudah kamu jalankan rapi seperti tadi, proses menghadapi {product} bakal terasa jauh lebih ringan. Hasilnya pun kelihatan jauh lebih terukur dan memuaskan.",
         "sfx": "uplifting light room ambience"
       },
       {
@@ -767,7 +767,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "smooth lateral slide",
         "cameraId": "Slide",
-        "dialogue": "Lanjut ke poin ketiga, ini bagian yang paling sering dilupain padahal efeknya besar banget.",
+        "dialogue": "Lanjut ke poin ketiga, ini bagian yang paling sering dilupakan padahal dampaknya paling terasa di hasil akhir. Luangkan waktu sebentar untuk mengecek ulang detail kecilnya.",
         "sfx": "clean crisp room tone"
       },
       {
@@ -779,7 +779,7 @@
         "shot": "medium shot, 35mm lens",
         "camera": "gentle tracking shot",
         "cameraId": "Tracking",
-        "dialogue": "Keempat, pastiin kamu juga jaga konsistensinya biar manfaat {adv1} kerasa maksimal.",
+        "dialogue": "Keempat, jaga ritme pengerjaannya supaya manfaat {adv1} bisa terus bekerja maksimal tanpa bikin kamu cepat lelah. Cara yang ringan justru paling tahan lama dipakai.",
         "sfx": "subtle studio room tone"
       },
       {
@@ -791,7 +791,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "slow engaging push-in",
         "cameraId": "Push-in",
-        "dialogue": "Dan bonus terakhir, coba langsung praktekin satu aja dulu hari ini biar nggak cuma jadi teori.",
+        "dialogue": "Dan sebagai bonus tambahan, coba langsung praktikkan minimal satu poin saja hari ini juga. Biar pembahasan soal {product} ini nggak cuma lewat jadi teori doang.",
         "sfx": "light crisp ambient tone"
       },
       {
@@ -803,7 +803,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "steady hold",
         "cameraId": "Statis",
-        "dialogue": "{cta}!",
+        "dialogue": "Biar nanti nggak lupa pas lagi butuh panduannya soal {product}, mending amankan video ini sekarang juga. {cta}!",
         "sfx": "clean soft outro tone"
       }
     ],
@@ -894,7 +894,7 @@
         "shot": "cinematic close-up, 85mm prime lens, shallow depth of field",
         "camera": "slow hypnotic push-in",
         "cameraId": "Push-in",
-        "dialogue": "Ada keindahan tersendiri waktu kita merhatiin {product} lebih dekat.",
+        "dialogue": "Ada keindahan tersendiri setiap kali kita berhenti sejenak dan memperhatikan dunia {product} dari jarak yang lebih dekat. Setiap geraknya membawa rasa yang tenang sekaligus memikat.",
         "sfx": "immersive cinematic atmosphere and subtle detail foley"
       },
       {
@@ -906,7 +906,7 @@
         "shot": "cinematic medium wide shot, 35mm lens",
         "camera": "smooth 180-degree orbit glide",
         "cameraId": "Orbit",
-        "dialogue": "Setiap sudutnya ngasih nuansa yang {adv1} dan berkarakter.",
+        "dialogue": "Dari sudut ini, setiap ruang dan pencahayaannya menghadirkan nuansa {adv1} yang kuat dan berkarakter. Semua elemen visualnya seolah bercerita pelan tanpa perlu banyak kata.",
         "sfx": "rich ambient soundscape"
       },
       {
@@ -918,7 +918,7 @@
         "shot": "macro-medium shot, 85mm lens",
         "camera": "slow-motion lateral slide",
         "cameraId": "Slow motion",
-        "dialogue": "Perpaduan antara {adv_all} bikin semuanya terasa menyatu.",
+        "dialogue": "Perpaduan harmonis antara {adv_all} membuat keseluruhan momen ini terasa begitu menyatu dan seimbang. Setiap transisi cahaya mempertegas keunikan karakter utamanya.",
         "sfx": "gentle tactile foley matching the motion"
       },
       {
@@ -930,7 +930,7 @@
         "shot": "low-angle cinematic shot, 35mm lens",
         "camera": "slow crane-up reveal",
         "cameraId": "Crane",
-        "dialogue": "Sebuah detail kecil yang ninggalin kesan mendalam.",
+        "dialogue": "Inilah momen puncak di mana detail terkecil dari {product} tampil sempurna dan meninggalkan kesan mendalam. Sebuah keindahan sederhana yang terasa hangat dan sulit dilupakan.",
         "sfx": "warm resonant cinematic swell"
       },
       {
@@ -942,7 +942,7 @@
         "shot": "wide cinematic shot, 24mm prime lens",
         "camera": "smooth lateral glide",
         "cameraId": "Slide",
-        "dialogue": "Dari sudut yang lebih luas, komposisi dan suasananya terasa makin hidup.",
+        "dialogue": "Begitu kamera bergeser ke sudut yang lebih luas, komposisi dan dimensi suasananya terasa semakin hidup. Kita bisa merasakan kedalaman atmosfer {product} secara lebih utuh.",
         "sfx": "expansive atmospheric ambient wash"
       },
       {
@@ -954,7 +954,7 @@
         "shot": "macro close-up, 85mm prime lens",
         "camera": "ultra-slow macro push-in",
         "cameraId": "Push-in",
-        "dialogue": "Setiap tekstur dan pantulan cahayanya membawa karakter {adv1} yang kuat.",
+        "dialogue": "Saat dilihat lebih dekat lagi, setiap tekstur halus dan pantulan cahayanya membawa sentuhan {adv1} yang detail. Hal-hal kecil seperti inilah yang membuat visualnya terasa mahal.",
         "sfx": "subtle tactile cinematic foley"
       },
       {
@@ -966,7 +966,7 @@
         "shot": "cinematic medium-wide shot, 35mm lens",
         "camera": "slow graceful orbit",
         "cameraId": "Orbit",
-        "dialogue": "Semuanya menyatu jadi satu pengalaman visual yang tenang tapi membekas.",
+        "dialogue": "Pada akhirnya, cahaya, gerak, dan suasana menyatu menjadi satu pengalaman visual yang tenang namun membekas kuat. Semuanya mengalir alami membawa pesan {product} dengan elegan.",
         "sfx": "rich cinematic ambient swell"
       },
       {
@@ -978,7 +978,7 @@
         "shot": "medium shot, 50mm lens",
         "camera": "slow dolly-in ending in a steady hold",
         "cameraId": "Dolly-in",
-        "dialogue": "{cta}.",
+        "dialogue": "Terima kasih sudah menikmati perjalanan visual singkat seputar {product} sampai akhir bersama kami hari ini. {cta}!",
         "sfx": "soft final air whoosh settling into calm ambience"
       }
     ],
@@ -1070,7 +1070,7 @@
         "shot": "medium close-up hero framing, 50mm lens, shallow depth of field",
         "camera": "rapid smooth push-in",
         "cameraId": "Push-in",
-        "dialogue": "Kalau kamu lagi cari solusi yang beneran {adv1}, wajib lihat {product} ini.",
+        "dialogue": "Kalau kamu lagi cari solusi yang benar-benar {adv1} tanpa bikin ribet, wajib banget lihat {product} ini sekarang. Ini jawaban yang bikin aktivitasmu jauh lebih cepat beres.",
         "sfx": "crisp commercial attention whoosh and clean studio ambience"
       },
       {
@@ -1082,7 +1082,7 @@
         "shot": "medium close-up at eye level, 50mm lens",
         "camera": "smooth 180-degree orbit",
         "cameraId": "Orbit",
-        "dialogue": "Kenalin {product}, dirancang khusus supaya lebih praktis dipakai setiap hari.",
+        "dialogue": "Kenalan langsung dengan {product}, dirancang khusus dengan standar tinggi supaya super praktis dipakai setiap hari. Tampilannya bersih, kokoh, dan langsung siap kamu andalkan.",
         "sfx": "soft clean studio room tone"
       },
       {
@@ -1094,7 +1094,7 @@
         "shot": "close-up demonstration shot, 85mm lens",
         "camera": "slow-motion tracking glide",
         "cameraId": "Slow motion",
-        "dialogue": "Keunggulannya langsung berasa: {adv_all} dalam satu paket.",
+        "dialogue": "Semua keunggulan utama {adv_all} langsung bisa kamu rasakan sekaligus dalam satu paket lengkap. Benar-benar dirancang untuk memberi nilai maksimal buat kebutuhan harianmu.",
         "sfx": "clean tactile product interaction foley"
       },
       {
@@ -1106,7 +1106,7 @@
         "shot": "macro shot, 85mm lens",
         "camera": "slow lateral slide",
         "cameraId": "Slide",
-        "dialogue": "Detailnya rapi dan siap diandalkan kapan saja dibutuhkan.",
+        "dialogue": "Kalau diperhatikan dari dekat, setiap detail material dan pengerjaan {product} ini benar-benar rapi dan presisi. Kualitas seperti ini bikin kamu tenang memakainya dalam jangka panjang.",
         "sfx": "subtle crisp detail foley"
       },
       {
@@ -1118,7 +1118,7 @@
         "shot": "medium close-up, 35mm lens",
         "camera": "gentle push-in",
         "cameraId": "Push-in",
-        "dialogue": "Masih sering ribet sama masalah yang sama tiap hari? Sekarang udah ada solusi yang jauh lebih praktis.",
+        "dialogue": "Masih sering capek dan buang banyak waktu gara-gara pakai cara lama yang hasilnya kurang maksimal? Sekarang kamu nggak perlu lagi pusing menghadapi masalah yang sama tiap hari.",
         "sfx": "crisp clean commercial room tone"
       },
       {
@@ -1130,7 +1130,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "smooth tracking shot",
         "cameraId": "Tracking",
-        "dialogue": "Lihat sendiri cara pakainya yang simpel banget dan hasilnya langsung kelihatan.",
+        "dialogue": "Lihat sendiri bagaimana cara pakainya yang simpel banget dan langsung memberikan hasil nyata di depan mata. Tanpa proses rumit, performanya langsung terasa sejak pemakaian pertama.",
         "sfx": "crisp realistic product foley"
       },
       {
@@ -1142,7 +1142,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "steady confident hold",
         "cameraId": "Statis",
-        "dialogue": "Dengan kualitas {adv_all} kayak gini, ini jelas pilihan paling aman dan sepadan buat kamu.",
+        "dialogue": "Dengan perpaduan kualitas {adv_all} seperti ini, {product} jelas jadi pilihan paling aman dan paling sepadan buat kamu. Banyak pelanggan puas dan langsung repeat order lagi.",
         "sfx": "clean bright commercial ambience"
       },
       {
@@ -1154,7 +1154,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "slow dolly-in to steady hero hold",
         "cameraId": "Dolly-in",
-        "dialogue": "{cta}!",
+        "dialogue": "Jangan tunggu sampai kehabisan, langsung rasakan sendiri kualitas dan kemudahan {product} mulai hari ini juga. {cta}!",
         "sfx": "clean bright confirmation chime"
       }
     ],
@@ -1246,7 +1246,7 @@
         "shot": "selfie-style medium close-up, natural phone camera feel",
         "camera": "subtle handheld framing",
         "cameraId": "Selfie",
-        "dialogue": "Jujur ya, awalnya aku kira {product} ini biasa aja sampai akhirnya nyobain sendiri.",
+        "dialogue": "Jujur ya, awalnya aku sempat mikir {product} ini paling biasa saja kayak yang lain di pasaran. Tapi begitu akhirnya nyobain sendiri di rumah, pandanganku langsung berubah total.",
         "sfx": "natural indoor room ambience"
       },
       {
@@ -1258,7 +1258,7 @@
         "shot": "selfie-style medium shot, 28mm lens",
         "camera": "gentle handheld movement",
         "cameraId": "Handheld",
-        "dialogue": "Biasanya susah banget cari yang beneran {adv1} tanpa ribet.",
+        "dialogue": "Soalnya sebelumnya aku susah banget cari yang benar-benar {adv1} tanpa harus keluar biaya mahal atau ribet pakainya. Sering banget beli barang tapi ujungnya cuma nganggur.",
         "sfx": "natural room ambience"
       },
       {
@@ -1270,7 +1270,7 @@
         "shot": "medium close-up, 35mm lens",
         "camera": "smooth handheld tracking",
         "cameraId": "Tracking",
-        "dialogue": "Pas dipakai langsung, ternyata beneran {adv_all} dong!",
+        "dialogue": "Pas aku coba pakai langsung buat aktivitas sehari-hari, ternyata beneran {adv_all} sesuai yang dibilang orang. Rasanya nyaman dipakai dan langsung kelihatan bedanya dari awal.",
         "sfx": "authentic product usage foley"
       },
       {
@@ -1282,7 +1282,7 @@
         "shot": "selfie-style close-up",
         "camera": "steady handheld",
         "cameraId": "Selfie",
-        "dialogue": "Buat harganya, menurutku ini salah satu yang paling worth it sih.",
+        "dialogue": "Buat harga dan kualitas yang didapat, jujur {product} ini salah satu temuan paling worth it tahun ini. Nggak heran review-nya ramai dan banyak yang cocok juga.",
         "sfx": "pleasant room ambience"
       },
       {
@@ -1294,7 +1294,7 @@
         "shot": "natural handheld close-up, 28mm smartphone lens",
         "camera": "organic handheld framing",
         "cameraId": "Handheld",
-        "dialogue": "Pas pertama kali pegang {product} ini aja, kesan pertamanya udah langsung rapi dan niat banget.",
+        "dialogue": "Nah, pas pertama kali pegang {product} ini langsung dari paketnya, kesan pertamanya sudah kelihatan rapi banget. Dari bahannya saja kelihatan kalau produknya memang niat dibuat.",
         "sfx": "natural unboxing rustle and room tone"
       },
       {
@@ -1306,7 +1306,7 @@
         "shot": "selfie medium close-up, smartphone lens",
         "camera": "natural selfie hold",
         "cameraId": "Selfie",
-        "dialogue": "Dan ini hasil jujurnya setelah aku pakai sendiri — beneran kerasa {adv_all}.",
+        "dialogue": "Dan ini hasil jujur setelah aku rutin pakai sendiri beberapa waktu terakhir tanpa gimmick apa pun. Manfaat {adv_all} dari {product} ini beneran kerasa membantu banget.",
         "sfx": "authentic home ambience"
       },
       {
@@ -1318,7 +1318,7 @@
         "shot": "medium close-up, smartphone lens",
         "camera": "subtle handheld movement",
         "cameraId": "Handheld",
-        "dialogue": "Kalau kamu tipe yang cari solusi simpel tapi tetap maksimal, ini cocok banget sih buat kamu.",
+        "dialogue": "Menurutku ini cocok banget buat kamu yang cari solusi simpel, awet, dan langsung terasa hasilnya tiap hari. Apalagi kalau jadwalmu padat dan nggak mau hal yang ribet.",
         "sfx": "clean casual room tone"
       },
       {
@@ -1330,7 +1330,7 @@
         "shot": "selfie-style medium close-up",
         "camera": "steady handheld",
         "cameraId": "Selfie",
-        "dialogue": "Yang mau samaan, {cta}!",
+        "dialogue": "Buat kamu yang dari tadi penasaran dan pengen samaan pakai {product} ini di rumah, infonya sudah aku siapkan lengkap. {cta}!",
         "sfx": "natural room ambience"
       }
     ],
@@ -1422,7 +1422,7 @@
         "shot": "medium shot, 35mm lens",
         "camera": "locked-off static camera",
         "cameraId": "Statis",
-        "dialogue": "Sebelum pakai {product}, urusan kayak gini tuh selalu makan waktu.",
+        "dialogue": "Lihat dulu kondisi sebelumnya waktu belum mengenal {product}, urusan sederhana kayak gini selalu makan banyak waktu. Rasanya cepat capek dan hasilnya pun sering kurang rapi.",
         "sfx": "quiet flat room tone"
       },
       {
@@ -1434,7 +1434,7 @@
         "shot": "dynamic medium shot, 35mm lens",
         "camera": "smooth whip-pan landing cleanly on {product}",
         "cameraId": "Whip pan",
-        "dialogue": "Begitu ganti pakai {product}, lihat bedanya sekarang.",
+        "dialogue": "Nah, sekarang lihat apa yang langsung terjadi begitu kita mulai ganti pakai {product} di momen yang sama. Suasananya langsung berubah drastis hanya dalam sekejap.",
         "sfx": "crisp energetic transition swoosh"
       },
       {
@@ -1446,7 +1446,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "slow reveal dolly-out",
         "cameraId": "Dolly-out",
-        "dialogue": "Hasilnya langsung kerasa jauh lebih {adv_all}.",
+        "dialogue": "Ini dia hasil sesudahnya, kelihatan jelas banget bedanya jadi jauh lebih {adv_all} dan nyaman dipandang. Beneran terasa lega waktu lihat hasilnya rapi kayak gini.",
         "sfx": "uplifting airy studio ambience"
       },
       {
@@ -1458,7 +1458,7 @@
         "shot": "macro close-up, 85mm lens",
         "camera": "slow push-in",
         "cameraId": "Push-in",
-        "dialogue": "Kelihatan jelas kan bedanya di bagian {adv1}.",
+        "dialogue": "Coba perhatikan lebih dekat di bagian detailnya, efek {adv1} dari {product} ini benar-benar kelihatan nyata. Bukan sekadar rapi di awal, tapi kualitas hasilnya memang konsisten.",
         "sfx": "subtle crisp foley"
       },
       {
@@ -1470,7 +1470,7 @@
         "shot": "medium close-up, 35mm lens",
         "camera": "slow push-in",
         "cameraId": "Push-in",
-        "dialogue": "Kalau dibiarin terus, kondisi kayak gini bikin boros waktu dan nggak nyaman banget.",
+        "dialogue": "Kalau kondisi berantakan kayak gini dibiarkan terus setiap hari, lama-lama bikin boros tenaga dan merusak mood. Padahal sebenarnya ada cara yang jauh lebih efisien.",
         "sfx": "muted dull ambient tone"
       },
       {
@@ -1482,7 +1482,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "smooth tracking shot",
         "cameraId": "Tracking",
-        "dialogue": "Cukup pakai {product} kayak gini aja, prosesnya cepat banget tanpa ribet.",
+        "dialogue": "Cara pakainya juga gampang banget, tinggal gunakan {product} sesuai kebutuhan tanpa perlu langkah yang membingungkan. Prosesnya mulus, cepat, dan langsung terlihat perubahannya.",
         "sfx": "crisp satisfying action foley"
       },
       {
@@ -1494,7 +1494,7 @@
         "shot": "medium shot, 50mm lens",
         "camera": "gentle lateral slide",
         "cameraId": "Slide",
-        "dialogue": "Kelihatan jelas banget kan bedanya dibanding tadi? Jauh lebih rapi dan {adv1}.",
+        "dialogue": "Kalau dibandingkan langsung dengan kondisi sebelum tadi, bedanya benar-benar seperti langit dan bumi. Jauh lebih cepat, bersih, dan bikin aktivitasmu jauh lebih {adv1}.",
         "sfx": "bright crisp ambient tone"
       },
       {
@@ -1506,7 +1506,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "steady locked-off shot",
         "cameraId": "Statis",
-        "dialogue": "{cta}!",
+        "dialogue": "Saatnya tinggalkan cara lama yang bikin repot dan rasakan langsung transformasi nyata bersama {product} hari ini. {cta}!",
         "sfx": "soft final confirmation chime"
       }
     ],
@@ -1598,7 +1598,7 @@
         "shot": "45-degree tabletop shot, 35mm lens",
         "camera": "slow push-in",
         "cameraId": "Push-in",
-        "dialogue": "Kita lihat langsung kayak apa detail {product} ini dari dekat.",
+        "dialogue": "Hari ini kita bakal lihat langsung dari dekat seperti apa tampilan dan kualitas asli dari {product}. Dari luar saja kemasannya sudah terlihat sangat rapi dan meyakinkan.",
         "sfx": "crisp tactile placement sound"
       },
       {
@@ -1610,7 +1610,7 @@
         "shot": "close-up overhead angle, 50mm lens",
         "camera": "steady overhead framing",
         "cameraId": "Statis",
-        "dialogue": "Begitu dibuka, langsung kelihatan kualitasnya yang {adv1}.",
+        "dialogue": "Nah, begitu kita buka perlahan seperti ini, wujud utama {product} langsung tampil bersih dan kelihatan banget sisi {adv1}. Pengalaman bukanya sendiri sudah terasa sangat memuaskan.",
         "sfx": "satisfying tactile unboxing ASMR foley"
       },
       {
@@ -1622,7 +1622,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "smooth slow orbit",
         "cameraId": "Orbit",
-        "dialogue": "Bagian terbaiknya ada di {adv_all} yang digarap rapi.",
+        "dialogue": "Kalau kita putar perlahan, bagian terbaiknya langsung menonjol lewat fitur {adv_all} yang digarap dengan sangat presisi. Proporsi desainnya terasa pas dan nyaman saat dipegang.",
         "sfx": "soft tactile handling foley"
       },
       {
@@ -1634,7 +1634,7 @@
         "shot": "macro shot, 85mm lens",
         "camera": "slow lateral slide",
         "cameraId": "Slide",
-        "dialogue": "Setiap detailnya beneran diperhatikan dengan serius.",
+        "dialogue": "Coba kita zoom lebih dekat ke tekstur dan finishing-nya, setiap sudut {product} benar-benar diperhatikan dengan serius. Nggak ada bagian kasar, semuanya tampil bersih dan solid.",
         "sfx": "subtle crisp foley"
       },
       {
@@ -1646,7 +1646,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "smooth lateral slide",
         "cameraId": "Slide",
-        "dialogue": "Di dalam paketnya semua tertata rapi dan lengkap, siap langsung dipakai.",
+        "dialogue": "Di dalam paketnya, seluruh bagian dan kelengkapan {product} tertata dengan sangat rapi tanpa ada yang berantakan. Semuanya sudah lengkap dan siap langsung kamu gunakan.",
         "sfx": "clean crisp tactile placement sounds"
       },
       {
@@ -1658,7 +1658,7 @@
         "shot": "close-up, 50mm lens",
         "camera": "gentle tracking focus",
         "cameraId": "Tracking",
-        "dialogue": "Begitu langsung dites fungsinya, performanya halus dan kerasa banget {adv1}.",
+        "dialogue": "Sekarang kita tes langsung fungsi utamanya di sini, dan bisa kamu lihat sendiri kerjanya super halus. Keunggulan {adv1} langsung terasa responsif tanpa ada kendala sedikit pun.",
         "sfx": "crisp mechanical or tactile product foley"
       },
       {
@@ -1670,7 +1670,7 @@
         "shot": "medium close-up, 85mm lens",
         "camera": "smooth slow orbit",
         "cameraId": "Orbit",
-        "dialogue": "Secara keseluruhan, tampilan dan kualitas bangunannya beneran memuaskan dari segala sisi.",
+        "dialogue": "Secara keseluruhan dari berbagai sudut, tampilan estetika dan kualitas bangunan {product} ini benar-benar memuaskan. Pantas saja banyak yang langsung jatuh hati begitu lihat aslinya.",
         "sfx": "clean refined studio ambience"
       },
       {
@@ -1682,7 +1682,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "slow dolly-in to steady hold",
         "cameraId": "Dolly-in",
-        "dialogue": "{cta}!",
+        "dialogue": "Kalau kamu pengen punya {product} dengan kualitas serapi ini langsung di tanganmu, jangan ragu lagi buat amankan sekarang. {cta}!",
         "sfx": "gentle final chime"
       }
     ],
@@ -1774,7 +1774,7 @@
         "shot": "dynamic medium close-up, 35mm lens",
         "camera": "energetic push-in",
         "cameraId": "Push-in",
-        "dialogue": "Jangan sampai kelewatan kesempatan dapetin {product} sekarang juga!",
+        "dialogue": "Jangan sampai kelewatan kesempatan langka buat dapetin {product} dengan penawaran terbaik hari ini juga! Momen spesial kayak gini jarang banget muncul dua kali.",
         "sfx": "punchy clean impact whoosh"
       },
       {
@@ -1786,7 +1786,7 @@
         "shot": "close-up, 50mm lens",
         "camera": "smooth 180-degree orbit",
         "cameraId": "Orbit",
-        "dialogue": "Kamu langsung dapet yang {adv_all} tanpa perlu kompromi.",
+        "dialogue": "Dengan penawaran ini, kamu langsung mendapatkan {product} yang terkenal {adv_all} tanpa perlu kompromi soal kualitas. Semua fitur andalannya sudah lengkap dalam satu pilihan.",
         "sfx": "crisp rhythmic swoosh"
       },
       {
@@ -1798,7 +1798,7 @@
         "shot": "medium shot, 50mm lens",
         "camera": "slow dolly-out reveal",
         "cameraId": "Dolly-out",
-        "dialogue": "Mumpung masih tersedia, ini waktu paling pas buat ambil.",
+        "dialogue": "Mumpung unit {product} masih tersedia lengkap dan siap kirim hari ini, ini waktu paling tepat buat langsung ambil. Jangan tunggu sampai orang lain borong duluan.",
         "sfx": "upbeat subtle room energy"
       },
       {
@@ -1810,7 +1810,7 @@
         "shot": "medium close-up, 35mm lens",
         "camera": "quick smooth push-in",
         "cameraId": "Push-in",
-        "dialogue": "Biasanya harga normalnya jauh lebih tinggi, makanya momen kali ini beneran sayang kalau dilewatin.",
+        "dialogue": "Biasanya di luar momen ini harga normalnya jauh lebih tinggi dan jarang ada potongan sebesar sekarang. Makanya sayang banget kalau kamu tunda sampai promonya ditutup.",
         "sfx": "upbeat crisp studio ambience"
       },
       {
@@ -1822,7 +1822,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "dynamic tracking shot",
         "cameraId": "Tracking",
-        "dialogue": "Lihat deh cara pakainya yang super praktis dan langsung kasih hasil {adv1}.",
+        "dialogue": "Lihat sendiri betapa praktisnya saat {product} langsung digunakan dan memberi hasil {adv1} dalam waktu singkat. Sekali pakai langsung kelihatan kenapa produk ini jadi favorit.",
         "sfx": "crisp snappy product foley"
       },
       {
@@ -1834,7 +1834,7 @@
         "shot": "close-up, 50mm lens",
         "camera": "smooth lateral slide",
         "cameraId": "Slide",
-        "dialogue": "Semua keunggulan {adv_all} ini udah langsung kamu dapetin dalam satu paket.",
+        "dialogue": "Nggak cuma tampilan keren, seluruh keunggulan {adv_all} ini sudah langsung kamu dapatkan utuh dalam satu paket hemat. Nilainya jauh lebih besar dibanding biaya yang kamu keluarkan.",
         "sfx": "bright clean commercial tone"
       },
       {
@@ -1846,7 +1846,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "gentle push-in",
         "cameraId": "Push-in",
-        "dialogue": "Stok promonya terbatas banget, jadi mending langsung amankan sekarang sebelum kehabisan.",
+        "dialogue": "Perlu diingat, kuota penawaran spesial ini jumlahnya terbatas banget dan bisa habis sewaktu-waktu. Lebih aman langsung kunci pesananmu sekarang sebelum kembali ke harga normal.",
         "sfx": "energetic crisp ambient bed"
       },
       {
@@ -1858,7 +1858,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "locked-off steady hero hold",
         "cameraId": "Statis",
-        "dialogue": "Langsung aja — {cta}!",
+        "dialogue": "Yuk jangan sampai menyesal kehabisan penawaran terbaik {product} hari ini, langsung amankan milikmu sekarang juga. {cta}!",
         "sfx": "clean bright confirmation chime"
       }
     ],
@@ -1948,7 +1948,7 @@
         "shot": "medium close-up, 35mm lens, shallow depth of field",
         "camera": "gentle push-in",
         "cameraId": "Push-in",
-        "dialogue": "Tahukah kamu kenapa banyak orang sering kewalahan waktu ngurusin hal ini?",
+        "dialogue": "Pernah kepikiran nggak sih kenapa banyak orang sering merasa cepat kewalahan waktu mengurus aktivitas harian ini? Ternyata penyebabnya sering bukan karena kurang usaha.",
         "sfx": "clean natural studio tone"
       },
       {
@@ -1960,7 +1960,7 @@
         "shot": "medium shot, 50mm lens",
         "camera": "steady framing",
         "cameraId": "Statis",
-        "dialogue": "Kuncinya sebenarnya pilih cara yang udah {adv1} sejak awal.",
+        "dialogue": "Nah, kuncinya sebenarnya mulai dengan memilih pendekatan yang lebih {adv1} sejak langkah pertama. Fokus ke hal yang paling meringankan beban, bukan menambah daftar kerumitan baru.",
         "sfx": "quiet clean room tone"
       },
       {
@@ -1972,7 +1972,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "smooth slight pan",
         "cameraId": "Slide",
-        "dialogue": "Nah, itu alasan aku pakai {product}, karena udah {adv_all}.",
+        "dialogue": "Nah, prinsip itulah yang bikin aku belakangan ini mengandalkan {product} karena karakternya memang sudah {adv_all}. Kehadirannya nyatu banget sama ritme harian tanpa terasa ribet.",
         "sfx": "subtle tactile handling foley"
       },
       {
@@ -1984,7 +1984,7 @@
         "shot": "close-up, 85mm lens",
         "camera": "slow push-in",
         "cameraId": "Push-in",
-        "dialogue": "Kerjaan jadi beres jauh lebih cepat tanpa pusing.",
+        "dialogue": "Hasilnya kelihatan jelas di keseharian, urusan yang dulu sering bikin pusing sekarang beres jauh lebih cepat. Waktu luang jadi lebih banyak dan pikiran pun terasa lebih lega.",
         "sfx": "soft pleasant detail sound"
       },
       {
@@ -1996,7 +1996,7 @@
         "shot": "medium shot, 35mm lens",
         "camera": "organic handheld framing",
         "cameraId": "Handheld",
-        "dialogue": "Tanpa sadar, kebiasaan kecil yang kelihatannya sepele justru sering jadi penyebab utamanya.",
+        "dialogue": "Tanpa sadar, justru kebiasaan kecil yang kelihatannya sepele di awal yang bikin pekerjaan terasa makin berat. Kalau polanya nggak diubah, rasa capeknya bakal terus berulang.",
         "sfx": "soft natural room ambience"
       },
       {
@@ -2008,7 +2008,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "smooth lateral slide",
         "cameraId": "Slide",
-        "dialogue": "Kuncinya ternyata cuma satu: pilih cara yang simpel, konsisten, dan nggak bikin capek.",
+        "dialogue": "Prinsip sederhananya cuma satu: cari alur yang simpel, nyaman dijalankan konsisten, dan nggak menguras energi. Dengan begitu rutinitas padat pun tetap terasa jauh lebih terkendali.",
         "sfx": "quiet warm room tone"
       },
       {
@@ -2020,7 +2020,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "gentle dolly-out",
         "cameraId": "Dolly-out",
-        "dialogue": "Sejak rutin nerapin cara ini dibantu {product}, keseharianku jadi jauh lebih tenang dan {adv1}.",
+        "dialogue": "Sejak rutin menerapkan cara simpel ini sambil dibantu {product}, hari-hariku terasa jauh lebih tenang dan {adv1}. Rasanya senang banget nemu kebiasaan yang benar-benar cocok.",
         "sfx": "warm peaceful room ambience"
       },
       {
@@ -2032,7 +2032,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "steady hold",
         "cameraId": "Statis",
-        "dialogue": "Kalau kamu butuh juga, {cta}!",
+        "dialogue": "Semoga tips sederhana tadi membantu ya, dan kalau kamu juga pengen coba {product} yang aku pakai ini, infonya ada lengkap. {cta}!",
         "sfx": "clean warm room ambience"
       }
     ],
@@ -2124,7 +2124,7 @@
         "shot": "cinematic medium close-up, 35mm lens, shallow depth of field",
         "camera": "gentle slow push-in",
         "cameraId": "Push-in",
-        "dialogue": "Kemarin aku sempat ngerasa keteteran banget waktu harus nyelesain semuanya sekaligus.",
+        "dialogue": "Kemarin aku sempat ada di fase keteteran banget waktu harus menyelesaikan banyak urusan sekaligus dalam satu hari. Rasanya waktu berjalan cepat banget tapi kerjaan belum kelar juga.",
         "sfx": "warm natural indoor room ambience"
       },
       {
@@ -2136,7 +2136,7 @@
         "shot": "medium shot, 35mm lens",
         "camera": "subtle handheld movement",
         "cameraId": "Handheld",
-        "dialogue": "Rasanya kalau pakai cara biasa tuh selalu makan energi ekstra.",
+        "dialogue": "Setiap kali masih memaksakan pakai cara lama yang biasa, rasanya selalu menguras energi ekstra dan bikin mood turun. Pulang-pulang sudah habis tenaga duluan sebelum sempat istirahat.",
         "sfx": "soft everyday room tone"
       },
       {
@@ -2148,7 +2148,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "smooth tracking follow",
         "cameraId": "Tracking",
-        "dialogue": "Sampai akhirnya aku kebantu banget sejak rutin pakai {product} yang {adv_all} ini.",
+        "dialogue": "Sampai akhirnya aku ketemu dan mulai rutin pakai {product} yang ternyata beneran {adv_all} di sela aktivitas. Awalnya cuma iseng coba, eh malah langsung kerasa cocok banget.",
         "sfx": "gentle authentic interaction foley"
       },
       {
@@ -2160,7 +2160,7 @@
         "shot": "medium shot, 50mm lens",
         "camera": "gentle lateral slide",
         "cameraId": "Slide",
-        "dialogue": "Hal sesimpel ini ternyata ngaruh besar buat keseharian.",
+        "dialogue": "Jujur rasanya lega banget, ternyata satu perubahan sederhana di rutinitas bisa membawa dampak sebesar ini. Suasana hati jadi jauh lebih santai dan fokus kerja pun ikut naik.",
         "sfx": "pleasant calm ambience"
       },
       {
@@ -2172,7 +2172,7 @@
         "shot": "medium shot, 35mm lens",
         "camera": "gentle handheld follow",
         "cameraId": "Handheld",
-        "dialogue": "Sebelumnya aku udah sempat coba macem-macem cara, tapi rasanya selalu ada aja yang kurang pas.",
+        "dialogue": "Sebelumnya aku sudah sempat coba berbagai macam trik dan solusi lain, tapi selalu saja ada bagian yang kurang pas. Ada yang ribet dipakai, ada juga yang hasilnya nggak bertahan lama.",
         "sfx": "natural everyday room ambience"
       },
       {
@@ -2184,7 +2184,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "slow smooth push-in",
         "cameraId": "Push-in",
-        "dialogue": "Dari hari pertama coba {product} ini, aku langsung ngeh kalau rasanya beda banget dan {adv1}.",
+        "dialogue": "Dari hari pertama pakai {product} ini saja, aku langsung sadar kalau alurnya jadi beda jauh dan jauh lebih {adv1}. Hal yang tadinya terasa berat mendadak jadi ringan dikerjakan.",
         "sfx": "soft natural foley and ambience"
       },
       {
@@ -2196,7 +2196,7 @@
         "shot": "medium shot, 50mm lens",
         "camera": "gentle tracking movement",
         "cameraId": "Tracking",
-        "dialogue": "Sekarang malah udah jadi bagian wajib di rutinitas harian karena beneran {adv_all}.",
+        "dialogue": "Sekarang {product} malah sudah jadi bagian wajib di rutinitas harianku karena manfaat {adv_all} yang konsisten banget. Nggak kebayang lagi balik ke cara lama yang bikin capek.",
         "sfx": "warm calm lifestyle ambience"
       },
       {
@@ -2208,7 +2208,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "steady natural hold",
         "cameraId": "Statis",
-        "dialogue": "{cta}.",
+        "dialogue": "Itu sedikit cerita pengalamanku yang siapa tahu lagi relate sama kondisimu sekarang, dan kalau penasaran sama {product} ini bisa langsung cek. {cta}!",
         "sfx": "soft warm fade ambience"
       }
     ],
@@ -2300,7 +2300,7 @@
         "shot": "handheld POV medium close-up, 28mm lens",
         "camera": "quick natural handheld snap",
         "cameraId": "Handheld",
-        "dialogue": "POV: ketika kamu harus beresin semuanya cepat tapi nggak mau ribet!",
+        "dialogue": "POV ketika kamu harus membereskan semuanya dalam waktu mepet, tapi di saat bersamaan lagi malas banget sama hal ribet. Pasti langsung kerasa kan tegangnya suasana kayak gini.",
         "sfx": "crisp everyday life foley"
       },
       {
@@ -2312,7 +2312,7 @@
         "shot": "medium shot, 35mm lens",
         "camera": "gentle handheld sway",
         "cameraId": "Handheld",
-        "dialogue": "Kalau masih manual kayak dulu sih udah pasti pusing duluan.",
+        "dialogue": "Kalau masih nekat mengandalkan cara manual kayak dulu sih sudah pasti bikin pusing duluan di tengah jalan. Baru mulai sebentar saja rasanya sudah pengen menyerah.",
         "sfx": "natural indoor ambience"
       },
       {
@@ -2324,7 +2324,7 @@
         "shot": "medium close-up, 50mm lens",
         "camera": "smooth push-in",
         "cameraId": "Push-in",
-        "dialogue": "Untung sekarang udah ada penyelamat andalan, {product} yang {adv_all}.",
+        "dialogue": "Langsung saja aku keluarkan penyelamat andalan, {product} yang sudah terkenal {adv_all} buat kondisi mepet. Begitu dipakai, alurnya langsung lancar tanpa drama tambahan.",
         "sfx": "upbeat subtle reveal foley"
       },
       {
@@ -2336,7 +2336,7 @@
         "shot": "medium close-up, 35mm lens",
         "camera": "gentle tracking shot",
         "cameraId": "Tracking",
-        "dialogue": "Beres tanpa drama, sisa waktunya tinggal santai.",
+        "dialogue": "Lihat deh, semua urusan tadi langsung beres mulus jauh lebih cepat dari perkiraan awal. Sisa waktunya jadi bisa dipakai buat duduk santai menikmati hari dengan tenang.",
         "sfx": "pleasant room tone"
       },
       {
@@ -2348,7 +2348,7 @@
         "shot": "medium close-up, 35mm handheld lens",
         "camera": "organic handheld zoom-in",
         "cameraId": "Handheld",
-        "dialogue": "Di momen kayak gini rasanya otak langsung nge-blank, pengen semuanya beres dalam sekejap.",
+        "dialogue": "Di momen genting kayak gini biasanya otak langsung nge-blank sambil bingung harus mulai dari mana dulu. Pengennya sih ada cara cepat biar semua urusan langsung beres rapi.",
         "sfx": "natural everyday ambient sound"
       },
       {
@@ -2360,7 +2360,7 @@
         "shot": "medium close-up, 35mm lens",
         "camera": "smooth slight push-in",
         "cameraId": "Push-in",
-        "dialogue": "Eh tunggu dulu, baru inget kan aku udah sedia {product} buat jaga-jaga momen kayak gini.",
+        "dialogue": "Eh tunggu sebentar, baru ingat kalau dari kemarin aku sudah sedia {product} buat jaga-jaga menghadapi situasi mendadak kayak gini. Untung banget sempat disiapkan di dekat sini.",
         "sfx": "light crisp ambient beat"
       },
       {
@@ -2372,7 +2372,7 @@
         "shot": "medium shot, 50mm lens",
         "camera": "gentle lateral slide",
         "cameraId": "Slide",
-        "dialogue": "Asli deh, punya solusi yang {adv_all} kayak gini bikin hari jauh lebih aman dari drama.",
+        "dialogue": "Asli deh, punya andalan yang {adv_all} kayak gini bikin aktivitas harian jauh lebih aman dari drama mendadak. Setiap kali ketemu situasi mepet, hati tetap tenang karena sudah siap.",
         "sfx": "warm pleasant lifestyle ambience"
       },
       {
@@ -2384,7 +2384,7 @@
         "shot": "selfie-style medium close-up",
         "camera": "steady handheld",
         "cameraId": "Selfie",
-        "dialogue": "{cta}!",
+        "dialogue": "Biar kamu juga selalu siap sedia dan bebas drama di momen mepet, boleh banget kepoin {product} yang aku pakai tadi. {cta}!",
         "sfx": "natural room ambience"
       }
     ],

@@ -224,4 +224,44 @@ describe('Rangkai Director Engine', () => {
     expect(swapped.pack.scenes[0].prompt).toContain('Raka');
     expect(swapped.pack.scenes[0].prompt).not.toContain('Sinta');
   });
+
+  it('enforces rich 8-second spoken scripts and position-aware opening/closing tone cues across every scene', () => {
+    const templates = getAllTemplates();
+    const emojiRegex = /[\p{Extended_Pictographic}\uFE0F]/u;
+
+    for (const tpl of templates) {
+      const pack = generateOfflinePack(tpl, {
+        ...BASE_ANSWERS,
+        contentMode: tpl.mode,
+        sellingStyle: tpl.sellingStyle,
+        durationS: 60,
+        voice: 'dialog',
+        cast: 'person',
+      });
+
+      expect(pack.scenes.length).toBe(8);
+
+      pack.scenes.forEach((sc, idx) => {
+        const wordCount = (sc.dialogue || '').trim().split(/\s+/).filter(Boolean).length;
+        expect(wordCount).toBeGreaterThanOrEqual(18);
+        expect(emojiRegex.test(sc.dialogue || '')).toBe(false);
+        expect(sc.prompt).toContain('8-Second Clip Pacing');
+        expect(sc.prompt).toContain('8-second spoken cadence');
+        expect(sc.prompt).toContain('OPENING TONE:');
+        expect(sc.prompt).toContain('CLOSING TONE:');
+
+        if (idx === 0) {
+          expect(sc.prompt).toContain('Opening Hook');
+          expect(sc.prompt).toContain('bridging intonation');
+        } else if (idx === pack.scenes.length - 1) {
+          expect(sc.prompt).toContain('Final Closing');
+          expect(sc.prompt).toContain('resolved downward closing cadence');
+        } else {
+          expect(sc.prompt).toContain('Continuous Story Beat');
+          expect(sc.prompt).toContain('seamless mid-story continuation');
+          expect(sc.prompt).toContain('open connective cadence');
+        }
+      });
+    }
+  });
 });
