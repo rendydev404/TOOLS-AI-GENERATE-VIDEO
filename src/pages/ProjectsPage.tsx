@@ -55,7 +55,7 @@ export function ProjectsPage() {
   return (
     <AppShell
       actions={
-        <Button size="sm" icon={<Plus size={15} strokeWidth={2.5} />} onClick={() => navigate('/')}>
+        <Button size="sm" icon={<Plus size={15} strokeWidth={2.5} />} onClick={() => navigate('/buat')}>
           Buat Video Baru
         </Button>
       }
@@ -119,7 +119,7 @@ export function ProjectsPage() {
                 : 'Coba ganti kata kunci pencarian atau filter di atas.'}
             </p>
             {projects.length === 0 && (
-              <Button className="mt-4" icon={<Plus size={15} />} onClick={() => navigate('/')}>
+              <Button className="mt-4" icon={<Plus size={15} />} onClick={() => navigate('/buat')}>
                 Mulai Buat Video
               </Button>
             )}

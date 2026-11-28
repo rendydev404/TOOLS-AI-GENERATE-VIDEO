@@ -20,7 +20,7 @@ export function TemplatesPage() {
   }, [templates, filter]);
 
   return (
-    <AppShell breadcrumbs={[{ label: 'Mulai Buat', to: '/' }, { label: 'Semua Format Video' }]}>
+    <AppShell breadcrumbs={[{ label: 'Mulai Buat', to: '/buat' }, { label: 'Semua Format Video' }]}>
       <div className="flex flex-col gap-6">
         <div>
           <h1 className="text-[24px] font-bold tracking-tight text-[var(--text-primary)]">

@@ -1,85 +1,31 @@
-import { lazy, Suspense, useEffect } from 'react';
-import { BrowserRouter, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import { Loader2 } from 'lucide-react';
-import { AppProvider } from '@/context/AppContext';
-import { WizardPage } from '@/pages/WizardPage';
+import { lazy, Suspense } from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { PageFallback } from '@/components/ui/PageFallback';
+import { LandingPage } from '@/pages/LandingPage';
+import { IS_MEMBER_EMBED } from '@/lib/paths';
 
-const ProjectDetailPage = lazy(() =>
-  import('@/pages/ProjectDetailPage').then((m) => ({ default: m.ProjectDetailPage }))
-);
-const ProjectsPage = lazy(() =>
-  import('@/pages/ProjectsPage').then((m) => ({ default: m.ProjectsPage }))
-);
-const TemplatesPage = lazy(() =>
-  import('@/pages/TemplatesPage').then((m) => ({ default: m.TemplatesPage }))
-);
-const LibraryBrandPage = lazy(() =>
-  import('@/pages/LibraryBrandPage').then((m) => ({ default: m.LibraryBrandPage }))
-);
-const BatchPage = lazy(() =>
-  import('@/pages/BatchPage').then((m) => ({ default: m.BatchPage }))
-);
-const SettingsPage = lazy(() =>
-  import('@/pages/SettingsPage').then((m) => ({ default: m.SettingsPage }))
-);
-
-function GlobalShortcuts() {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.ctrlKey || e.metaKey || e.altKey) return;
-      const target = e.target as HTMLElement | null;
-      if (
-        target &&
-        (target.tagName === 'INPUT' ||
-          target.tagName === 'TEXTAREA' ||
-          target.isContentEditable)
-      ) {
-        return;
-      }
-      if (e.key.toLowerCase() === 'n' && location.pathname !== '/') {
-        e.preventDefault();
-        navigate('/');
-      }
-    };
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, [navigate, location.pathname]);
-
-  return null;
-}
-
-function PageFallback() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-[var(--bg-canvas)] text-[var(--text-secondary)]">
-      <Loader2 size={22} className="animate-spin text-[var(--brand-primary)]" />
-    </div>
-  );
-}
+const AppRoutes = lazy(() => import('@/AppRoutes'));
 
 const ROUTER_BASENAME = (import.meta.env.BASE_URL || '/').replace(/\/+$/, '') || undefined;
 
 export function App() {
   return (
     <BrowserRouter basename={ROUTER_BASENAME}>
-      <AppProvider>
-        <GlobalShortcuts />
-        <Suspense fallback={<PageFallback />}>
-          <Routes>
-            <Route path="/" element={<WizardPage />} />
-            <Route path="/buat" element={<WizardPage />} />
-            <Route path="/proyek" element={<ProjectsPage />} />
-            <Route path="/proyek/:id" element={<ProjectDetailPage />} />
-            <Route path="/template" element={<TemplatesPage />} />
-            <Route path="/pustaka" element={<LibraryBrandPage />} />
-            <Route path="/massal" element={<BatchPage />} />
-            <Route path="/pengaturan" element={<SettingsPage />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </Suspense>
-      </AppProvider>
+      <Routes>
+        {/* Members already own the tool, so the Member Area build opens straight into it. */}
+        <Route
+          path="/"
+          element={IS_MEMBER_EMBED ? <Navigate to="/buat" replace /> : <LandingPage />}
+        />
+        <Route
+          path="/*"
+          element={
+            <Suspense fallback={<PageFallback />}>
+              <AppRoutes />
+            </Suspense>
+          }
+        />
+      </Routes>
     </BrowserRouter>
   );
 }

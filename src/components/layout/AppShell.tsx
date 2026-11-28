@@ -15,7 +15,7 @@ import { ToastViewport } from '@/components/ui/Primitives';
 import { StudioFlowLogo } from '@/components/ui/StudioFlowLogos';
 
 const NAV_ITEMS = [
-  { to: '/', label: 'Buat Video', mobileLabel: 'Buat', icon: Clapperboard, exact: true },
+  { to: '/buat', label: 'Buat Video', mobileLabel: 'Buat', icon: Clapperboard, exact: true },
   { to: '/proyek', label: 'Proyek Saya', mobileLabel: 'Proyek', icon: Folder, exact: false },
   { to: '/massal', label: 'Massal CSV', mobileLabel: 'Massal', icon: Table2, exact: false },
   { to: '/pustaka', label: 'Pustaka', mobileLabel: 'Pustaka', icon: Bookmark, exact: false },

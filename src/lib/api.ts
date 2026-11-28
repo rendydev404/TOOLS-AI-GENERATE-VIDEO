@@ -2,17 +2,11 @@ import { createOfflineSceneVariation, generateOfflinePack } from '@shared/direct
 import { getTemplateById } from '@shared/templates';
 import type { Answers, Pack, Scene } from '@shared/types';
 
-export const API_BASE = (import.meta.env.VITE_API_BASE || '/api').replace(/\/+$/, '');
-export const APP_BASE = import.meta.env.BASE_URL || '/';
-export const IS_MEMBER_EMBED = APP_BASE.startsWith('/member/');
+import { IS_MEMBER_EMBED } from '@/lib/paths';
 
-export function resolveAssetUrl(assetPath: string): string {
-  if (!assetPath || /^https?:\/\//i.test(assetPath) || assetPath.startsWith('data:') || assetPath.startsWith('blob:')) {
-    return assetPath;
-  }
-  const cleanBase = APP_BASE.endsWith('/') ? APP_BASE : `${APP_BASE}/`;
-  return `${cleanBase}${assetPath.replace(/^\/+/, '')}`;
-}
+export { APP_BASE, IS_MEMBER_EMBED, resolveAssetUrl } from '@/lib/paths';
+
+export const API_BASE = (import.meta.env.VITE_API_BASE || '/api').replace(/\/+$/, '');
 
 export interface ServerHealth {
   ok: boolean;
