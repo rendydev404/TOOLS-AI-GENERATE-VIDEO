@@ -193,9 +193,12 @@ export function SegmentedControl<T extends string | number>({
             role="tab"
             aria-selected={active}
             onClick={() => onChange(it.value)}
-            className={`flex shrink-0 flex-col items-center justify-center whitespace-nowrap rounded-lg px-3 transition-all ${
+            className={`flex flex-col items-center justify-center rounded-lg px-3 transition-all ${
               tall ? 'min-h-[48px] py-1.5' : 'h-9'
-            } ${fullWidth ? 'flex-1' : ''} ${
+            } ${
+              // Full-width options share the row and wrap their text, so none is pushed off-screen on phones.
+              fullWidth ? 'min-w-0 flex-1 basis-0 whitespace-normal text-center' : 'shrink-0 whitespace-nowrap'
+            } ${
               active
                 ? 'border-2 border-[var(--border-strong)] bg-[var(--brand-primary)] text-[#111111] shadow-[2px_2px_0_var(--border-strong)] font-bold'
                 : 'border-2 border-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-semibold'

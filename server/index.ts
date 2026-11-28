@@ -7,7 +7,9 @@ import {
   buildFlowSteps,
   buildSceneVideoPrompt,
   cleanSingleLinePrompt,
+  buildCharacterAssetPrompt,
   createOfflineSceneVariation,
+  describeEndState,
   generateOfflinePack,
   HOOK_STRATEGIES,
   normalizeAnswers,
@@ -225,6 +227,8 @@ interface LlmDirectorPayload {
   }>;
   captionId?: string;
   hashtags?: string[];
+  episodeSummaryId?: string;
+  cliffhangerId?: string;
 }
 
 // ---------- API Routes ----------
@@ -334,6 +338,40 @@ app.post('/api/director/enrich', async (c) => {
             '- Introduce the product/service naturally near the middle-to-end as what personally helped the creator, and close with a gentle, friendly, non-pushy recommendation ("kalau penasaran boleh cek di bio ya").',
           ];
 
+    const isSeries = normalized.seriesMode === 'series';
+    const episodeNumber = normalized.episodeNumber ?? 1;
+    const seriesDirective = isSeries
+      ? [
+          '',
+          `6. SERIES / EPISODE CONTINUITY (this video is Episode ${episodeNumber} of the mini-series "${normalized.seriesTitle}"):`,
+          '- Write this video as one chapter of an ongoing story, not a standalone ad or lesson.',
+          episodeNumber === 1
+            ? '- Episode 1: establish the character, place and the central question or conflict within the first scene, then build toward it.'
+            : '- Scene idx 0 is a COLD OPEN: sentence 1 is a one-breath "previously" recap of the story so far (max 12 words, never a greeting or re-introduction); sentence 2 starts this episode\'s new development ("episodeGoal" if given).',
+          '- Every middle scene moves the plot forward with NEW information. Never repeat lines, beats, jokes or reveals already used in "storySoFar".',
+          `- The final scene gives a small payoff for this episode, then opens a fresh twist or question that is NOT resolved, and ends with a short spoken tease such as "lanjut di part ${episodeNumber + 1} ya". Its actionEn must end on the character reacting to that twist.`,
+          episodeNumber > 1
+            ? '- Continuity locks from earlier episodes are fixed: keep the exact same character, wardrobe, location layout, props and lighting. Return "characterLock", "setting" and "lighting" unchanged.'
+            : '- Keep wardrobe, location and lighting simple and distinctive so later episodes can match them exactly.',
+          '- Also return "episodeSummaryId" (1-2 Bahasa Indonesia sentences on what happened in THIS episode, for the next episode\'s recap) and "cliffhangerId" (the unresolved question this episode ends on).',
+        ]
+      : [];
+    const realismDirective = basePack.bible.realismLock
+      ? [
+          '',
+          '7. UGC REALISM (NON-NEGOTIABLE — the result must be indistinguishable from a real person\'s phone video):',
+          '- "actionEn" describes ordinary phone-recorded behaviour: phone held at arm\'s length or propped on a shelf, small reframing, glancing at the product or briefly away while thinking, natural pauses, a real lived-in room. Never cinematic camera moves, studio lighting, slow motion or glossy ad posing.',
+          '- "dialogueId" must sound unscripted: casual Indonesian with natural fillers (eh, jujur, nah, kayaknya), honest specific sensory details (tekstur, wangi, kapan dipakai, berapa lama), small hesitations and personal opinion. Avoid ad-like superlatives and slogans.',
+          '- "shot" stays a smartphone framing (selfie medium close-up, 24-26mm phone lens) and "camera" stays handheld or propped phone.',
+        ]
+      : [];
+    const extraSchema = isSeries
+      ? [
+          '  "episodeSummaryId": "1-2 sentence Bahasa Indonesia summary of this episode",',
+          '  "cliffhangerId": "the unresolved question or twist this episode ends on, in Bahasa Indonesia",',
+        ]
+      : [];
+
     const systemPrompt = [
       isMarketing
         ? isHardSelling
@@ -367,6 +405,8 @@ app.post('/api/director/enrich', async (c) => {
       '  * Middle Scenes (0 < idx < last): Open smoothly continuing the exact energy and train of thought of the prior scene, deliver rich concrete substance in the middle, and finish the second sentence with a natural forward-leaning handoff toward the next scene (total 20-26 words).',
       '  * Final Scene (idx == last): Open smoothly continuing from the previous scene, deliver a satisfying takeaway/payoff tying back to the topic/product, and land the user\'s "cta" naturally with a warm, decisive, complete closing cadence (total 20-25 words — NEVER just a bare CTA phrase).',
       '- 8-SECOND VISUAL PROGRESSION IN "actionEn": Structure every scene\'s "actionEn" so the visual motion stays alive across all 8 seconds (opening beat 0-2.5s -> core expressive gesture/demonstration 2.5-6.5s -> smooth visual settle/transition beat 6.5-8.0s) with ZERO on-screen text or static freeze.',
+      ...seriesDirective,
+      ...realismDirective,
       '',
       '5. STRICT OUTPUT SCHEMA (valid JSON only, zero emojis, zero on-screen text/subtitles/words inside video frames):',
       '{',
@@ -386,6 +426,7 @@ app.post('/api/director/enrich', async (c) => {
       '      "dialogueId": "Rich 20-26 word (2-sentence) connected Bahasa Indonesia spoken script calibrated for an 8-second clip if voiceMode != none, else empty string"',
       '    }',
       '  ],',
+      ...extraSchema,
       '  "captionId": "Engaging Bahasa Indonesia caption without emojis",',
       '  "hashtags": ["#tag1", "#tag2", "#tag3", "#tag4"]',
       '}',
@@ -422,6 +463,19 @@ app.post('/api/director/enrich', async (c) => {
       customCharacterInput: normalized.characterCustom || '',
       voiceMode: normalized.voice,
       aspectRatio: normalized.aspect,
+      series: isSeries
+        ? {
+            title: normalized.seriesTitle,
+            episodeNumber,
+            episodeGoal: normalized.episodeGoal || '',
+            storySoFar: (normalized.previousEpisodes || []).map((ep) => ({
+              part: ep.number,
+              whatHappened: ep.goalId || ep.summaryId,
+              endedOn: ep.cliffhangerId,
+              finalVisualMoment: ep.endStateEn,
+            })),
+          }
+        : null,
       sceneStructure: basePack.scenes.map((s, idx) => ({
         idx: s.idx,
         position: idx === 0 ? 'OPENING_HOOK' : idx === totalScenes - 1 ? 'FINAL_CLOSING' : 'MIDDLE_CONTINUATION',
@@ -447,8 +501,17 @@ app.post('/api/director/enrich', async (c) => {
       productLock += ', matching the attached product reference image exactly';
     }
 
+    // Later episodes keep the world locked from episode 1; the model may not rewrite it.
+    const worldLocked = isSeries && Boolean(normalized.continuity);
+    if (worldLocked) {
+      productLock = basePack.bible.productLock;
+    }
+
     const resolvedCharLock =
-      normalized.cast === 'person' && normalized.characterCustom?.trim() && parsed.characterLock
+      !worldLocked &&
+      normalized.cast === 'person' &&
+      normalized.characterCustom?.trim() &&
+      parsed.characterLock
         ? cleanSingleLinePrompt(stripEmojis(parsed.characterLock))
         : basePack.bible.characterLock;
 
@@ -456,8 +519,14 @@ app.post('/api/director/enrich', async (c) => {
       ...basePack.bible,
       productLock,
       characterLock: resolvedCharLock,
-      setting: parsed.setting ? cleanSingleLinePrompt(stripEmojis(parsed.setting)) : basePack.bible.setting,
-      lighting: parsed.lighting ? cleanSingleLinePrompt(stripEmojis(parsed.lighting)) : basePack.bible.lighting,
+      setting:
+        !worldLocked && parsed.setting
+          ? cleanSingleLinePrompt(stripEmojis(parsed.setting))
+          : basePack.bible.setting,
+      lighting:
+        !worldLocked && parsed.lighting
+          ? cleanSingleLinePrompt(stripEmojis(parsed.lighting))
+          : basePack.bible.lighting,
       source: 'llm',
     };
 
@@ -471,9 +540,7 @@ app.post('/api/director/enrich', async (c) => {
       if (asset.id === 'character' && bible.characterLock) {
         return {
           ...asset,
-          prompt: cleanSingleLinePrompt(
-            `Clean character model reference portrait of ${bible.characterLock}, rendered in ${selectedVideoStyle.assetStyleEn}, waist-up front-facing natural pose showing full face, hair, and upper outfit clearly, solid clean neutral background, sharp consistent character sheet details, no text, no watermark.`
-          ),
+          prompt: buildCharacterAssetPrompt(bible.characterLock, selectedVideoStyle, bible.palette),
         };
       }
       return asset;
@@ -486,6 +553,7 @@ app.post('/api/director/enrich', async (c) => {
         totalScenes: basePack.scenes.length,
         prevLabel: idx > 0 ? basePack.scenes[idx - 1].label : undefined,
         nextLabel: idx < basePack.scenes.length - 1 ? basePack.scenes[idx + 1].label : undefined,
+        episodeNumber: basePack.episode?.number,
       };
       if (!match) {
         const rebuilt: Scene = { ...sc };
@@ -515,13 +583,34 @@ app.post('/api/director/enrich', async (c) => {
             .slice(0, 6)
         : basePack.hashtags;
 
+    let episode = basePack.episode;
+    if (episode) {
+      const last = scenes[scenes.length - 1];
+      episode = {
+        ...episode,
+        summaryId: parsed.episodeSummaryId
+          ? stripEmojis(parsed.episodeSummaryId)
+          : episode.summaryId,
+        cliffhangerId: parsed.cliffhangerId
+          ? stripEmojis(parsed.cliffhangerId)
+          : last.dialogue || episode.cliffhangerId,
+        previouslyId:
+          episode.number > 1 && scenes[0].dialogue ? scenes[0].dialogue : episode.previouslyId,
+        endStateEn: describeEndState(last.actionEn, bible),
+      };
+    }
+
     const enrichedBase: Omit<Pack, 'steps' | 'guideUpdatedAt'> = {
       ...basePack,
       bible,
       assets,
       scenes,
-      caption,
-      hashtags,
+      caption:
+        episode && parsed.captionId
+          ? `Part ${episode.number} · ${episode.seriesTitle} — ${caption} Lanjut ke part ${episode.number + 1}, follow biar nggak ketinggalan!`
+          : caption,
+      hashtags: episode ? [...hashtags.slice(0, 3), `#part${episode.number}`, '#bersambung'] : hashtags,
+      episode,
     };
 
     const finalPack: Pack = {
@@ -608,6 +697,10 @@ if (fs.existsSync(clientDist)) {
   app.use('/assets/*', async (c, next) => {
     await next();
     c.header('Cache-Control', 'public, max-age=31536000, immutable');
+  });
+  app.use('/showcase/*', async (c, next) => {
+    await next();
+    c.header('Cache-Control', 'public, max-age=604800');
   });
   app.use('/style-previews/*', async (c, next) => {
     await next();

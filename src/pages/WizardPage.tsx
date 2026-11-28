@@ -57,6 +57,7 @@ import type {
   Project,
   QualityTier,
   SellingStyle,
+  SeriesMode,
   VibeId,
   VideoStyleId,
   VoiceChoice,
@@ -190,10 +191,15 @@ export function WizardPage() {
       aspect: brand.defaultAspect || '9:16',
       quality: brand.defaultQuality || 'seimbang',
       seamlessChain: brand.defaultSeamlessChain ?? false,
+      seriesMode: 'single',
+      seriesTitle: '',
+      episodeGoal: '',
     };
   });
 
   const contentMode: ContentMode = answers.contentMode ?? 'creator';
+  const seriesMode: SeriesMode = answers.seriesMode === 'series' ? 'series' : 'single';
+  const isSeries = seriesMode === 'series';
   const isMarketing = contentMode === 'marketing';
   const sellingStyle: SellingStyle = answers.sellingStyle ?? 'soft';
   const modeTemplates = useMemo(
@@ -338,25 +344,33 @@ export function WizardPage() {
     }
     setGenerating(true);
     try {
+      // A new series always starts at Part 1; later parts are made from the project page.
+      const finalAnswers: Answers = isSeries
+        ? { ...answers, seriesMode: 'series', episodeNumber: answers.episodeNumber ?? 1 }
+        : { ...answers, seriesMode: 'single' };
       const { pack } = await generatePackSmart(
         activeTemplate.id,
-        answers,
+        finalAnswers,
         Boolean(health.llmAvailable)
       );
       const now = new Date().toISOString();
       const id = existingDraft?.id ?? `proj-${Date.now().toString(36)}`;
       const project: Project = {
         id,
-        name: answers.product.trim(),
+        name: isSeries ? pack.title : answers.product.trim(),
         templateId: activeTemplate.id,
         templateName: activeTemplate.name,
         art: activeTemplate.art,
         status: 'panduan',
-        answers,
+        answers: finalAnswers,
         pack,
         completedStepIds: [],
         createdAt: existingDraft?.createdAt ?? now,
         updatedAt: now,
+        seriesId: isSeries
+          ? existingDraft?.seriesId ?? `series-${Date.now().toString(36)}`
+          : undefined,
+        episodeNumber: isSeries ? pack.episode?.number ?? 1 : undefined,
       };
       upsertProject(project);
       pushToast('Urutan prompt & panduan langkah sudah siap!', 'success');
@@ -582,6 +596,75 @@ export function WizardPage() {
                   />
                 </div>
               )}
+
+              <div className="flex flex-col gap-2 rounded-xl border-2 border-[var(--border-strong)] bg-[var(--bg-subtle)] p-3.5">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[13px] font-bold text-[var(--text-primary)]">
+                    Jenis video:
+                  </span>
+                  <Tag tone={isSeries ? 'brand' : 'neutral'}>
+                    {isSeries ? 'Bisa dilanjut Part 2, 3, dst.' : 'Sekali jadi'}
+                  </Tag>
+                </div>
+                <SegmentedControl<SeriesMode>
+                  fullWidth
+                  tall
+                  value={seriesMode}
+                  onChange={(val) => updateAnswer('seriesMode', val)}
+                  items={[
+                    {
+                      value: 'single',
+                      label: 'Video Biasa',
+                      sub: 'Satu video utuh, selesai di satu bagian',
+                    },
+                    {
+                      value: 'series',
+                      label: 'Video Berseri (Episode)',
+                      sub: 'Cerita bersambung, tiap part ditutup cliffhanger',
+                    },
+                  ]}
+                />
+                {isSeries && (
+                  <div className="mt-1 grid gap-3 sm:grid-cols-2">
+                    <div className="flex flex-col gap-1.5">
+                      <label
+                        htmlFor="series-title"
+                        className="text-[13px] font-bold text-[var(--text-primary)]"
+                      >
+                        Judul seri · opsional
+                      </label>
+                      <input
+                        id="series-title"
+                        type="text"
+                        value={answers.seriesTitle ?? ''}
+                        onChange={(e) => updateAnswer('seriesTitle', e.target.value)}
+                        placeholder="Contoh: Diary Anak Kos"
+                        className="h-11 w-full rounded-xl border-2 border-[var(--border-strong)] bg-[var(--bg-surface)] px-3.5 text-[14px] font-semibold text-[var(--text-primary)] placeholder:font-normal placeholder:text-[var(--text-tertiary)] focus:outline-none focus:shadow-[var(--focus-ring)]"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label
+                        htmlFor="episode-goal"
+                        className="text-[13px] font-bold text-[var(--text-primary)]"
+                      >
+                        Apa yang terjadi di Part 1? · opsional
+                      </label>
+                      <input
+                        id="episode-goal"
+                        type="text"
+                        value={answers.episodeGoal ?? ''}
+                        onChange={(e) => updateAnswer('episodeGoal', e.target.value)}
+                        placeholder="Contoh: Hari pertama pindah ke kos baru"
+                        className="h-11 w-full rounded-xl border-2 border-[var(--border-strong)] bg-[var(--bg-surface)] px-3.5 text-[14px] font-semibold text-[var(--text-primary)] placeholder:font-normal placeholder:text-[var(--text-tertiary)] focus:outline-none focus:shadow-[var(--focus-ring)]"
+                      />
+                    </div>
+                    <p className="text-[12.5px] leading-snug text-[var(--text-secondary)] sm:col-span-2">
+                      Karakter, latar, dan cahaya dari Part 1 dikunci. Setelah panduannya jadi, tekan{' '}
+                      <strong>Buat Part 2</strong> di halaman proyek untuk melanjutkan cerita.
+                    </p>
+                  </div>
+                )}
+              </div>
 
               <div className="grid gap-3 sm:grid-cols-2">
                 {modeTemplates.map((tpl) => {
@@ -849,6 +932,7 @@ export function WizardPage() {
                       : 'Konten Biasa (Kreator)'}
                   </Tag>
                   <Tag tone="brand">{currentVideoStyle.name}</Tag>
+                  {isSeries && <Tag>Seri · Part 1</Tag>}
                 </div>
                 <h1 className="font-display text-[22px] sm:text-[25px] font-bold text-[var(--text-primary)]">
                   {isMarketing
@@ -1316,6 +1400,12 @@ export function WizardPage() {
                   <span>Ringkasan StudioFlow: {answers.product || 'Produk Kamu'}</span>
                 </div>
                 <div className="font-medium text-[var(--text-primary)]">
+                  {isSeries && (
+                    <>
+                      Seri: <strong>{answers.seriesTitle?.trim() || answers.product || 'Tanpa judul'}</strong>{' '}
+                      · Part 1 ·{' '}
+                    </>
+                  )}
                   Style: <strong>{currentVideoStyle.name}</strong> · Hook:{' '}
                   <strong>{currentHook.name}</strong> · {plan.roles.length} klip (
                   {answers.durationS === 60 ? '1 menit' : `${answers.durationS}s`} ·{' '}
@@ -1326,7 +1416,7 @@ export function WizardPage() {
           )}
 
           {/* Step Footer */}
-          <div className="mt-7 flex items-center justify-between gap-3 border-t-2 border-[var(--border-strong)] pt-5">
+          <div className="mt-7 flex flex-wrap items-center justify-between gap-3 border-t-2 border-[var(--border-strong)] pt-5">
             {step > 1 ? (
               <Button
                 variant="secondary"

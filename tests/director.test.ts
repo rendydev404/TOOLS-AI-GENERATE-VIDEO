@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  buildNextEpisodeAnswers,
   createOfflineSceneVariation,
   exportBatchPacksAsCsv,
   exportPackAsMarkdown,
@@ -263,5 +264,135 @@ describe('Rangkai Director Engine', () => {
         }
       });
     }
+  });
+});
+
+describe('UGC realism', () => {
+  const ugcTpl = getTemplateById('ugc-affiliate')!;
+  const ugcAnswers: Answers = {
+    ...BASE_ANSWERS,
+    contentMode: 'marketing',
+    sellingStyle: 'soft',
+    product: 'Serum Glowing Aurel',
+    cast: 'person',
+    characterId: 'sinta',
+    voice: 'dialog',
+  };
+
+  it('locks phone-camera, skin and speech realism into every scene for the UGC phone style', () => {
+    const pack = generateOfflinePack(ugcTpl, { ...ugcAnswers, videoStyle: 'real-ugc' });
+    for (const sc of pack.scenes) {
+      expect(sc.prompt).toContain('UGC REALISM LOCK');
+      expect(sc.prompt).toContain('HUMAN REALISM');
+      expect(sc.prompt).toContain('AVOID: CGI or 3D-render look');
+      expect(sc.prompt).toContain('voice note to a friend');
+      expect(sc.prompt).toContain('kept barely audible under the voice');
+    }
+    const charAsset = pack.assets.find((x) => x.id === 'character');
+    expect(charAsset?.prompt).toContain('Candid unretouched smartphone photo');
+  });
+
+  it('adds human realism only (not the phone camera look) to the UGC template in another photoreal style', () => {
+    const pack = generateOfflinePack(ugcTpl, { ...ugcAnswers, videoStyle: 'real-live' });
+    expect(pack.scenes[0].prompt).toContain('HUMAN REALISM');
+    expect(pack.scenes[0].prompt).not.toContain('UGC REALISM LOCK');
+  });
+
+  it('leaves stylized and non-UGC videos untouched', () => {
+    const cartoon = generateOfflinePack(ugcTpl, { ...ugcAnswers, videoStyle: 'kartun-3d' });
+    expect(cartoon.scenes[0].prompt).not.toContain('HUMAN REALISM');
+    const story = generateOfflinePack(getTemplateById('storytelling-konten')!, {
+      ...BASE_ANSWERS,
+      contentMode: 'creator',
+    });
+    expect(story.scenes[0].prompt).not.toContain('REALISM');
+    expect(story.bible.realismLock).toBeUndefined();
+  });
+});
+
+describe('Video berseri (episode)', () => {
+  const tpl = getTemplateById('storytelling-konten')!;
+  const ep1Answers: Answers = {
+    ...BASE_ANSWERS,
+    contentMode: 'creator',
+    product: 'Cerita Anak Kos',
+    cast: 'person',
+    characterId: 'raka',
+    voice: 'dialog',
+    seriesMode: 'series',
+    seriesTitle: 'Diary Anak Kos',
+    episodeGoal: 'Raka pindah ke kos baru',
+  };
+
+  it('keeps single videos exactly as before', () => {
+    const pack = generateOfflinePack(tpl, { ...ep1Answers, seriesMode: 'single' });
+    expect(pack.episode).toBeUndefined();
+    expect(pack.title).toBe('Cerita Anak Kos');
+    expect(pack.bible.seriesLock).toBeUndefined();
+    expect(pack.scenes[0].prompt).not.toContain('SERIES CONTINUITY');
+  });
+
+  it('builds Part 1 with a series lock in every scene and a cliffhanger ending', () => {
+    const pack = generateOfflinePack(tpl, ep1Answers);
+    expect(pack.title).toBe('Diary Anak Kos · Part 1');
+    expect(pack.episode?.number).toBe(1);
+    expect(pack.episode?.previouslyId).toBe('');
+    for (const sc of pack.scenes) {
+      expect(sc.prompt).toContain('SERIES CONTINUITY (Episode 1');
+    }
+    const last = pack.scenes[pack.scenes.length - 1];
+    expect(last.dialogue).toContain('part 2');
+    expect(last.prompt).toContain('suspenseful rising cliffhanger cadence');
+    expect(last.actionEn).toContain('open cliffhanger');
+    expect(pack.hashtags).toContain('#part1');
+    expect(pack.steps[0].title).toBe('Buka Google Flow & Buat Proyek Baru');
+  });
+
+  it('continues Part 2 in the same locked world with a recap cold open and new middle beats', () => {
+    const part1 = generateOfflinePack(tpl, ep1Answers);
+    const next = buildNextEpisodeAnswers(ep1Answers, part1, 'Ternyata tetangga kosnya teman lama');
+    // A changed vibe must not move the series to a different place or light.
+    const part2 = generateOfflinePack(tpl, { ...next, vibe: 'mewah' });
+
+    expect(part2.episode?.number).toBe(2);
+    expect(part2.title).toBe('Diary Anak Kos · Part 2');
+    expect(part2.bible.characterLock).toBe(part1.bible.characterLock);
+    expect(part2.bible.setting).toBe(part1.bible.setting);
+    expect(part2.bible.lighting).toBe(part1.bible.lighting);
+
+    const first = part2.scenes[0];
+    expect(first.dialogue).toContain('part 1 Raka pindah ke kos baru');
+    expect(first.dialogue).toContain('tetangga kosnya teman lama');
+    expect(first.prompt).toContain('Episode 2 Cold Open');
+    expect(first.actionEn).toContain('continues directly from the final moment of the previous episode');
+    expect(first.tips.join(' ')).toContain('Save frame');
+
+    const middle1 = part1.scenes.slice(1, -1).map((s) => s.role);
+    const middle2 = part2.scenes.slice(1, -1).map((s) => s.role);
+    expect(middle2).not.toEqual(middle1);
+    expect(part2.scenes.length).toBe(part1.scenes.length);
+
+    expect(part2.steps[0].title).toContain('Buka Proyek Seri');
+    expect(part2.steps[0].substeps.join(' ')).toContain('Jangan buat proyek baru');
+    expect(part2.scenes[part2.scenes.length - 1].dialogue).toContain('part 3');
+  });
+
+  it('keeps at most 3 recaps and updates the hand-off when scenes are edited', () => {
+    let answers = ep1Answers;
+    let pack = generateOfflinePack(tpl, answers);
+    for (let i = 0; i < 4; i++) {
+      answers = buildNextEpisodeAnswers(answers, pack, `Kejadian ${i + 2}`);
+      pack = generateOfflinePack(tpl, answers);
+    }
+    expect(pack.episode?.number).toBe(5);
+    expect(answers.previousEpisodes?.map((r) => r.number)).toEqual([2, 3, 4]);
+
+    const edited = recalculatePack(
+      { ...pack, scenes: pack.scenes.slice(0, -1) },
+      answers
+    );
+    const newLast = edited.scenes[edited.scenes.length - 1];
+    expect(edited.episode?.cliffhangerId).toBe(newLast.dialogue);
+    expect(edited.scenes[0].prompt).toContain('Episode 5 Cold Open');
   });
 });

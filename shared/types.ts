@@ -7,6 +7,34 @@ export type MusicChoice = 'santai' | 'upbeat' | 'akustik' | 'none';
 export type CastChoice = 'product' | 'person';
 export type VoiceChoice = 'none' | 'dialog' | 'narasi';
 export type DurationChoice = 15 | 20 | 30 | 60;
+/** 'single' = video sekali jadi, 'series' = video berseri yang bisa dilanjut per episode. */
+export type SeriesMode = 'single' | 'series';
+
+/** Ringkasan satu episode yang sudah dibuat, dipakai sebagai "story so far" episode berikutnya. */
+export interface EpisodeRecap {
+  number: number;
+  title: string;
+  /** Kejadian utama episode itu menurut pengguna (boleh kosong). */
+  goalId?: string;
+  /** Ringkasan isi episode dalam Bahasa Indonesia (1-2 kalimat). */
+  summaryId: string;
+  /** Kejadian / kalimat penutup terakhir yang menggantung (cliffhanger). */
+  cliffhangerId: string;
+  /** Keadaan visual adegan terakhir (English), untuk menyambung adegan pembuka episode berikutnya. */
+  endStateEn: string;
+}
+
+/** Kunci dunia cerita dari episode sebelumnya supaya karakter, latar & cahaya tidak berubah. */
+export interface SeriesContinuity {
+  characterName?: string;
+  characterLock?: string;
+  characterVoiceLock?: string;
+  productLock: string;
+  setting: string;
+  lighting: string;
+  palette: string;
+  style: string;
+}
 
 export type VideoStyleId =
   | 'real-live'
@@ -49,6 +77,30 @@ export interface Answers {
   aspect: AspectRatio;
   quality: QualityTier;
   seamlessChain?: boolean;
+  /** Bawaan 'single'. */
+  seriesMode?: SeriesMode;
+  /** Judul seri, mis. "Cerita Anak Kos". Bawaan: nama topik/produk. */
+  seriesTitle?: string;
+  /** Nomor episode yang sedang dibuat (mulai 1). */
+  episodeNumber?: number;
+  /** Apa yang terjadi di episode ini (opsional, dari pengguna). */
+  episodeGoal?: string;
+  /** Rekap episode sebelumnya, terbaru di akhir (maks 3 disimpan). */
+  previousEpisodes?: EpisodeRecap[];
+  /** Kunci dunia cerita dari episode 1; diisi otomatis saat membuat lanjutan. */
+  continuity?: SeriesContinuity;
+}
+
+export interface EpisodeInfo {
+  seriesTitle: string;
+  number: number;
+  /** Rekap singkat "sebelumnya" yang dibacakan di adegan 1 (kosong untuk episode 1). */
+  previouslyId: string;
+  /** Cliffhanger penutup episode ini. */
+  cliffhangerId: string;
+  /** Ringkasan episode ini untuk dipakai episode berikutnya. */
+  summaryId: string;
+  endStateEn: string;
 }
 
 export interface Bible {
@@ -69,6 +121,14 @@ export interface Bible {
   setting: string;
   music: string;
   source: 'offline' | 'llm';
+  /** Arahan realisme tambahan (mis. UGC kamera HP), disisipkan di setiap prompt adegan. */
+  realismLock?: string;
+  /** Cara bicara yang natural untuk realisme (mis. UGC). */
+  speechRealism?: string;
+  /** Larangan tambahan khusus style (mis. kulit plastik, CGI). */
+  negativeExtra?: string;
+  /** Kunci kesinambungan seri (episode ke-N dari judul seri). */
+  seriesLock?: string;
 }
 
 export interface Asset {
@@ -143,6 +203,8 @@ export interface Pack {
   hashtags: string[];
   steps: GuideStep[];
   guideUpdatedAt: string;
+  /** Ada hanya untuk video berseri. */
+  episode?: EpisodeInfo;
 }
 
 export interface TemplateRole {
@@ -192,6 +254,9 @@ export interface Project {
   completedStepIds: string[];
   createdAt: string;
   updatedAt: string;
+  /** Semua episode dalam satu seri berbagi seriesId yang sama. */
+  seriesId?: string;
+  episodeNumber?: number;
 }
 
 export interface LibraryItem {

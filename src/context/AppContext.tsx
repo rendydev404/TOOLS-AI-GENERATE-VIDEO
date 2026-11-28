@@ -178,6 +178,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           ...structuredClone(src),
           id: `proj-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`,
           name: `${src.name} (Salinan)`,
+          // A copied episode starts its own branch so the original series keeps one Part per number.
+          seriesId: src.seriesId ? `series-${Date.now().toString(36)}` : undefined,
           completedStepIds: [],
           status: src.pack ? 'panduan' : 'draf',
           createdAt: now,

@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
   ArrowLeft,
   ArrowRight,
+  BookOpen,
   Check,
   CheckCircle2,
   ChevronDown,
@@ -18,6 +19,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 import {
+  buildNextEpisodeAnswers,
   CAMERA_PRESETS,
   CHARACTERS,
   type CharacterSwapSelection,
@@ -27,8 +29,8 @@ import {
   swapPackCharacter,
   VIDEO_STYLES,
 } from '@shared/director';
-import type { Scene } from '@shared/types';
-import { downloadTextFile, generateVariationSmart } from '@/lib/api';
+import type { Project, Scene } from '@shared/types';
+import { downloadTextFile, generatePackSmart, generateVariationSmart } from '@/lib/api';
 import { AppShell } from '@/components/layout/AppShell';
 import {
   Button,
@@ -62,6 +64,18 @@ export function ProjectDetailPage() {
     () => library.filter((item) => item.kind === 'character'),
     [library]
   );
+  const seriesEpisodes = useMemo(
+    () =>
+      project?.seriesId
+        ? projects
+            .filter((p) => p.seriesId === project.seriesId)
+            .sort((a, b) => (a.episodeNumber ?? 0) - (b.episodeNumber ?? 0))
+        : [],
+    [projects, project?.seriesId]
+  );
+  const [nextEpOpen, setNextEpOpen] = useState(false);
+  const [nextEpGoal, setNextEpGoal] = useState('');
+  const [nextEpBusy, setNextEpBusy] = useState(false);
 
   const initialTab: WorkspaceTab = searchParams.get('tab') === 'adegan' ? 'adegan' : 'panduan';
   const [activeTab, setActiveTab] = useState<WorkspaceTab>(initialTab);
@@ -100,7 +114,7 @@ export function ProjectDetailPage() {
             <Button variant="secondary" onClick={() => navigate('/proyek')}>
               Proyek Saya
             </Button>
-            <Button onClick={() => navigate('/')}>Buat Video Baru</Button>
+            <Button onClick={() => navigate('/buat')}>Buat Video Baru</Button>
           </div>
         </div>
       </AppShell>
@@ -282,6 +296,52 @@ export function ProjectDetailPage() {
     }
   };
 
+  const episode = pack.episode;
+  const latestEpisode = seriesEpisodes[seriesEpisodes.length - 1];
+  const isLatestEpisode = !latestEpisode || latestEpisode.id === project.id;
+  const nextNumber = (episode?.number ?? 1) + 1;
+
+  const handleCreateNextEpisode = async () => {
+    setNextEpBusy(true);
+    try {
+      const nextAnswers = buildNextEpisodeAnswers(project.answers, pack, nextEpGoal);
+      const { pack: nextPack } = await generatePackSmart(
+        project.templateId,
+        nextAnswers,
+        Boolean(health.llmAvailable)
+      );
+      const now = new Date().toISOString();
+      const seriesId = project.seriesId ?? `series-${Date.now().toString(36)}`;
+      if (!project.seriesId) {
+        upsertProject({ ...project, seriesId, episodeNumber: episode?.number ?? 1 });
+      }
+      const nextProject: Project = {
+        id: `proj-${Date.now().toString(36)}`,
+        name: nextPack.title,
+        templateId: project.templateId,
+        templateName: project.templateName,
+        art: project.art,
+        status: 'panduan',
+        answers: nextAnswers,
+        pack: nextPack,
+        completedStepIds: [],
+        createdAt: now,
+        updatedAt: now,
+        seriesId,
+        episodeNumber: nextPack.episode?.number ?? nextNumber,
+      };
+      upsertProject(nextProject);
+      setNextEpOpen(false);
+      setNextEpGoal('');
+      pushToast(`Part ${nextProject.episodeNumber} siap! Karakter & latar tetap sama.`, 'success');
+      navigate(`/proyek/${nextProject.id}`);
+    } catch (err) {
+      pushToast(err instanceof Error ? err.message : 'Gagal membuat part berikutnya', 'danger');
+    } finally {
+      setNextEpBusy(false);
+    }
+  };
+
   const slug =
     project.name
       .toLowerCase()
@@ -296,6 +356,7 @@ export function ProjectDetailPage() {
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
               <div className="flex flex-wrap items-center gap-1.5 mb-2">
+                {episode && <Tag tone="purple">Seri · Part {episode.number}</Tag>}
                 <Tag tone="brand">{pack.bible.videoStyleName || 'Realistis'}</Tag>
                 {pack.bible.hookStrategyName && (
                   <Tag tone="purple">Hook: {pack.bible.hookStrategyName}</Tag>
@@ -384,6 +445,78 @@ export function ProjectDetailPage() {
             </div>
           </div>
         </div>
+
+        {/* ==================== SERIES: EPISODE LIST & NEXT PART ==================== */}
+        {episode && (
+          <div className="neo-card rounded-2xl p-5">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-wider text-[var(--accent-purple)]">
+                  <BookOpen size={14} strokeWidth={2.5} />
+                  Video berseri
+                </div>
+                <h2 className="mt-1 font-display text-[18px] font-bold text-[var(--text-primary)]">
+                  {episode.seriesTitle}
+                </h2>
+              </div>
+              {isLatestEpisode ? (
+                <Button
+                  icon={<Plus size={15} strokeWidth={2.6} />}
+                  onClick={() => setNextEpOpen(true)}
+                >
+                  Buat Part {nextNumber}
+                </Button>
+              ) : (
+                <Button
+                  variant="secondary"
+                  icon={<ArrowRight size={15} strokeWidth={2.6} />}
+                  onClick={() => navigate(`/proyek/${latestEpisode.id}`)}
+                >
+                  Ke Part {latestEpisode.episodeNumber}
+                </Button>
+              )}
+            </div>
+
+            {seriesEpisodes.length > 1 && (
+              <nav aria-label="Daftar part" className="mt-3 flex flex-wrap gap-2">
+                {seriesEpisodes.map((ep) => {
+                  const current = ep.id === project.id;
+                  return (
+                    <Link
+                      key={ep.id}
+                      to={`/proyek/${ep.id}`}
+                      aria-current={current ? 'page' : undefined}
+                      className={`rounded-lg border-2 border-[var(--border-strong)] px-3 py-1.5 text-[13px] font-bold ${
+                        current
+                          ? 'bg-[var(--brand-primary)] text-[#111111] shadow-[var(--shadow-xs)]'
+                          : 'bg-[var(--bg-surface)] text-[var(--text-primary)] hover:bg-[var(--bg-subtle)]'
+                      }`}
+                    >
+                      Part {ep.episodeNumber}
+                    </Link>
+                  );
+                })}
+              </nav>
+            )}
+
+            <div className="mt-3 grid gap-2 text-[13.5px] sm:grid-cols-2">
+              {episode.previouslyId && (
+                <div className="rounded-xl border-2 border-[var(--border-soft)] bg-[var(--bg-subtle)] p-3">
+                  <div className="text-[12px] font-bold text-[var(--text-tertiary)]">Pembuka (rekap)</div>
+                  <p className="mt-1 leading-snug text-[var(--text-primary)]">{episode.previouslyId}</p>
+                </div>
+              )}
+              <div
+                className={`rounded-xl border-2 border-[var(--border-soft)] bg-[var(--bg-subtle)] p-3 ${
+                  episode.previouslyId ? '' : 'sm:col-span-2'
+                }`}
+              >
+                <div className="text-[12px] font-bold text-[var(--text-tertiary)]">Penutup (cliffhanger)</div>
+                <p className="mt-1 leading-snug text-[var(--text-primary)]">{episode.cliffhangerId}</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* ==================== TAB 1: ONE-STEP-AT-A-TIME FOCUS GUIDE ==================== */}
         {activeTab === 'panduan' && activeStep && (
@@ -734,6 +867,54 @@ export function ProjectDetailPage() {
           </div>
         )}
       </div>
+
+      <CustomModal
+        open={nextEpOpen}
+        onClose={() => !nextEpBusy && setNextEpOpen(false)}
+        title={`Buat Part ${nextNumber}${episode ? ` · ${episode.seriesTitle}` : ''}`}
+        description="Karakter, pakaian, latar, cahaya, dan style dari part sebelumnya dikunci. Part baru dibuka dengan rekap singkat, lalu ditutup cliffhanger lagi."
+        maxWidth="max-w-xl"
+        footer={
+          <>
+            <Button variant="secondary" disabled={nextEpBusy} onClick={() => setNextEpOpen(false)}>
+              Batal
+            </Button>
+            <Button
+              icon={<ArrowRight size={15} strokeWidth={2.6} />}
+              disabled={nextEpBusy}
+              onClick={handleCreateNextEpisode}
+            >
+              {nextEpBusy ? 'Menyusun...' : `Buat Part ${nextNumber}`}
+            </Button>
+          </>
+        }
+      >
+        <div className="flex flex-col gap-3">
+          {episode?.cliffhangerId && (
+            <div className="rounded-xl border-2 border-[var(--border-soft)] bg-[var(--bg-subtle)] p-3 text-[13.5px]">
+              <div className="text-[12px] font-bold text-[var(--text-tertiary)]">
+                Part {episode.number} berakhir di
+              </div>
+              <p className="mt-1 leading-snug text-[var(--text-primary)]">{episode.cliffhangerId}</p>
+            </div>
+          )}
+          <label htmlFor="next-ep-goal" className="text-[14px] font-bold text-[var(--text-primary)]">
+            Apa yang terjadi di Part {nextNumber}? · opsional
+          </label>
+          <textarea
+            id="next-ep-goal"
+            rows={3}
+            value={nextEpGoal}
+            onChange={(e) => setNextEpGoal(e.target.value)}
+            placeholder="Contoh: Ternyata tetangga kos sebelah orang yang dulu aku kenal"
+            className="w-full resize-none rounded-xl border-2 border-[var(--border-strong)] bg-[var(--bg-surface)] px-3.5 py-3 text-[14px] font-medium text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none focus:shadow-[var(--focus-ring)]"
+          />
+          <p className="text-[12.5px] leading-snug text-[var(--text-secondary)]">
+            Kosongkan kalau mau ceritanya dilanjutkan otomatis. Isi satu kalimat kejadian utama supaya
+            alurnya sesuai keinginanmu.
+          </p>
+        </div>
+      </CustomModal>
 
       <CustomModal
         open={charModalOpen}

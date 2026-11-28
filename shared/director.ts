@@ -5,6 +5,7 @@ import type {
   Asset,
   Bible,
   ContentMode,
+  EpisodeRecap,
   GuideStep,
   HookStrategyId,
   Pack,
@@ -52,10 +53,10 @@ export const VIDEO_STYLES: Record<VideoStyleId, VideoStylePreset> = {
     previewImage: '/style-previews/real-ugc.webp',
     previewCaption: 'Contoh Matahari: rekaman jujur kamera HP dari balkon rumah sehari-hari.',
     mediumLock:
-      'Authentic casual smartphone video recording aesthetic, iPhone front/rear camera natural lens look, genuine everyday indoor daylight, organic handheld micro-shake, raw believable social media creator realism',
+      'Genuine unedited vertical smartphone video filmed by a real person, not a production: phone camera at arm\'s length with a 24-26mm wide smartphone lens look, deep phone-sensor depth of field, auto-exposure and auto white balance that shift slightly with movement, faint sensor noise in shadows, organic handheld micro-jitter, raw believable everyday social-media realism',
     assetStyleEn:
-      'clean natural smartphone reference photo in soft window daylight, authentic unretouched everyday realism',
-    characterAdapterEn: 'natural everyday creator appearance captured on smartphone camera',
+      'candid unretouched smartphone photo taken in soft window daylight inside a real lived-in room, true-to-life skin texture with visible pores, no beauty filter, no studio lighting',
+    characterAdapterEn: 'real everyday Indonesian person filmed on a phone camera, no makeup glamour',
   },
   'kartun-3d': {
     id: 'kartun-3d',
@@ -687,6 +688,61 @@ const ADV_EN: Record<string, string> = {
   awet: 'long-lasting quality',
 };
 
+// ---------- UGC Realism (kamera HP asli, kulit & perilaku manusia nyata) ----------
+const UGC_CAMERA_REALISM =
+  'UGC REALISM LOCK — a real person\'s own phone video, never an ad shoot: phone held or propped on a shelf, slightly off-center framing with small reframing; only available real-world light (window daylight or a ceiling lamp), no studio lights; a real lived-in Indonesian room with ordinary believable clutter';
+const UGC_HUMAN_REALISM =
+  'HUMAN REALISM: true-to-life skin with visible pores, faint blemishes, natural shine and stray baby hairs; natural asymmetric face; normal blinking, small head tilts, glancing at the product or away while thinking, spontaneous small smiles; anatomically correct hands';
+const UGC_SPEECH_REALISM =
+  'unscripted casual delivery like a voice note to a friend, natural micro-pauses and breaths, light Indonesian fillers (eh, jujur, nah), recorded by the phone\'s built-in mic with soft room reverb, never an announcer voice';
+const UGC_NEGATIVES_FULL =
+  'AVOID: CGI or 3D-render look, waxy airbrushed skin, beauty filter, doll-like symmetrical face, studio or rim light, cinematic color grade, cinema bokeh, slow motion, lens flares, gimbal or drone moves, model posing, warped hands, morphing product logo.';
+const UGC_NEGATIVES_HUMAN =
+  'AVOID: waxy plastic or airbrushed skin, beauty-filter smoothing, perfectly symmetrical doll face, model-like posing, warped hands or extra fingers, morphing product logo.';
+
+const PHOTOREAL_STYLES: VideoStyleId[] = ['real-live', 'real-ugc', 'iklan-studio'];
+
+/**
+ * Realism for UGC: the phone-camera style gets the full lock; the UGC template filmed in another
+ * photoreal style gets human/skin/speech realism only (its camera look stays as chosen).
+ */
+export function resolveRealism(
+  videoStyle: VideoStyleId,
+  templateId?: string
+): Pick<Bible, 'realismLock' | 'speechRealism' | 'negativeExtra'> {
+  if (videoStyle === 'real-ugc') {
+    return {
+      realismLock: `${UGC_CAMERA_REALISM}. ${UGC_HUMAN_REALISM}`,
+      speechRealism: UGC_SPEECH_REALISM,
+      negativeExtra: UGC_NEGATIVES_FULL,
+    };
+  }
+  if (templateId === 'ugc-affiliate' && PHOTOREAL_STYLES.includes(videoStyle)) {
+    return {
+      realismLock: UGC_HUMAN_REALISM,
+      speechRealism: UGC_SPEECH_REALISM,
+      negativeExtra: UGC_NEGATIVES_HUMAN,
+    };
+  }
+  return {};
+}
+
+export function buildCharacterAssetPrompt(
+  characterLock: string,
+  vStyle: VideoStylePreset,
+  palette?: string
+): string {
+  if (vStyle.id === 'real-ugc') {
+    return cleanSingleLinePrompt(
+      `Candid unretouched smartphone photo of ${characterLock}, rendered as ${vStyle.assetStyleEn}, waist-up facing the phone camera naturally with full face, hair, and upper outfit clearly visible, plain lived-in room background, true-to-life skin with visible pores, no text, no watermark.`
+    );
+  }
+  const bg = palette ? `solid clean neutral background matching ${palette}` : 'solid clean neutral background';
+  return cleanSingleLinePrompt(
+    `Clean character model reference portrait of ${characterLock}, rendered in ${vStyle.assetStyleEn}, waist-up front-facing natural pose showing full face, hair, and upper outfit clearly, ${bg}, sharp consistent character sheet details, no text, no watermark.`
+  );
+}
+
 const NEGATIVES_START = 'NO SUBTITLES, NO CAPTIONS, NO TEXT OF ANY KIND ON SCREEN.';
 const NEGATIVES_END =
   'NO TEXT ON SCREEN: never add subtitles, captions, titles, watermarks, words or letters anywhere in the frame; keep product geometry, style consistency, and proportions locked.';
@@ -772,7 +828,81 @@ export function normalizeAnswers(input: Answers): Answers {
     a.cta = a.cta.trim();
   }
   a.advantages = (a.advantages || []).map((x) => x.trim()).filter(Boolean);
+  if (a.seriesMode === 'series') {
+    a.seriesTitle = (a.seriesTitle || '').trim() || a.product;
+    const n = Math.floor(Number(a.episodeNumber) || 1);
+    a.episodeNumber = Math.min(Math.max(n, 1), 99);
+    a.episodeGoal = (a.episodeGoal || '').trim();
+    a.previousEpisodes = (a.previousEpisodes || []).slice(-MAX_RECAPS);
+  } else {
+    a.seriesMode = 'single';
+    a.seriesTitle = undefined;
+    a.episodeNumber = undefined;
+    a.episodeGoal = undefined;
+    a.previousEpisodes = undefined;
+    a.continuity = undefined;
+  }
   return a;
+}
+
+const MAX_RECAPS = 3;
+
+function limitWords(text: string, max: number): string {
+  const words = text.replace(/\s+/g, ' ').trim().split(' ').filter(Boolean);
+  if (words.length <= max) return words.join(' ');
+  return `${words.slice(0, max).join(' ').replace(/[,;:]+$/, '')}...`;
+}
+
+function firstSentence(text: string): string {
+  const m = text.trim().match(/^[^.!?]+[.!?]/);
+  return (m ? m[0] : text).trim();
+}
+
+function stripTrailingPunct(text: string): string {
+  return text.trim().replace(/[.!?…]+$/, '');
+}
+
+function wordCount(text: string): number {
+  return text.trim().split(/\s+/).filter(Boolean).length;
+}
+
+/** First `max` words without ellipsis or trailing punctuation, for building spoken lines. */
+function clipWords(text: string, max: number): string {
+  return stripTrailingPunct(limitWords(stripTrailingPunct(text), max).replace(/\.\.\.$/, ''));
+}
+
+/** Lower-cases the first letter for mid-sentence use, except when the text starts with a name. */
+function lowerFirst(s: string, keepNames: Array<string | undefined> = []): string {
+  if (!s) return s;
+  const firstWord = s.split(/\s+/)[0].toLowerCase();
+  const names = keepNames.filter(Boolean).map((n) => n!.split(/\s+/)[0].toLowerCase());
+  if (names.includes(firstWord)) return s;
+  return s.charAt(0).toLowerCase() + s.slice(1);
+}
+
+/** Final visual moment of an episode, with the long character lock shortened to the name. */
+export function describeEndState(actionEn: string, bible: Pick<Bible, 'characterLock' | 'characterName'>): string {
+  let text = actionEn;
+  if (bible.characterLock) {
+    text = text.split(bible.characterLock).join(bible.characterName || 'the main character');
+  }
+  return limitWords(text, 45);
+}
+
+/**
+ * Episodes after the first rotate through the template's other middle beats so each part says
+ * something new even without the AI server; the opening hook and closing beat stay in place.
+ */
+function rotateMiddleRoles(template: Template, roles: string[], episodeNumber?: number): string[] {
+  if (!episodeNumber || episodeNumber <= 1 || roles.length < 3) return roles;
+  const first = roles[0];
+  const last = roles[roles.length - 1];
+  const pool = template.roles.map((r) => r.role).filter((r) => r !== first && r !== last);
+  const middleCount = roles.length - 2;
+  if (pool.length <= middleCount) return roles;
+  const start = ((episodeNumber - 1) * middleCount) % pool.length;
+  const middle = Array.from({ length: middleCount }, (_, k) => pool[(start + k) % pool.length]);
+  return [first, ...middle, last];
 }
 
 function applyPlaceholders(text: string, map: Record<string, string>): string {
@@ -792,6 +922,8 @@ export interface ScenePacingContext {
   totalScenes: number;
   prevLabel?: string;
   nextLabel?: string;
+  /** Nomor episode bila video berseri. */
+  episodeNumber?: number;
 }
 
 function buildPacingAndToneDirectives(ctx?: ScenePacingContext): {
@@ -804,6 +936,21 @@ function buildPacingAndToneDirectives(ctx?: ScenePacingContext): {
   const isLast = total > 1 && idx >= total - 1;
   const prevNote = ctx?.prevLabel ? ` from previous beat "${ctx.prevLabel}"` : '';
   const nextNote = ctx?.nextLabel ? ` into next beat "${ctx.nextLabel}"` : '';
+  const ep = ctx?.episodeNumber;
+
+  if (isFirst && ep && ep > 1) {
+    return {
+      visualPacing: `8-Second Clip Pacing (Episode ${ep} Cold Open, Scene 1 of ${total}): 0.0s-2.0s picks up instantly where the previous episode ended with the same pose, wardrobe and location, no re-introduction; 2.0s-6.5s a fresh complication or reveal pushes the story forward with lively expressive motion; 6.5s-8.0s forward-leaning handoff${nextNote} with no freeze.`,
+      vocalTone: `8-second spoken cadence (starts cleanly at 0.3s, fills 0.3s-7.4s with zero dead air, final word lands by 7.5s); OPENING TONE: quick confident "previously" recap in one breath as if the viewer already knows the character, never a fresh greeting; CLOSING TONE: curious forward-leaning intonation${nextNote} that keeps the story open`,
+    };
+  }
+
+  if (isLast && ep) {
+    return {
+      visualPacing: `8-Second Clip Pacing (Episode ${ep} Ending, Scene ${idx + 1} of ${total}): 0.0s-2.0s seamless continuation${prevNote}; 2.0s-6.0s small payoff of this episode, then a sudden unresolved twist, discovery or interruption; 6.0s-8.0s hold on a tense or surprised reaction looking toward the twist so the episode ends on an open loop.`,
+      vocalTone: `8-second spoken cadence (starts cleanly at 0.3s, fills 0.3s-7.3s, final word lands by 7.4s with a short charged pause until 8.0s); OPENING TONE: seamless continuation${prevNote} with the exact same voice and zero restart greeting; CLOSING TONE: suspenseful rising cliffhanger cadence that leaves the question unanswered and invites the viewer to the next part, never a finished resolved ending`,
+    };
+  }
 
   if (isFirst) {
     return {
@@ -842,12 +989,18 @@ export function buildSceneVideoPrompt(
 
   // 1. Medium / Video Style Lock comes FIRST so Veo 3.1 immediately locks 2D/3D/Minecraft/Live-Action medium
   parts.push(`Visual Medium & Render Style: ${bible.videoStyleLock}.`);
+  if (bible.realismLock) {
+    parts.push(`${bible.realismLock}.`);
+  }
 
   // 2. Forensic Character DNA Anchor placed at TOP HIGH-ATTENTION ZONE of EVERY SINGLE SCENE PROMPT!
   if (bible.characterLock) {
     parts.push(
       `LOCKED CHARACTER IDENTITY (SAME EXACT PERSON IN EVERY SCENE — KEEP IDENTICAL FACE, HAIR, AGE, EYEWEAR, SKIN TONE, AND OUTFIT): ${bible.characterLock}.`
     );
+  }
+  if (bible.seriesLock) {
+    parts.push(`${bible.seriesLock}.`);
   }
 
   if (scene.chainFromPrev) {
@@ -879,17 +1032,20 @@ export function buildSceneVideoPrompt(
 
   const audio: string[] = [];
   if (scene.sfx) audio.push(scene.sfx);
-  if (bible.music) audio.push(bible.music);
+  if (bible.music) {
+    audio.push(bible.speechRealism ? `${bible.music} kept barely audible under the voice` : bible.music);
+  }
+  const speechStyle = bible.speechRealism ? `; ${bible.speechRealism}` : '';
   if (scene.dialogue) {
     if (voice === 'narasi') {
       audio.push(
-        `a consistent clear engaging Indonesian narrator voice-over (${vocalTone}) says in natural Bahasa Indonesia: "${scene.dialogue}"`
+        `a consistent clear engaging Indonesian narrator voice-over (${vocalTone}${speechStyle}) says in natural Bahasa Indonesia: "${scene.dialogue}"`
       );
     } else {
       const voiceAnchor =
         bible.characterVoiceLock || 'consistent natural Indonesian voice timbre across all clips';
       audio.push(
-        `the exact same character ${bible.characterName || ''} speaks naturally in fluent Bahasa Indonesia (${voiceAnchor}; ${vocalTone}) with accurate lip sync and matching facial expressions: "${scene.dialogue}"`
+        `the exact same character ${bible.characterName || ''} speaks naturally in fluent Bahasa Indonesia (${voiceAnchor}; ${vocalTone}${speechStyle}) with accurate lip sync and matching facial expressions: "${scene.dialogue}"`
       );
     }
   }
@@ -903,6 +1059,9 @@ export function buildSceneVideoPrompt(
     );
   } else {
     parts.push(NEGATIVES_END);
+  }
+  if (bible.negativeExtra) {
+    parts.push(bible.negativeExtra);
   }
 
   return cleanSingleLinePrompt(parts.join(' '));
@@ -985,9 +1144,7 @@ function buildAssets(bible: Bible, a: Answers, vibe: VibePreset, vStyle: VideoSt
       name: `Gambar Patokan Karakter (${bible.characterName || 'Kreator'})`,
       upload: false,
       purpose: `Buat 1 potret patokan karakter "${bible.characterName || 'Kreator'}" bergaya "${vStyle.name}" (gratis 0 credit), lalu lampirkan terus sebagai Ingredients di setiap adegan agar wajah & pakaian 100% konsisten.`,
-      prompt: cleanSingleLinePrompt(
-        `Clean character model reference portrait of ${bible.characterLock}, rendered in ${vStyle.assetStyleEn}, waist-up front-facing natural pose showing full face, hair, and upper outfit clearly, solid clean neutral background matching ${vibe.palette}, sharp consistent character sheet details, no text, no watermark.`
-      ),
+      prompt: buildCharacterAssetPrompt(bible.characterLock, vStyle, vibe.palette),
     });
   }
 
@@ -1019,6 +1176,12 @@ function buildSceneTips(
   a: Answers
 ): string[] {
   const tips: string[] = [];
+  const ep = a.seriesMode === 'series' ? (a.episodeNumber ?? 1) : 0;
+  if (scene.idx === 0 && ep > 1) {
+    tips.push(
+      `Biar sambungannya mulus dari Part ${ep - 1}: buka klip terakhir Part ${ep - 1}, simpan frame paling akhirnya (Save frame), lalu pakai sebagai gambar Start di mode Frames untuk adegan ini.`
+    );
+  }
   if (scene.idx === 0) {
     tips.push(
       'Ini adalah Adegan Hook (3 detik penentu). Pilih hasil video yang gerakannya paling langsung menangkap mata sejak detik pertama.'
@@ -1075,27 +1238,50 @@ export function buildFlowSteps(
 ): GuideStep[] {
   const L = flowGuideData.labels;
   const steps: GuideStep[] = [];
+  const ep = pack.episode;
+  const isNextEpisode = Boolean(ep && ep.number > 1);
 
-  // 1. Persiapan proyek baru di Google Flow
-  steps.push({
-    id: 'step-prep-project',
-    phase: 'persiapan',
-    title: 'Buka Google Flow & Buat Proyek Baru',
-    instruction:
-      'Langkah pertama: siapkan ruang kerja kosong di Google Flow supaya semua gambar patokan dan video terkumpul rapi.',
-    substeps: [
-      `Klik tombol "Buka Google Flow" di atas untuk membuka halaman Flow dalam Bahasa Inggris.`,
-      `Klik tombol "${L.newProject}".`,
-      `Klik judul proyek di pojok kiri atas (${L.projectTitle}), ketik "${pack.title}", lalu tekan Enter.`,
-      `Di kotak ketik bawah, pastikan tombol "${L.agentToggle}" posisi MATI (tidak biru).`,
-    ],
-    buttons: [
-      { label: L.newProject, kind: 'button' },
-      { label: L.agentToggle, kind: 'button' },
-    ],
-    credits: 0,
-    tips: [flowGuideData.commonTips.agentOff],
-  });
+  // 1. Persiapan proyek di Google Flow (episode lanjutan memakai proyek seri yang sama)
+  if (ep && isNextEpisode) {
+    steps.push({
+      id: 'step-prep-project',
+      phase: 'persiapan',
+      title: `Buka Proyek Seri "${ep.seriesTitle}" di Google Flow`,
+      instruction: `Part ${ep.number} dibuat di proyek Flow yang sama dengan part sebelumnya, supaya gambar patokan karakter & latar bisa dipakai ulang dan hasilnya tetap konsisten.`,
+      substeps: [
+        `Klik tombol "Buka Google Flow" di atas untuk membuka halaman Flow dalam Bahasa Inggris.`,
+        `Buka proyek "${ep.seriesTitle}" yang dulu dipakai untuk Part 1. Jangan buat proyek baru.`,
+        `Di kotak ketik bawah, pastikan tombol "${L.agentToggle}" posisi MATI (tidak biru).`,
+      ],
+      buttons: [{ label: L.agentToggle, kind: 'button' }],
+      credits: 0,
+      tips: [
+        'Kalau proyek lama sudah terhapus, buat proyek baru bernama sama lalu buat ulang gambar patokan di langkah berikutnya.',
+        flowGuideData.commonTips.agentOff,
+      ],
+    });
+  } else {
+    steps.push({
+      id: 'step-prep-project',
+      phase: 'persiapan',
+      title: 'Buka Google Flow & Buat Proyek Baru',
+      instruction: ep
+        ? 'Langkah pertama: buat satu proyek khusus untuk seri ini. Semua part berikutnya akan dibuat di proyek yang sama.'
+        : 'Langkah pertama: siapkan ruang kerja kosong di Google Flow supaya semua gambar patokan dan video terkumpul rapi.',
+      substeps: [
+        `Klik tombol "Buka Google Flow" di atas untuk membuka halaman Flow dalam Bahasa Inggris.`,
+        `Klik tombol "${L.newProject}".`,
+        `Klik judul proyek di pojok kiri atas (${L.projectTitle}), ketik "${ep ? ep.seriesTitle : pack.title}", lalu tekan Enter.`,
+        `Di kotak ketik bawah, pastikan tombol "${L.agentToggle}" posisi MATI (tidak biru).`,
+      ],
+      buttons: [
+        { label: L.newProject, kind: 'button' },
+        { label: L.agentToggle, kind: 'button' },
+      ],
+      credits: 0,
+      tips: [flowGuideData.commonTips.agentOff],
+    });
+  }
 
   // 2. Aset konsistensi (Produk & Karakter)
   for (const asset of pack.assets) {
@@ -1141,10 +1327,15 @@ export function buildFlowSteps(
         prompt: asset.prompt,
         promptLabel: `Prompt ${asset.name} (${pack.bible.videoStyleName})`,
         credits: 0,
-        tips: [
-          'Pembuatan gambar ini 0 credit (gratis). Kalau belum sreg, klik Start generation sekali lagi sampai pas.',
-          flowGuideData.commonTips.policyRejected,
-        ],
+        tips: isNextEpisode
+          ? [
+              'Kalau gambar patokan ini sudah ada di proyek seri dari part sebelumnya, LEWATI langkah ini dan pakai gambar yang sama. Gambar baru bisa membuat wajah atau latar sedikit berbeda.',
+              flowGuideData.commonTips.policyRejected,
+            ]
+          : [
+              'Pembuatan gambar ini 0 credit (gratis). Kalau belum sreg, klik Start generation sekali lagi sampai pas.',
+              flowGuideData.commonTips.policyRejected,
+            ],
       });
     }
   }
@@ -1220,7 +1411,9 @@ export function buildFlowSteps(
       `Arahkan kursor ke setiap klip video yang sudah selesai di layar proyek Flow.`,
       `Klik titik tiga "${L.moreOptions}" → pilih "${L.menuDownload}" → pilih "${L.download720p}" (langsung cepat terunduh).`,
       'Masukkan semua klip secara berurutan (Adegan 1 sampai akhir) ke CapCut, Canva, atau fitur Scenebuilder Flow.',
-      `Tambahkan tulisan penutup "${pack.cta}" pada klip terakhir, lalu posting dengan caption di bawah.`,
+      ep
+        ? `Tambahkan tulisan "Part ${ep.number}" di awal dan "Bersambung ke Part ${ep.number + 1}" di akhir, lalu posting dengan caption di bawah.`
+        : `Tambahkan tulisan penutup "${pack.cta}" pada klip terakhir, lalu posting dengan caption di bawah.`,
     ],
     buttons: [
       { label: L.moreOptions, kind: 'button' },
@@ -1294,6 +1487,7 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
     setting: vibe.setting,
     music: MUSIC_EN[a.music] ?? '',
     source: 'offline',
+    ...resolveRealism(vStyle.id, template.id),
   };
 
   if (a.cast === 'person') {
@@ -1312,6 +1506,33 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
       bible.characterLock = `${CHARACTERS.sinta.lock}, ${vStyle.characterAdapterEn}`;
       bible.characterVoiceLock = CHARACTERS.sinta.voiceLock;
     }
+  }
+
+  // ---------- Video berseri: kunci dunia cerita & arah episode ----------
+  const isSeries = a.seriesMode === 'series';
+  const episodeNumber = isSeries ? (a.episodeNumber ?? 1) : undefined;
+  const seriesTitle = isSeries ? a.seriesTitle || a.product : '';
+  const isContinuation = Boolean(episodeNumber && episodeNumber > 1);
+  const prevRecap = isContinuation ? a.previousEpisodes?.[a.previousEpisodes.length - 1] : undefined;
+  const episodeGoal = isSeries ? a.episodeGoal?.trim() || '' : '';
+
+  if (isSeries && a.continuity) {
+    const c = a.continuity;
+    bible.productLock = c.productLock || bible.productLock;
+    bible.setting = c.setting || bible.setting;
+    bible.lighting = c.lighting || bible.lighting;
+    bible.palette = c.palette || bible.palette;
+    bible.style = c.style || bible.style;
+    if (c.characterLock) {
+      bible.characterName = c.characterName || bible.characterName;
+      bible.characterLock = c.characterLock;
+      bible.characterVoiceLock = c.characterVoiceLock || bible.characterVoiceLock;
+    }
+  }
+  if (isSeries) {
+    bible.seriesLock = isContinuation
+      ? `SERIES CONTINUITY (Episode ${episodeNumber} of the ongoing series "${seriesTitle}"): the exact same established world, location layout, props, wardrobe, time-of-day, lighting and color grade as the earlier episodes; the story moves forward from where it left off and never restarts or re-introduces the character`
+      : `SERIES CONTINUITY (Episode 1 of the series "${seriesTitle}"): clearly establish the character, location layout, wardrobe, props and lighting so every later episode can continue in the identical world`;
   }
 
   const advId = joinId(a.advantages);
@@ -1339,7 +1560,8 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
   const assetIds = bible.characterLock ? ['product', 'character'] : ['product'];
   const scenes: Scene[] = [];
 
-  plan.roles.forEach((roleName, i) => {
+  const planRoles = rotateMiddleRoles(template, plan.roles, episodeNumber);
+  planRoles.forEach((roleName, i) => {
     const r = getTemplateRole(template, roleName);
     if (!r) return;
     const durationS = plan.durations[i] ?? 5;
@@ -1360,8 +1582,28 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
       ? `${applyPlaceholders(hookPreset.visualHookEn, replacements)}. Context: ${applyPlaceholders(r.action, replacements)}`
       : applyPlaceholders(r.action, replacements);
 
+    const isClosing = i === planRoles.length - 1 && planRoles.length > 1;
+
     if (!isOpeningHook && i < plan.roles.length - 1 && a.story?.trim()) {
       actionEn += ` (narrative context: "${a.story.trim()}")`;
+    }
+    if (!isOpeningHook && !isClosing && episodeGoal) {
+      actionEn += ` (this episode's story beat: "${episodeGoal}")`;
+    }
+
+    if (isOpeningHook && isContinuation) {
+      const endState = prevRecap?.endStateEn
+        ? ` (${limitWords(prevRecap.endStateEn, 40)})`
+        : '';
+      actionEn = `Cold open that continues directly from the final moment of the previous episode${endState}, same location and wardrobe, no re-introduction. ${applyPlaceholders(hookPreset.visualHookEn, replacements)}. Context: ${applyPlaceholders(r.action, replacements)}`;
+      if (episodeGoal) actionEn += ` (new story beat for this episode: "${episodeGoal}")`;
+      description = `[Lanjutan Part ${episodeNumber! - 1}] Membuka langsung dari akhir episode sebelumnya, lalu ${
+        episodeGoal ? `masuk ke kejadian baru: ${stripTrailingPunct(episodeGoal)}.` : 'cerita bergerak maju.'
+      }`;
+    }
+    if (isClosing && isSeries) {
+      actionEn += `, then a sudden unresolved twist, discovery or interruption appears and the character reacts with genuine surprise toward it, ending on an open cliffhanger`;
+      description += ` Ditutup cliffhanger yang menggantung menuju Part ${episodeNumber! + 1}.`;
     }
 
     let dialogue: string | undefined;
@@ -1374,10 +1616,32 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
               : hookPreset.spokenHookSoftId
             : hookPreset.spokenHookId;
         dialogue = a.customHookLine?.trim() || applyPlaceholders(hookLineTemplate, replacements);
+        if (isContinuation) {
+          const keepNames = [bible.characterName, a.product];
+          const prevGoal = prevRecap?.goalId?.trim();
+          const recap = prevGoal
+            ? `Buat yang ketinggalan, di part ${episodeNumber! - 1} ${lowerFirst(clipWords(prevGoal, 12), keepNames)}.`
+            : `Lanjut dari part ${episodeNumber! - 1} kemarin ya.`;
+          const next = a.customHookLine?.trim()
+            ? a.customHookLine.trim()
+            : episodeGoal
+              ? `Nah sekarang, ${lowerFirst(clipWords(episodeGoal, 14), keepNames)}.`
+              : 'Dan ternyata yang terjadi selanjutnya bikin aku kaget banget.';
+          dialogue = `${recap} ${next}`;
+        }
       } else if (r.dialogue) {
         dialogue = applyPlaceholders(r.dialogue, replacements);
       } else {
         dialogue = defaultNarration(r.role, a, advId, resolvedMode);
+      }
+      if (isClosing && isSeries && dialogue) {
+        // Keep the episode's own payoff only when it is a complete short sentence, then a cliffhanger.
+        const payoff = firstSentence(dialogue);
+        const tease = `Lanjut di part ${episodeNumber! + 1} ya!`;
+        dialogue =
+          wordCount(payoff) <= 11
+            ? `${payoff} Tapi tunggu, ada satu hal yang bikin aku kaget banget. ${tease}`
+            : `Tapi tunggu dulu, barusan ada kejadian yang bikin aku kaget banget dan ini penting. ${tease}`;
       }
     }
 
@@ -1419,6 +1683,7 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
       totalScenes: scenes.length,
       prevLabel: i > 0 ? scenes[i - 1].label : undefined,
       nextLabel: i < scenes.length - 1 ? scenes[i + 1].label : undefined,
+      episodeNumber,
     });
   }
 
@@ -1434,7 +1699,9 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
     clipSeconds: model.clipS,
   };
 
-  const { caption, hashtags } = buildCaption(a, advId, resolvedMode);
+  const built = buildCaption(a, advId, resolvedMode);
+  let caption = built.caption;
+  let hashtags = built.hashtags;
   const modeLabel =
     resolvedMode === 'marketing'
       ? resolvedSelling === 'hard'
@@ -1442,10 +1709,33 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
         : 'Soft Selling'
       : 'Konten Kreator';
   const durationLabel = a.durationS === 60 ? '1 menit' : `±${a.durationS} dtk`;
-  const summary = `${modeLabel} · ${scenes.length} klip · ${durationLabel} · ${a.aspect} · ${vStyle.name}.`;
+  const seriesLabel = isSeries ? `Seri Part ${episodeNumber} · ` : '';
+  const summary = `${seriesLabel}${modeLabel} · ${scenes.length} klip · ${durationLabel} · ${a.aspect} · ${vStyle.name}.`;
+
+  let episode: Pack['episode'];
+  if (isSeries && episodeNumber) {
+    const first = scenes[0];
+    const last = scenes[scenes.length - 1];
+    const cleanDesc = (s: string) => s.replace(/^\[[^\]]*\]\s*/, '').trim();
+    episode = {
+      seriesTitle,
+      number: episodeNumber,
+      previouslyId: isContinuation ? firstSentence(first.dialogue || first.description) : '',
+      cliffhangerId: last.dialogue || cleanDesc(last.description),
+      summaryId: limitWords(
+        episodeGoal
+          ? `Part ${episodeNumber}: ${stripTrailingPunct(episodeGoal)}.`
+          : `Part ${episodeNumber}: ${cleanDesc(first.description)}`,
+        40
+      ),
+      endStateEn: describeEndState(last.actionEn, bible),
+    };
+    caption = `Part ${episodeNumber} · ${seriesTitle} — ${caption} Lanjut ke part ${episodeNumber + 1}, follow biar nggak ketinggalan!`;
+    hashtags = [...hashtags.slice(0, 3), `#part${episodeNumber}`, '#bersambung'];
+  }
 
   const basePack: Omit<Pack, 'steps' | 'guideUpdatedAt'> = {
-    title: a.product,
+    title: isSeries ? `${seriesTitle} · Part ${episodeNumber}` : a.product,
     summary,
     bible,
     settings,
@@ -1454,6 +1744,7 @@ export function generateOfflinePack(template: Template, rawAnswers: Answers): Pa
     cta: a.cta,
     caption,
     hashtags,
+    episode,
   };
 
   return {
@@ -1472,9 +1763,7 @@ export function recalculatePack(pack: Pack, answers: Answers): Pack {
     if (asset.id === 'character' && pack.bible.characterLock) {
       return {
         ...asset,
-        prompt: cleanSingleLinePrompt(
-          `Clean character model reference portrait of ${pack.bible.characterLock}, rendered in ${vStyle.assetStyleEn}, waist-up front-facing natural pose showing full face, hair, and upper outfit clearly, solid clean neutral background matching ${vibe.palette}, sharp consistent character sheet details, no text, no watermark.`
-        ),
+        prompt: buildCharacterAssetPrompt(pack.bible.characterLock, vStyle, vibe.palette),
       };
     }
     return asset;
@@ -1495,6 +1784,7 @@ export function recalculatePack(pack: Pack, answers: Answers): Pack {
       totalScenes: pack.scenes.length,
       prevLabel: idx > 0 ? pack.scenes[idx - 1].label : undefined,
       nextLabel: idx < pack.scenes.length - 1 ? pack.scenes[idx + 1].label : undefined,
+      episodeNumber: pack.episode?.number,
     });
     updated.tips = buildSceneTips(updated, answers);
     return updated;
@@ -1512,7 +1802,20 @@ export function recalculatePack(pack: Pack, answers: Answers): Pack {
   };
 
   const durationLabel = totalDuration === 60 ? '1 menit' : `±${totalDuration} dtk`;
-  const summary = `${normalizedScenes.length} klip · ${durationLabel} · ${settings.aspect} · ${pack.bible.videoStyleName}.`;
+  const seriesLabel = pack.episode ? `Seri Part ${pack.episode.number} · ` : '';
+  const summary = `${seriesLabel}${normalizedScenes.length} klip · ${durationLabel} · ${settings.aspect} · ${pack.bible.videoStyleName}.`;
+
+  // Keep the episode hand-off in sync when the last scene is edited, deleted or added.
+  const lastScene = normalizedScenes[normalizedScenes.length - 1];
+  const episode: Pack['episode'] =
+    pack.episode && lastScene
+      ? {
+          ...pack.episode,
+          cliffhangerId:
+            lastScene.dialogue || lastScene.description.replace(/^\[[^\]]*\]\s*/, '').trim(),
+          endStateEn: describeEndState(lastScene.actionEn, pack.bible),
+        }
+      : pack.episode;
 
   const basePack: Omit<Pack, 'steps' | 'guideUpdatedAt'> = {
     ...pack,
@@ -1520,12 +1823,51 @@ export function recalculatePack(pack: Pack, answers: Answers): Pack {
     summary,
     settings,
     scenes: normalizedScenes,
+    episode,
   };
 
   return {
     ...basePack,
     steps: buildFlowSteps(basePack, answers),
     guideUpdatedAt: flowGuideData.updatedAt,
+  };
+}
+
+/**
+ * Answers for the next episode of a series: same template, style, character and world (locked from
+ * the finished episode's bible), episode number + 1, and the story so far for the cold-open recap.
+ */
+export function buildNextEpisodeAnswers(answers: Answers, pack: Pack, episodeGoal = ''): Answers {
+  const current = pack.episode?.number ?? answers.episodeNumber ?? 1;
+  const recap: EpisodeRecap = {
+    number: current,
+    title: pack.title,
+    goalId: answers.episodeGoal?.trim() || undefined,
+    summaryId: pack.episode?.summaryId || pack.scenes.map((s) => s.description).join(' ').slice(0, 280),
+    cliffhangerId: pack.episode?.cliffhangerId || '',
+    endStateEn:
+      pack.episode?.endStateEn ||
+      describeEndState(pack.scenes[pack.scenes.length - 1]?.actionEn || '', pack.bible),
+  };
+  const b = pack.bible;
+  return {
+    ...answers,
+    seriesMode: 'series',
+    seriesTitle: pack.episode?.seriesTitle || answers.seriesTitle || answers.product,
+    episodeNumber: current + 1,
+    episodeGoal: episodeGoal.trim(),
+    customHookLine: '',
+    previousEpisodes: [...(answers.previousEpisodes || []), recap].slice(-MAX_RECAPS),
+    continuity: {
+      characterName: b.characterName,
+      characterLock: b.characterLock,
+      characterVoiceLock: b.characterVoiceLock,
+      productLock: b.productLock,
+      setting: b.setting,
+      lighting: b.lighting,
+      palette: b.palette,
+      style: b.style,
+    },
   };
 }
 
@@ -1710,9 +2052,7 @@ export function swapPackCharacter(
     name: `Gambar Patokan Karakter (${newName})`,
     upload: false,
     purpose: `Buat 1 potret patokan karakter "${newName}" bergaya "${vStyle.name}" (gratis 0 credit di Nano Banana) agar wajah & pakaian 100% konsisten di semua adegan.`,
-    prompt: cleanSingleLinePrompt(
-      `Clean character model reference portrait of ${newLock}, rendered in ${vStyle.assetStyleEn}, waist-up front-facing natural pose showing full face, hair, and upper outfit clearly, solid clean neutral background matching ${vibe.palette}, sharp consistent character sheet details, no text, no watermark.`
-    ),
+    prompt: buildCharacterAssetPrompt(newLock, vStyle, vibe.palette),
   };
 
   const hasCharAsset = pack.assets.some((a) => a.id === 'character');
